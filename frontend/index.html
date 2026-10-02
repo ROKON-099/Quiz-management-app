@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | QuizRank</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#4F46E5",
+                        secondary: "#7C3AED"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen bg-slate-50">
+
+    <!-- Main -->
+    <main class="min-h-screen flex items-center justify-center px-4 py-8">
+
+        <div class="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden">
+
+            <div class="grid md:grid-cols-2">
+
+                <!-- =========================
+                     LEFT SIDE
+                ========================== -->
+                <div class="hidden md:flex relative bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-700 p-10 text-white">
+
+                    <div class="relative z-10 flex flex-col justify-between w-full">
+
+                        <!-- Logo -->
+                        <div class="flex items-center gap-3">
+
+                            <div class="w-11 h-11 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center">
+                                <span class="text-xl font-bold">Q</span>
+                            </div>
+
+                            <div>
+                                <h1 class="text-2xl font-bold">
+                                    QuizRank
+                                </h1>
+
+                                <p class="text-xs text-indigo-200">
+                                    Department Quiz Platform
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Main Content -->
+                        <div class="my-12">
+
+                            <p class="text-indigo-200 text-sm font-semibold tracking-wider mb-3">
+                                WELCOME TO QUIZRANK
+                            </p>
+
+                            <h2 class="text-4xl font-bold leading-tight">
+                                Learn. Compete.
+                                <span class="text-indigo-200">
+                                    Rank.
+                                </span>
+                            </h2>
+
+                            <p class="mt-5 text-indigo-100 leading-7 max-w-md">
+                                Take department quizzes, improve your knowledge,
+                                track your performance and see your position
+                                on the leaderboard.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Features -->
+                        <div class="grid grid-cols-3 gap-3">
+
+                            <div class="bg-white/10 border border-white/10 rounded-xl p-4">
+                                <p class="text-2xl font-bold">10</p>
+                                <p class="text-xs text-indigo-200 mt-1">
+                                    MCQ / Quiz
+                                </p>
+                            </div>
+
+                            <div class="bg-white/10 border border-white/10 rounded-xl p-4">
+                                <p class="text-2xl font-bold">30s</p>
+                                <p class="text-xs text-indigo-200 mt-1">
+                                    Per Question
+                                </p>
+                            </div>
+
+                            <div class="bg-white/10 border border-white/10 rounded-xl p-4">
+                                <p class="text-2xl font-bold">
+                                    Rank
+                                </p>
+                                <p class="text-xs text-indigo-200 mt-1">
+                                    Daily Result
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Decorative circles -->
+                    <div class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-white/5"></div>
+
+                    <div class="absolute -left-20 -bottom-24 w-72 h-72 rounded-full bg-purple-400/10"></div>
+
+                </div>
+
+
+                <!-- =========================
+                     RIGHT SIDE - LOGIN
+                ========================== -->
+                <div class="p-7 sm:p-10 md:p-12">
+
+                    <!-- Mobile Logo -->
+                    <div class="md:hidden flex justify-center mb-8">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="w-11 h-11 rounded-xl bg-indigo-600 text-white flex items-center justify-center">
+                                <span class="text-xl font-bold">
+                                    Q
+                                </span>
+                            </div>
+
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900">
+                                    QuizRank
+                                </h1>
+
+                                <p class="text-xs text-gray-500">
+                                    Department Quiz Platform
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Heading -->
+                    <div class="mb-8">
+
+                        <h2 class="text-3xl font-bold text-gray-900">
+                            Welcome back
+                        </h2>
+
+                        <p class="text-gray-500 mt-2">
+                            Login to continue to your QuizRank account.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Error -->
+                    <div
+                        id="errorMessage"
+                        class="hidden mb-5 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
+                    </div>
+
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="space-y-5">
+
+                        <!-- User ID -->
+                        <div>
+
+                            <label
+                                for="userId"
+                                class="block text-sm font-medium text-gray-700 mb-2">
+
+                                Student / Teacher ID
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="userId"
+                                name="userId"
+                                placeholder="Example: CSE2026001"
+                                autocomplete="username"
+                                required
+                                class="w-full px-4 py-3.5 rounded-xl
+                                       border border-gray-200
+                                       bg-gray-50
+                                       text-gray-900
+                                       outline-none
+                                       transition
+                                       focus:bg-white
+                                       focus:border-indigo-500
+                                       focus:ring-4
+                                       focus:ring-indigo-100">
+
+                        </div>
+
+
+                        <!-- Password -->
+                        <div>
+
+                            <div class="flex items-center justify-between mb-2">
+
+                                <label
+                                    for="password"
+                                    class="block text-sm font-medium text-gray-700">
+
+                                    Password
+
+                                </label>
+
+                                <button
+                                    type="button"
+                                    class="text-xs font-medium text-indigo-600 hover:text-indigo-700">
+
+                                    Forgot password?
+
+                                </button>
+
+                            </div>
+
+
+                            <div class="relative">
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    autocomplete="current-password"
+                                    required
+                                    class="w-full px-4 py-3.5 pr-12 rounded-xl
+                                           border border-gray-200
+                                           bg-gray-50
+                                           text-gray-900
+                                           outline-none
+                                           transition
+                                           focus:bg-white
+                                           focus:border-indigo-500
+                                           focus:ring-4
+                                           focus:ring-indigo-100">
+
+
+                                <!-- Toggle Password -->
+                                <button
+                                    type="button"
+                                    id="togglePassword"
+                                    class="absolute right-4 top-1/2
+                                           -translate-y-1/2
+                                           text-gray-400
+                                           hover:text-gray-600">
+
+                                    <svg
+                                        id="eyeIcon"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.8"
+                                        stroke="currentColor"
+                                        class="w-5 h-5">
+
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12
+                                               18 18.75 12 18.75 2.25 12 2.25 12Z"/>
+
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Remember Me -->
+                        <div class="flex items-center gap-2">
+
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                class="w-4 h-4 rounded
+                                       border-gray-300
+                                       text-indigo-600
+                                       focus:ring-indigo-500">
+
+                            <label
+                                for="remember"
+                                class="text-sm text-gray-600">
+
+                                Remember me
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- Login Button -->
+                        <button
+                            type="submit"
+                            id="loginButton"
+                            class="w-full py-3.5 px-5 rounded-xl
+                                   bg-indigo-600
+                                   hover:bg-indigo-700
+                                   active:bg-indigo-800
+                                   text-white
+                                   font-semibold
+                                   transition
+                                   duration-200
+                                   shadow-lg
+                                   shadow-indigo-200">
+
+                            Login
+
+                        </button>
+
+                    </form>
+
+
+                    <!-- Divider -->
+                    <div class="relative my-8">
+
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-200"></div>
+                        </div>
+
+                        <div class="relative flex justify-center">
+
+                            <span class="bg-white px-4 text-sm text-gray-400">
+                                New to QuizRank?
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Register -->
+                    <a
+                        href="register.html"
+                        class="w-full py-3.5 px-5 rounded-xl
+                               border border-gray-200
+                               text-gray-700
+                               font-semibold
+                               hover:bg-gray-50
+                               transition
+                               flex items-center justify-center">
+
+                        Create an account
+
+                    </a>
+
+
+                    <!-- Footer -->
+                    <p class="text-center text-xs text-gray-400 mt-8">
+                        © 2026 QuizRank. Department Quiz Platform.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+    <script>
+
+        const loginForm = document.getElementById("loginForm");
+
+        const userIdInput = document.getElementById("userId");
+
+        const passwordInput = document.getElementById("password");
+
+        const errorMessage = document.getElementById("errorMessage");
+
+        const togglePassword = document.getElementById("togglePassword");
+
+        const eyeIcon = document.getElementById("eyeIcon");
+
+        const loginButton = document.getElementById("loginButton");
+
+
+        // =========================
+        // SHOW / HIDE PASSWORD
+        // =========================
+
+        togglePassword.addEventListener("click", () => {
+
+            if (passwordInput.type === "password") {
+
+                passwordInput.type = "text";
+
+                eyeIcon.innerHTML = `
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 0 0 2.25 12
+                           10.477 10.477 0 0 0 12 18.75
+                           10.477 10.477 0 0 0 21.75 12
+                           10.477 10.477 0 0 0 20.02 8.223"/>
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6.228 6.228L17.772 17.772"/>
+                `;
+
+            } else {
+
+                passwordInput.type = "password";
+
+                eyeIcon.innerHTML = `
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12
+                           18 18.75 12 18.75 2.25 12 2.25 12Z"/>
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                `;
+
+            }
+
+        });
+
+
+        // =========================
+        // LOGIN FORM
+        // =========================
+
+        loginForm.addEventListener("submit", (event) => {
+
+            event.preventDefault();
+
+            const userId = userIdInput.value.trim();
+
+            const password = passwordInput.value.trim();
+
+            errorMessage.classList.add("hidden");
+
+            errorMessage.textContent = "";
+
+
+            // Validate User ID
+            if (!userId) {
+
+                showError("Please enter your Student / Teacher ID.");
+
+                return;
+
+            }
+
+
+            // Validate Password
+            if (!password) {
+
+                showError("Please enter your password.");
+
+                return;
+
+            }
+
+
+            // Temporary frontend state
+            // Backend will be connected later.
+
+            loginButton.disabled = true;
+
+            loginButton.classList.add(
+                "opacity-70",
+                "cursor-not-allowed"
+            );
+
+            loginButton.textContent = "Logging in...";
+
+
+            setTimeout(() => {
+
+                loginButton.disabled = false;
+
+                loginButton.classList.remove(
+                    "opacity-70",
+                    "cursor-not-allowed"
+                );
+
+                loginButton.textContent = "Login";
+
+
+                showError(
+                    "Login backend is not connected yet. LoginServlet will be connected later."
+                );
+
+            }, 700);
+
+        });
+
+
+        // =========================
+        // ERROR MESSAGE
+        // =========================
+
+        function showError(message) {
+
+            errorMessage.textContent = message;
+
+            errorMessage.classList.remove("hidden");
+
+        }
+
+    </script>
+
+</body>
+</html>
