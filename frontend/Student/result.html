@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz Result - QuizRank</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+
+            <a href="/QuizRank/Student/dashboard.html"
+               class="text-2xl font-bold text-blue-600">
+                QuizRank
+            </a>
+
+            <a href="/QuizRank/Student/dashboard.html"
+               class="text-sm font-medium text-slate-600 hover:text-blue-600">
+                ← Dashboard
+            </a>
+
+        </div>
+    </nav>
+
+
+    <!-- Loading -->
+    <div id="loading"
+         class="min-h-[70vh] flex items-center justify-center">
+
+        <div class="text-center">
+
+            <div class="w-10 h-10 border-4 border-blue-600
+                        border-t-transparent rounded-full
+                        animate-spin mx-auto mb-4">
+            </div>
+
+            <p class="text-slate-600">
+                Loading result...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Error -->
+    <div id="errorBox"
+         class="hidden max-w-3xl mx-auto px-4 py-10">
+
+        <div class="bg-red-50 border border-red-200
+                    rounded-2xl p-8 text-center">
+
+            <h2 class="text-2xl font-bold text-red-600 mb-3">
+                Unable to Load Result
+            </h2>
+
+            <p id="errorMessage"
+               class="text-red-500 mb-6">
+                Something went wrong.
+            </p>
+
+            <button onclick="location.reload()"
+                    class="bg-red-600 text-white px-6 py-3
+                           rounded-lg font-semibold hover:bg-red-700">
+                Try Again
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Result -->
+    <main id="resultContainer"
+          class="hidden max-w-4xl mx-auto px-4 py-10">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+
+            <p class="text-blue-600 font-semibold mb-2">
+                Quiz Completed
+            </p>
+
+            <h1 class="text-4xl font-bold text-slate-800">
+                Your Result
+            </h1>
+
+            <p id="subjectName"
+               class="text-slate-500 mt-2">
+            </p>
+
+            <p id="topic"
+               class="text-slate-400 text-sm mt-1">
+            </p>
+
+        </div>
+
+
+        <!-- Score Card -->
+        <div class="bg-white rounded-3xl shadow-sm
+                    border border-slate-200 p-8 mb-6">
+
+            <div class="text-center">
+
+                <p class="text-slate-500 mb-2">
+                    Your Score
+                </p>
+
+                <div class="text-6xl font-bold text-blue-600">
+                    <span id="score">0</span>
+                    <span class="text-3xl text-slate-400">
+                        /
+                    </span>
+                    <span id="total">0</span>
+                </div>
+
+                <p id="percentage"
+                   class="text-xl font-semibold text-slate-700 mt-4">
+                    0%
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+
+            <!-- Correct -->
+            <div class="bg-white rounded-2xl
+                        border border-slate-200
+                        p-6 text-center">
+
+                <p class="text-slate-500 mb-2">
+                    Correct
+                </p>
+
+                <p id="correct"
+                   class="text-3xl font-bold text-green-600">
+                    0
+                </p>
+
+            </div>
+
+
+            <!-- Incorrect -->
+            <div class="bg-white rounded-2xl
+                        border border-slate-200
+                        p-6 text-center">
+
+                <p class="text-slate-500 mb-2">
+                    Incorrect
+                </p>
+
+                <p id="incorrect"
+                   class="text-3xl font-bold text-red-600">
+                    0
+                </p>
+
+            </div>
+
+
+            <!-- Total -->
+            <div class="bg-white rounded-2xl
+                        border border-slate-200
+                        p-6 text-center">
+
+                <p class="text-slate-500 mb-2">
+                    Total Questions
+                </p>
+
+                <p id="totalQuestions"
+                   class="text-3xl font-bold text-slate-700">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Submitted -->
+        <div class="bg-white rounded-2xl
+                    border border-slate-200
+                    p-5 mb-8 text-center">
+
+            <p class="text-sm text-slate-400">
+                Submitted At
+            </p>
+
+            <p id="submittedAt"
+               class="text-slate-700 font-medium mt-1">
+                -
+            </p>
+
+        </div>
+
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row
+                    justify-center gap-4">
+
+            <a href="/QuizRank/Student/dashboard.html"
+               class="bg-blue-600 text-white
+                      px-7 py-3 rounded-xl
+                      font-semibold text-center
+                      hover:bg-blue-700">
+                Back to Dashboard
+            </a>
+
+            <a href="/QuizRank/leaderboard.html"
+               class="bg-white text-slate-700
+                      border border-slate-300
+                      px-7 py-3 rounded-xl
+                      font-semibold text-center
+                      hover:bg-slate-50">
+                View Leaderboard
+            </a>
+
+        </div>
+
+    </main>
+
+
+<script>
+
+    console.log("Result page loaded");
+
+
+    // ==========================================
+    // GET QUIZ ID
+    // ==========================================
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const quizId =
+        params.get("quizId");
+
+    console.log("Quiz ID:", quizId);
+
+
+    // ==========================================
+    // ELEMENTS
+    // ==========================================
+
+    const loading =
+        document.getElementById("loading");
+
+    const resultContainer =
+        document.getElementById("resultContainer");
+
+    const errorBox =
+        document.getElementById("errorBox");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+
+    // ==========================================
+    // CHECK QUIZ ID
+    // ==========================================
+
+    if (!quizId) {
+
+        showError(
+            "Quiz ID is missing from the URL."
+        );
+
+    } else {
+
+        loadResult();
+
+    }
+
+
+    // ==========================================
+    // LOAD RESULT
+    // ==========================================
+
+    async function loadResult() {
+
+        try {
+
+            const url =
+                "/QuizRank/result?quizId="
+                + encodeURIComponent(quizId);
+
+            console.log(
+                "Result API URL:",
+                url
+            );
+
+            const response =
+                await fetch(url, {
+                    method: "GET",
+                    credentials: "include"
+                });
+
+            console.log(
+                "Result API Status:",
+                response.status
+            );
+
+            const text =
+                await response.text();
+
+            console.log(
+                "Result API Response:",
+                text
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server returned HTTP "
+                    + response.status
+                    + ": "
+                    + text
+                );
+            }
+
+
+            let data;
+
+            try {
+
+                data =
+                    JSON.parse(text);
+
+            } catch (error) {
+
+                throw new Error(
+                    "Invalid JSON response from server: "
+                    + text
+                );
+            }
+
+
+            console.log(
+                "Result data:",
+                data
+            );
+
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Could not load result."
+                );
+            }
+
+
+            // ==========================================
+            // DISPLAY DATA
+            // ==========================================
+
+            document.getElementById("score")
+                .textContent =
+                data.score ?? 0;
+
+            document.getElementById("total")
+                .textContent =
+                data.total ?? 0;
+
+            document.getElementById("percentage")
+                .textContent =
+                Number(data.percentage || 0)
+                    .toFixed(1)
+                + "%";
+
+
+            const score =
+                Number(data.score || 0);
+
+            const total =
+                Number(data.total || 0);
+
+            const incorrect =
+                Math.max(
+                    0,
+                    total - score
+                );
+
+
+            document.getElementById("correct")
+                .textContent =
+                score;
+
+            document.getElementById("incorrect")
+                .textContent =
+                incorrect;
+
+            document.getElementById("totalQuestions")
+                .textContent =
+                total;
+
+
+            document.getElementById("subjectName")
+                .textContent =
+                data.subjectName || "";
+
+
+            document.getElementById("topic")
+                .textContent =
+                data.topic || "";
+
+
+            document.getElementById("submittedAt")
+                .textContent =
+                data.submittedAt || "-";
+
+
+            // ==========================================
+            // SHOW RESULT
+            // ==========================================
+
+            loading.classList.add("hidden");
+
+            resultContainer.classList.remove(
+                "hidden"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Result loading error:",
+                error
+            );
+
+            showError(
+                error.message
+            );
+        }
+    }
+
+
+    // ==========================================
+    // SHOW ERROR
+    // ==========================================
+
+    function showError(message) {
+
+        loading.classList.add(
+            "hidden"
+        );
+
+        resultContainer.classList.add(
+            "hidden"
+        );
+
+        errorMessage.textContent =
+            message;
+
+        errorBox.classList.remove(
+            "hidden"
+        );
+    }
+
+</script>
+
+</body>
+</html>

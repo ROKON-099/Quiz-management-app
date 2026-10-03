@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Results - QuizRank</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+
+<body class="bg-slate-100 min-h-screen">
+
+
+    <!-- NAVBAR -->
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="h-16 flex items-center justify-between">
+
+                <a href="/QuizRank/teacher/dashboard.html"
+                   class="text-2xl font-bold text-blue-600">
+
+                    QuizRank
+
+                </a>
+
+
+                <div class="hidden md:flex items-center gap-6">
+
+                    <a href="/QuizRank/teacher/dashboard.html"
+                       class="text-slate-600 hover:text-blue-600">
+
+                        Dashboard
+
+                    </a>
+
+                    <a href="/QuizRank/teacher/my-course.html"
+                       class="text-slate-600 hover:text-blue-600">
+
+                        My Course
+
+                    </a>
+
+                    <a href="/QuizRank/teacher/result.html"
+                       class="text-blue-600 font-semibold">
+
+                        Results
+
+                    </a>
+
+                    <a href="/QuizRank/leaderboard.html"
+                       class="text-slate-600 hover:text-blue-600">
+
+                        Leaderboard
+
+                    </a>
+
+                    <a href="/QuizRank/teacher/profile.html"
+                       class="text-slate-600 hover:text-blue-600">
+
+                        Profile
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN -->
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+
+        <!-- HEADER -->
+
+        <div class="mb-8">
+
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-800">
+
+                Student Results
+
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+
+                Results of students from your courses
+
+            </p>
+
+        </div>
+
+
+
+        <!-- SUMMARY CARDS -->
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
+                    gap-5 mb-8">
+
+
+            <div class="bg-white rounded-2xl
+                        border border-slate-200 p-5">
+
+                <p class="text-sm text-slate-500">
+
+                    Total Attempts
+
+                </p>
+
+                <p id="totalAttempts"
+                   class="text-3xl font-bold text-blue-600 mt-2">
+
+                    0
+
+                </p>
+
+            </div>
+
+
+
+            <div class="bg-white rounded-2xl
+                        border border-slate-200 p-5">
+
+                <p class="text-sm text-slate-500">
+
+                    Students
+
+                </p>
+
+                <p id="totalStudents"
+                   class="text-3xl font-bold text-green-600 mt-2">
+
+                    0
+
+                </p>
+
+            </div>
+
+
+
+            <div class="bg-white rounded-2xl
+                        border border-slate-200 p-5">
+
+                <p class="text-sm text-slate-500">
+
+                    Average Mark
+
+                </p>
+
+                <p id="averageMark"
+                   class="text-3xl font-bold text-purple-600 mt-2">
+
+                    0%
+
+                </p>
+
+            </div>
+
+
+
+            <div class="bg-white rounded-2xl
+                        border border-slate-200 p-5">
+
+                <p class="text-sm text-slate-500">
+
+                    Courses
+
+                </p>
+
+                <p id="totalCourses"
+                   class="text-3xl font-bold text-orange-600 mt-2">
+
+                    0
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RESULTS TABLE -->
+
+        <div class="bg-white rounded-2xl
+                    border border-slate-200
+                    shadow-sm">
+
+
+            <div class="px-5 py-5
+                        border-b border-slate-200">
+
+                <h2 class="text-xl font-bold text-slate-800">
+
+                    Student Ranking
+
+                </h2>
+
+                <p class="text-sm text-slate-500 mt-1">
+
+                    Higher score gets higher rank. Same score:
+                    earlier submission gets priority.
+
+                </p>
+
+            </div>
+
+
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full min-w-[1050px]">
+
+
+                    <thead class="bg-slate-50">
+
+                        <tr class="text-left text-sm
+                                   text-slate-500">
+
+                            <th class="px-5 py-4">
+                                Rank
+                            </th>
+
+                            <th class="px-5 py-4">
+                                Student
+                            </th>
+
+                            <th class="px-5 py-4">
+                                ID
+                            </th>
+
+                            <th class="px-5 py-4">
+                                Batch
+                            </th>
+
+                            <th class="px-5 py-4">
+                                Subject
+                            </th>
+
+                            <th class="px-5 py-4">
+                                Quiz
+                            </th>
+
+                            <th class="px-5 py-4 text-center">
+                                Score
+                            </th>
+
+                            <th class="px-5 py-4">
+                                Submitted
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="resultBody"
+                           class="divide-y divide-slate-100">
+
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+
+
+            <!-- Loading -->
+
+            <div id="loading"
+                 class="py-12 text-center">
+
+                <div class="w-9 h-9 border-4
+                            border-blue-600
+                            border-t-transparent
+                            rounded-full
+                            animate-spin mx-auto mb-4">
+                </div>
+
+                <p class="text-slate-500">
+
+                    Loading results...
+
+                </p>
+
+            </div>
+
+
+
+            <!-- Empty -->
+
+            <div id="empty"
+                 class="hidden py-12 text-center">
+
+                <p class="text-slate-500">
+
+                    No student results found.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+<script>
+
+
+async function loadTeacherResults() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/QuizRank/teacher-results",
+                {
+                    method: "GET",
+                    credentials: "include"
+                }
+            );
+
+
+        const text =
+            await response.text();
+
+
+        console.log(
+            "Teacher Result API:",
+            response.status,
+            text
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server error: "
+                + response.status
+            );
+        }
+
+
+        const data =
+            JSON.parse(text);
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Failed to load results"
+            );
+        }
+
+
+        const results =
+            data.results || [];
+
+
+        document.getElementById("loading")
+            .classList.add("hidden");
+
+
+        document.getElementById("totalAttempts")
+            .textContent =
+            results.length;
+
+
+        const uniqueStudents =
+            new Set(
+                results.map(
+                    r => r.userId
+                )
+            );
+
+
+        document.getElementById("totalStudents")
+            .textContent =
+            uniqueStudents.size;
+
+
+        const uniqueCourses =
+            new Set(
+                results.map(
+                    r => r.subjectName
+                )
+            );
+
+
+        document.getElementById("totalCourses")
+            .textContent =
+            uniqueCourses.size;
+
+
+        let totalPercentage = 0;
+
+
+        results.forEach(result => {
+
+            const score =
+                Number(result.score || 0);
+
+            const total =
+                Number(result.total || 0);
+
+            if (total > 0) {
+
+                totalPercentage +=
+                    (score * 100) / total;
+
+            }
+
+        });
+
+
+        const average =
+            results.length > 0
+                ? totalPercentage / results.length
+                : 0;
+
+
+        document.getElementById("averageMark")
+            .textContent =
+            average.toFixed(2) + "%";
+
+
+        if (results.length === 0) {
+
+            document.getElementById("empty")
+                .classList.remove("hidden");
+
+            return;
+        }
+
+
+        const tbody =
+            document.getElementById(
+                "resultBody"
+            );
+
+
+        tbody.innerHTML = "";
+
+
+        results.forEach((result, index) => {
+
+            const rank =
+                index + 1;
+
+
+            let rankHTML =
+                `<span class="font-bold text-slate-700">
+                    #${rank}
+                </span>`;
+
+
+            if (rank === 1) {
+
+                rankHTML =
+                    `<span class="font-bold text-yellow-600">
+                        🥇 #1
+                    </span>`;
+
+            } else if (rank === 2) {
+
+                rankHTML =
+                    `<span class="font-bold text-slate-500">
+                        🥈 #2
+                    </span>`;
+
+            } else if (rank === 3) {
+
+                rankHTML =
+                    `<span class="font-bold text-orange-600">
+                        🥉 #3
+                    </span>`;
+            }
+
+
+            const percentage =
+                result.total > 0
+                    ? (
+                        Number(result.score)
+                        * 100
+                        / Number(result.total)
+                    ).toFixed(2)
+                    : "0.00";
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.className =
+                "hover:bg-slate-50 transition";
+
+
+            row.innerHTML = `
+
+                <td class="px-5 py-4">
+
+                    ${rankHTML}
+
+                </td>
+
+
+                <td class="px-5 py-4">
+
+                    <div class="font-semibold
+                                text-slate-800">
+
+                        ${escapeHTML(result.name)}
+
+                    </div>
+
+                </td>
+
+
+                <td class="px-5 py-4
+                           text-slate-600">
+
+                    ${escapeHTML(result.userId)}
+
+                </td>
+
+
+                <td class="px-5 py-4">
+
+                    <span class="px-3 py-1
+                                 rounded-full
+                                 bg-blue-50
+                                 text-blue-600
+                                 text-sm">
+
+                        ${escapeHTML(result.batch)}
+
+                    </span>
+
+                </td>
+
+
+                <td class="px-5 py-4
+                           text-slate-700">
+
+                    ${escapeHTML(result.subjectName)}
+
+                </td>
+
+
+                <td class="px-5 py-4
+                           text-slate-600">
+
+                    ${escapeHTML(result.topic)}
+
+                </td>
+
+
+                <td class="px-5 py-4
+                           text-center">
+
+                    <span class="font-bold
+                                 text-green-600">
+
+                        ${result.score}/${result.total}
+
+                    </span>
+
+                    <div class="text-xs
+                                text-slate-400">
+
+                        ${percentage}%
+
+                    </div>
+
+                </td>
+
+
+                <td class="px-5 py-4
+                           text-sm
+                           text-slate-500">
+
+                    ${escapeHTML(result.submittedAt)}
+
+                </td>
+
+            `;
+
+
+            tbody.appendChild(row);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Teacher result error:",
+            error
+        );
+
+
+        document.getElementById("loading")
+            .classList.add("hidden");
+
+
+        document.getElementById("empty")
+            .classList.remove("hidden");
+
+
+        document.getElementById("empty")
+            .innerHTML = `
+
+                <p class="text-red-500">
+
+                    Failed to load results.
+
+                </p>
+
+                <p class="text-sm
+                          text-slate-400
+                          mt-2">
+
+                    ${escapeHTML(error.message)}
+
+                </p>
+
+            `;
+
+    }
+
+}
+
+
+function escapeHTML(value) {
+
+    if (value === null ||
+        value === undefined) {
+
+        return "";
+
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+loadTeacherResults();
+
+</script>
+
+
+</body>
+</html>

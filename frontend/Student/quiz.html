@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Quiz | QuizRank</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#4f46e5"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        .option-card {
+            transition: all 0.2s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-1px);
+        }
+
+        .option-card.selected {
+            border-color: #4f46e5;
+            background-color: #eef2ff;
+        }
+
+        .timer-danger {
+            color: #dc2626 !important;
+            background-color: #fef2f2 !important;
+            border-color: #fecaca !important;
+        }
+    </style>
+</head>
+
+
+<body class="min-h-screen bg-slate-50 text-slate-800">
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="border-b border-slate-200 bg-white">
+
+    <div
+        class="mx-auto flex max-w-7xl items-center
+               justify-between px-4 py-4
+               sm:px-6 lg:px-8"
+    >
+
+        <!-- Logo -->
+        <a
+            href="dashboard.html"
+            class="text-xl font-bold text-indigo-600
+                   sm:text-2xl"
+        >
+            QuizRank
+        </a>
+
+
+        <!-- Desktop Menu -->
+        <div class="hidden items-center gap-6 md:flex">
+
+            <a
+                href="dashboard.html"
+                class="text-sm font-medium text-slate-600
+                       hover:text-indigo-600"
+            >
+                Dashboard
+            </a>
+
+            <a
+                href="my-course.html"
+                class="text-sm font-medium text-slate-600
+                       hover:text-indigo-600"
+            >
+                My Course
+            </a>
+
+            <a
+                href="notice.html"
+                class="text-sm font-medium text-slate-600
+                       hover:text-indigo-600"
+            >
+                Notice
+            </a>
+
+            <a
+                href="../leaderboard.html"
+                class="text-sm font-medium text-slate-600
+                       hover:text-indigo-600"
+            >
+                Leaderboard
+            </a>
+
+            <a
+                href="profile.html"
+                class="text-sm font-medium text-slate-600
+                       hover:text-indigo-600"
+            >
+                My Profile
+            </a>
+
+            <button
+                id="logoutBtn"
+                type="button"
+                class="rounded-lg bg-red-50 px-4 py-2
+                       text-sm font-semibold text-red-600
+                       hover:bg-red-100"
+            >
+                Logout
+            </button>
+
+        </div>
+
+
+        <!-- Mobile Button -->
+        <button
+            id="mobileMenuBtn"
+            type="button"
+            class="rounded-lg p-2 text-slate-600
+                   hover:bg-slate-100 md:hidden"
+        >
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16"
+                />
+            </svg>
+
+        </button>
+
+    </div>
+
+
+    <!-- Mobile Menu -->
+    <div
+        id="mobileMenu"
+        class="hidden border-t border-slate-100
+               bg-white md:hidden"
+    >
+
+        <div class="space-y-1 px-4 py-4">
+
+            <a
+                href="dashboard.html"
+                class="block rounded-lg px-3 py-3
+                       text-sm font-medium
+                       hover:bg-slate-50"
+            >
+                Dashboard
+            </a>
+
+            <a
+                href="my-course.html"
+                class="block rounded-lg px-3 py-3
+                       text-sm font-medium
+                       hover:bg-slate-50"
+            >
+                My Course
+            </a>
+
+            <a
+                href="notice.html"
+                class="block rounded-lg px-3 py-3
+                       text-sm font-medium
+                       hover:bg-slate-50"
+            >
+                Notice
+            </a>
+
+            <a
+                href="../leaderboard.html"
+                class="block rounded-lg px-3 py-3
+                       text-sm font-medium
+                       hover:bg-slate-50"
+            >
+                Leaderboard
+            </a>
+
+            <a
+                href="profile.html"
+                class="block rounded-lg px-3 py-3
+                       text-sm font-medium
+                       hover:bg-slate-50"
+            >
+                My Profile
+            </a>
+
+            <button
+                id="mobileLogoutBtn"
+                type="button"
+                class="w-full rounded-lg bg-red-50
+                       px-3 py-3 text-left text-sm
+                       font-semibold text-red-600"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+
+    <div class="mx-auto max-w-4xl">
+
+
+        <!-- =================================================
+             LOADING
+        ================================================== -->
+
+        <div
+            id="loadingState"
+            class="rounded-2xl border border-slate-200
+                   bg-white p-10 text-center shadow-sm"
+        >
+
+            <div
+                class="mx-auto mb-4 h-10 w-10 animate-spin
+                       rounded-full border-4 border-slate-200
+                       border-t-indigo-600"
+            ></div>
+
+            <p class="text-sm text-slate-500">
+                Loading quiz...
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ERROR
+        ================================================== -->
+
+        <div
+            id="errorState"
+            class="hidden rounded-2xl border
+                   border-red-200 bg-red-50 p-8 text-center"
+        >
+
+            <div
+                class="mx-auto flex h-14 w-14
+                       items-center justify-center
+                       rounded-full bg-red-100"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-7 w-7 text-red-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v3.75m0 3.75h.008
+                           M10.29 3.86l-8.1 14a1.875
+                           1.875 0 001.624 2.812h16.372
+                           a1.875 1.875 0 001.624-2.812
+                           l-8.1-14a1.875 1.875 0
+                           00-3.248 0z"
+                    />
+                </svg>
+
+            </div>
+
+            <h2
+                class="mt-5 text-xl font-bold text-red-700"
+            >
+                Unable to Load Quiz
+            </h2>
+
+            <p
+                id="errorMessage"
+                class="mt-2 text-sm text-red-600"
+            >
+                Something went wrong.
+            </p>
+
+            <a
+                href="dashboard.html"
+                class="mt-6 inline-flex rounded-xl
+                       bg-red-600 px-6 py-3
+                       text-sm font-semibold text-white
+                       hover:bg-red-700"
+            >
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             QUIZ AREA
+        ================================================== -->
+
+        <section
+            id="quizArea"
+            class="hidden"
+        >
+
+
+            <!-- Quiz Information -->
+            <div
+                class="mb-5 rounded-2xl border
+                       border-slate-200 bg-white
+                       p-5 shadow-sm sm:p-6"
+            >
+
+                <div
+                    class="flex flex-col gap-5
+                           sm:flex-row sm:items-start
+                           sm:justify-between"
+                >
+
+                    <div class="min-w-0">
+
+                        <p
+                            id="subjectName"
+                            class="text-sm font-semibold
+                                   text-indigo-600"
+                        >
+                            Subject
+                        </p>
+
+                        <h1
+                            id="quizTopic"
+                            class="mt-1 break-words
+                                   text-xl font-bold
+                                   text-slate-900
+                                   sm:text-2xl"
+                        >
+                            Quiz
+                        </h1>
+
+                        <p
+                            id="quizSchedule"
+                            class="mt-2 text-sm text-slate-500"
+                        >
+                            Date • Time
+                        </p>
+
+                    </div>
+
+
+                    <!-- Timer -->
+                    <div
+                        id="timerBox"
+                        class="flex shrink-0 items-center
+                               justify-center gap-2
+                               rounded-xl border
+                               border-indigo-100
+                               bg-indigo-50 px-5 py-3"
+                    >
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 text-indigo-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 6v6l4 2m6-2a10 10
+                                   0 11-20 0 10 10
+                                   0 0120 0z"
+                            />
+                        </svg>
+
+                        <span
+                            id="timer"
+                            class="text-lg font-bold
+                                   text-indigo-600"
+                        >
+                            30s
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Progress -->
+                <div class="mt-6">
+
+                    <div
+                        class="mb-2 flex items-center
+                               justify-between text-xs
+                               font-medium text-slate-500"
+                    >
+
+                        <span id="questionNumber">
+                            Question 1 of 10
+                        </span>
+
+                        <span id="progressPercent">
+                            10%
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="h-2 overflow-hidden
+                               rounded-full bg-slate-100"
+                    >
+
+                        <div
+                            id="progressBar"
+                            class="h-full rounded-full
+                                   bg-indigo-600 transition-all"
+                            style="width: 10%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Question -->
+            <div
+                class="rounded-2xl border
+                       border-slate-200 bg-white
+                       p-5 shadow-sm sm:p-8"
+            >
+
+                <p
+                    class="text-xs font-semibold
+                           uppercase tracking-wider
+                           text-slate-400"
+                >
+                    Question
+                </p>
+
+                <h2
+                    id="questionText"
+                    class="mt-3 break-words
+                           text-lg font-bold leading-8
+                           text-slate-900 sm:text-xl"
+                >
+                    Loading question...
+                </h2>
+
+
+                <!-- Options -->
+                <div
+                    id="optionsContainer"
+                    class="mt-7 space-y-3"
+                >
+
+                    <!-- A -->
+                    <label
+                        data-option="A"
+                        class="option-card block cursor-pointer
+                               rounded-xl border
+                               border-slate-200 p-4
+                               hover:border-indigo-300
+                               hover:bg-slate-50"
+                    >
+
+                        <div
+                            class="flex items-start gap-3"
+                        >
+
+                            <input
+                                type="radio"
+                                name="answer"
+                                value="A"
+                                class="mt-1 h-4 w-4
+                                       accent-indigo-600"
+                            >
+
+                            <span
+                                class="flex h-7 w-7 shrink-0
+                                       items-center justify-center
+                                       rounded-lg bg-slate-100
+                                       text-sm font-bold
+                                       text-slate-600"
+                            >
+                                A
+                            </span>
+
+                            <span
+                                id="optionA"
+                                class="min-w-0 break-words
+                                       text-sm leading-6
+                                       text-slate-700
+                                       sm:text-base"
+                            ></span>
+
+                        </div>
+
+                    </label>
+
+
+                    <!-- B -->
+                    <label
+                        data-option="B"
+                        class="option-card block cursor-pointer
+                               rounded-xl border
+                               border-slate-200 p-4
+                               hover:border-indigo-300
+                               hover:bg-slate-50"
+                    >
+
+                        <div
+                            class="flex items-start gap-3"
+                        >
+
+                            <input
+                                type="radio"
+                                name="answer"
+                                value="B"
+                                class="mt-1 h-4 w-4
+                                       accent-indigo-600"
+                            >
+
+                            <span
+                                class="flex h-7 w-7 shrink-0
+                                       items-center justify-center
+                                       rounded-lg bg-slate-100
+                                       text-sm font-bold
+                                       text-slate-600"
+                            >
+                                B
+                            </span>
+
+                            <span
+                                id="optionB"
+                                class="min-w-0 break-words
+                                       text-sm leading-6
+                                       text-slate-700
+                                       sm:text-base"
+                            ></span>
+
+                        </div>
+
+                    </label>
+
+
+                    <!-- C -->
+                    <label
+                        data-option="C"
+                        class="option-card block cursor-pointer
+                               rounded-xl border
+                               border-slate-200 p-4
+                               hover:border-indigo-300
+                               hover:bg-slate-50"
+                    >
+
+                        <div
+                            class="flex items-start gap-3"
+                        >
+
+                            <input
+                                type="radio"
+                                name="answer"
+                                value="C"
+                                class="mt-1 h-4 w-4
+                                       accent-indigo-600"
+                            >
+
+                            <span
+                                class="flex h-7 w-7 shrink-0
+                                       items-center justify-center
+                                       rounded-lg bg-slate-100
+                                       text-sm font-bold
+                                       text-slate-600"
+                            >
+                                C
+                            </span>
+
+                            <span
+                                id="optionC"
+                                class="min-w-0 break-words
+                                       text-sm leading-6
+                                       text-slate-700
+                                       sm:text-base"
+                            ></span>
+
+                        </div>
+
+                    </label>
+
+
+                    <!-- D -->
+                    <label
+                        data-option="D"
+                        class="option-card block cursor-pointer
+                               rounded-xl border
+                               border-slate-200 p-4
+                               hover:border-indigo-300
+                               hover:bg-slate-50"
+                    >
+
+                        <div
+                            class="flex items-start gap-3"
+                        >
+
+                            <input
+                                type="radio"
+                                name="answer"
+                                value="D"
+                                class="mt-1 h-4 w-4
+                                       accent-indigo-600"
+                            >
+
+                            <span
+                                class="flex h-7 w-7 shrink-0
+                                       items-center justify-center
+                                       rounded-lg bg-slate-100
+                                       text-sm font-bold
+                                       text-slate-600"
+                            >
+                                D
+                            </span>
+
+                            <span
+                                id="optionD"
+                                class="min-w-0 break-words
+                                       text-sm leading-6
+                                       text-slate-700
+                                       sm:text-base"
+                            ></span>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Bottom -->
+                <div
+                    class="mt-8 flex flex-col gap-4
+                           border-t border-slate-100
+                           pt-6 sm:flex-row
+                           sm:items-center
+                           sm:justify-between"
+                >
+
+                    <p
+                        id="answerStatus"
+                        class="text-center text-sm
+                               text-slate-500
+                               sm:text-left"
+                    >
+                        Select an answer.
+                    </p>
+
+                    <button
+                        id="nextButton"
+                        type="button"
+                        class="w-full rounded-xl
+                               bg-indigo-600 px-6 py-3.5
+                               text-sm font-semibold
+                               text-white hover:bg-indigo-700
+                               disabled:cursor-not-allowed
+                               disabled:opacity-50
+                               sm:w-auto"
+                    >
+                        Next Question
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             COMPLETED
+        ================================================== -->
+
+        <section
+            id="completedState"
+            class="hidden rounded-2xl border
+                   border-green-200 bg-white
+                   p-8 text-center shadow-sm
+                   sm:p-12"
+        >
+
+            <div
+                class="mx-auto flex h-16 w-16
+                       items-center justify-center
+                       rounded-full bg-green-100"
+            >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8 text-green-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M5 13l4 4L19 7"
+                    />
+                </svg>
+
+            </div>
+
+            <h2
+                class="mt-5 text-2xl font-bold
+                       text-slate-900"
+            >
+                Quiz Completed
+            </h2>
+
+            <p
+                class="mt-2 text-sm text-slate-500"
+            >
+                Your result has been saved successfully.
+            </p>
+
+            <div
+                class="mt-6 flex flex-col gap-3
+                       sm:flex-row sm:justify-center"
+            >
+
+                <a
+                    id="resultButton"
+                    href="#"
+                    class="rounded-xl bg-indigo-600
+                           px-6 py-3 text-sm
+                           font-semibold text-white
+                           hover:bg-indigo-700"
+                >
+                    View Result
+                </a>
+
+                <a
+                    href="dashboard.html"
+                    class="rounded-xl border
+                           border-slate-200 px-6 py-3
+                           text-sm font-semibold
+                           text-slate-700 hover:bg-slate-50"
+                >
+                    Dashboard
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+    // =====================================================
+    // QUIZ ID
+    // =====================================================
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const quizId =
+        params.get("quizId");
+
+
+    // =====================================================
+    // STATE
+    // =====================================================
+
+    let quiz = null;
+
+    let questions = [];
+
+    let currentQuestion = 0;
+
+    let timeLeft = 30;
+
+    let timer = null;
+
+    let submitting = false;
+
+
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
+
+    const loadingState =
+        document.getElementById(
+            "loadingState"
+        );
+
+    const errorState =
+        document.getElementById(
+            "errorState"
+        );
+
+    const errorMessage =
+        document.getElementById(
+            "errorMessage"
+        );
+
+    const quizArea =
+        document.getElementById(
+            "quizArea"
+        );
+
+    const completedState =
+        document.getElementById(
+            "completedState"
+        );
+
+    const subjectName =
+        document.getElementById(
+            "subjectName"
+        );
+
+    const quizTopic =
+        document.getElementById(
+            "quizTopic"
+        );
+
+    const quizSchedule =
+        document.getElementById(
+            "quizSchedule"
+        );
+
+    const timerBox =
+        document.getElementById(
+            "timerBox"
+        );
+
+    const timerElement =
+        document.getElementById(
+            "timer"
+        );
+
+    const questionNumber =
+        document.getElementById(
+            "questionNumber"
+        );
+
+    const progressPercent =
+        document.getElementById(
+            "progressPercent"
+        );
+
+    const progressBar =
+        document.getElementById(
+            "progressBar"
+        );
+
+    const questionText =
+        document.getElementById(
+            "questionText"
+        );
+
+    const nextButton =
+        document.getElementById(
+            "nextButton"
+        );
+
+    const answerStatus =
+        document.getElementById(
+            "answerStatus"
+        );
+
+    const resultButton =
+        document.getElementById(
+            "resultButton"
+        );
+
+
+    // =====================================================
+    // MOBILE MENU
+    // =====================================================
+
+    document
+        .getElementById("mobileMenuBtn")
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById("mobileMenu")
+                    .classList.toggle("hidden");
+
+            }
+        );
+
+
+    // =====================================================
+    // LOGOUT
+    // =====================================================
+
+    function logout() {
+
+        clearInterval(timer);
+
+        window.location.href =
+            "/QuizRank/logout";
+    }
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            logout
+        );
+
+    document
+        .getElementById("mobileLogoutBtn")
+        .addEventListener(
+            "click",
+            logout
+        );
+
+
+    // =====================================================
+    // ERROR
+    // =====================================================
+
+    function showError(message) {
+
+        clearInterval(timer);
+
+        loadingState.classList.add(
+            "hidden"
+        );
+
+        quizArea.classList.add(
+            "hidden"
+        );
+
+        completedState.classList.add(
+            "hidden"
+        );
+
+        errorMessage.textContent =
+            message ||
+            "Something went wrong.";
+
+        errorState.classList.remove(
+            "hidden"
+        );
+    }
+
+
+    // =====================================================
+    // LOAD QUIZ
+    // =====================================================
+
+    async function loadQuiz() {
+
+        if (!quizId) {
+
+            showError(
+                "Quiz ID is missing."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/QuizRank/quiz?id=${encodeURIComponent(quizId)}`,
+                    {
+                        method: "GET",
+                        credentials: "same-origin",
+                        cache: "no-store"
+                    }
+                );
+
+
+            const text =
+                await response.text();
+
+
+            console.log(
+                "Quiz API Status:",
+                response.status
+            );
+
+            console.log(
+                "Quiz API Response:",
+                text
+            );
+
+
+            if (!response.ok) {
+
+                showError(
+                    `Server error (${response.status}). Please check the backend.`
+                );
+
+                return;
+            }
+
+
+            let data;
+
+            try {
+
+                data =
+                    JSON.parse(text);
+
+            } catch (error) {
+
+                console.error(
+                    "Invalid JSON:",
+                    text
+                );
+
+                showError(
+                    "Backend returned an invalid response."
+                );
+
+                return;
+            }
+
+
+            // Already completed
+            if (data.completed) {
+
+                showCompleted();
+
+                return;
+            }
+
+
+            if (!data.success) {
+
+                showError(
+                    data.message ||
+                    "Quiz could not be loaded."
+                );
+
+                return;
+            }
+
+
+            quiz =
+                data.quiz;
+
+            questions =
+                Array.isArray(
+                    data.questions
+                )
+                    ? data.questions
+                    : [];
+
+
+            if (!quiz) {
+
+                showError(
+                    "Quiz information was not found."
+                );
+
+                return;
+            }
+
+
+            if (questions.length !== 10) {
+
+                showError(
+                    `This quiz contains ${questions.length} questions. It must contain exactly 10 questions.`
+                );
+
+                return;
+            }
+
+
+            currentQuestion =
+                Number.isInteger(
+                    data.currentQuestion
+                )
+                    ? data.currentQuestion
+                    : 0;
+
+
+            if (
+                currentQuestion < 0 ||
+                currentQuestion >= 10
+            ) {
+
+                currentQuestion = 0;
+            }
+
+
+            // Quiz information
+            subjectName.textContent =
+                quiz.subjectName ||
+                "Course";
+
+            quizTopic.textContent =
+                quiz.topic ||
+                "Quiz";
+
+            quizSchedule.textContent =
+                `${quiz.quizDate || ""} • ${quiz.quizTime || ""}`;
+
+
+            loadingState.classList.add(
+                "hidden"
+            );
+
+            errorState.classList.add(
+                "hidden"
+            );
+
+            quizArea.classList.remove(
+                "hidden"
+            );
+
+
+            showQuestion();
+
+
+        } catch (error) {
+
+            console.error(
+                "Quiz loading error:",
+                error
+            );
+
+            showError(
+                "Could not connect to the QuizRank server."
+            );
+        }
+    }
+
+
+    // =====================================================
+    // SHOW QUESTION
+    // =====================================================
+
+    function showQuestion() {
+
+        clearInterval(timer);
+
+        submitting = false;
+
+        const question =
+            questions[currentQuestion];
+
+
+        if (!question) {
+
+            showError(
+                "Question not found."
+            );
+
+            return;
+        }
+
+
+        const number =
+            currentQuestion + 1;
+
+        const total =
+            questions.length;
+
+
+        // Progress
+        const percent =
+            Math.round(
+                (number / total) * 100
+            );
+
+
+        questionNumber.textContent =
+            `Question ${number} of ${total}`;
+
+        progressPercent.textContent =
+            `${percent}%`;
+
+        progressBar.style.width =
+            `${percent}%`;
+
+
+        // Question
+        questionText.textContent =
+            question.question || "";
+
+
+        // Options
+        document.getElementById(
+            "optionA"
+        ).textContent =
+            question.optionA || "";
+
+        document.getElementById(
+            "optionB"
+        ).textContent =
+            question.optionB || "";
+
+        document.getElementById(
+            "optionC"
+        ).textContent =
+            question.optionC || "";
+
+        document.getElementById(
+            "optionD"
+        ).textContent =
+            question.optionD || "";
+
+
+        // Clear answers
+        document
+            .querySelectorAll(
+                'input[name="answer"]'
+            )
+            .forEach(
+                input => {
+                    input.checked = false;
+                }
+            );
+
+
+        // Clear selected design
+        document
+            .querySelectorAll(
+                ".option-card"
+            )
+            .forEach(
+                card => {
+                    card.classList.remove(
+                        "selected"
+                    );
+                }
+            );
+
+
+        answerStatus.textContent =
+            "Select an answer.";
+
+
+        nextButton.disabled =
+            false;
+
+
+        nextButton.textContent =
+            currentQuestion ===
+            total - 1
+                ? "Submit Quiz"
+                : "Next Question";
+
+
+        // Timer
+        timeLeft = 30;
+
+        updateTimer();
+
+        startTimer();
+    }
+
+
+    // =====================================================
+    // TIMER
+    // =====================================================
+
+    function startTimer() {
+
+        clearInterval(timer);
+
+        timer =
+            setInterval(
+                () => {
+
+                    timeLeft--;
+
+                    updateTimer();
+
+
+                    if (timeLeft <= 0) {
+
+                        clearInterval(timer);
+
+                        answerStatus.textContent =
+                            "Time is up. Submitting...";
+
+                        submitAnswer("");
+
+                    }
+
+                },
+                1000
+            );
+    }
+
+
+    function updateTimer() {
+
+        timerElement.textContent =
+            `${timeLeft}s`;
+
+
+        if (timeLeft <= 10) {
+
+            timerBox.classList.add(
+                "timer-danger"
+            );
+
+        } else {
+
+            timerBox.classList.remove(
+                "timer-danger"
+            );
+
+        }
+    }
+
+
+    // =====================================================
+    // SELECT ANSWER
+    // =====================================================
+
+    document
+        .querySelectorAll(
+            'input[name="answer"]'
+        )
+        .forEach(
+            input => {
+
+                input.addEventListener(
+                    "change",
+                    () => {
+
+                        document
+                            .querySelectorAll(
+                                ".option-card"
+                            )
+                            .forEach(
+                                card => {
+
+                                    card.classList.remove(
+                                        "selected"
+                                    );
+
+                                }
+                            );
+
+
+                        const selectedCard =
+                            document.querySelector(
+                                `.option-card[data-option="${input.value}"]`
+                            );
+
+
+                        if (selectedCard) {
+
+                            selectedCard.classList.add(
+                                "selected"
+                            );
+                        }
+
+
+                        answerStatus.textContent =
+                            "Answer selected.";
+                    }
+                );
+
+            }
+        );
+
+
+    // =====================================================
+    // GET ANSWER
+    // =====================================================
+
+    function getSelectedAnswer() {
+
+        const selected =
+            document.querySelector(
+                'input[name="answer"]:checked'
+            );
+
+        return selected
+            ? selected.value
+            : "";
+    }
+
+
+    // =====================================================
+    // NEXT BUTTON
+    // =====================================================
+
+    nextButton.addEventListener(
+        "click",
+        () => {
+
+            if (submitting) {
+                return;
+            }
+
+
+            const answer =
+                getSelectedAnswer();
+
+
+            if (!answer) {
+
+                const proceed =
+                    confirm(
+                        "You have not selected an answer. Do you want to continue?"
+                    );
+
+
+                if (!proceed) {
+                    return;
+                }
+            }
+
+
+            submitAnswer(answer);
+        }
+    );
+
+
+    // =====================================================
+    // SUBMIT ANSWER
+    // =====================================================
+
+    async function submitAnswer(answer) {
+
+        if (submitting) {
+            return;
+        }
+
+        submitting = true;
+
+        clearInterval(timer);
+
+        nextButton.disabled = true;
+
+        nextButton.textContent =
+            "Submitting...";
+
+
+        try {
+
+            const formData =
+                new URLSearchParams();
+
+
+            formData.append(
+                "quizId",
+                quizId
+            );
+
+
+            formData.append(
+                "questionIndex",
+                currentQuestion
+            );
+
+
+            formData.append(
+                "answer",
+                answer || ""
+            );
+
+
+            const response =
+                await fetch(
+                    "/QuizRank/quiz-answer",
+                    {
+                        method: "POST",
+                        credentials: "same-origin",
+
+                        headers: {
+                            "Content-Type":
+                                "application/x-www-form-urlencoded;charset=UTF-8"
+                        },
+
+                        body:
+                            formData.toString()
+                    }
+                );
+
+
+            const text =
+                await response.text();
+
+
+            console.log(
+                "Submit Status:",
+                response.status
+            );
+
+            console.log(
+                "Submit Response:",
+                text
+            );
+
+
+            if (!response.ok) {
+
+                showError(
+                    `Server error (${response.status}) while submitting answer.`
+                );
+
+                return;
+            }
+
+
+            let data;
+
+            try {
+
+                data =
+                    JSON.parse(text);
+
+            } catch (error) {
+
+                console.error(
+                    "Invalid submit JSON:",
+                    text
+                );
+
+                showError(
+                    "Backend returned an invalid response while submitting."
+                );
+
+                return;
+            }
+
+
+            // Already completed
+            if (data.completed) {
+
+                showCompleted();
+
+                return;
+            }
+
+
+            if (!data.success) {
+
+                showError(
+                    data.message ||
+                    "Answer submission failed."
+                );
+
+                return;
+            }
+
+
+            // Final question
+            if (data.completed === true) {
+
+                showCompleted();
+
+                return;
+            }
+
+
+            // Next question
+            if (
+                Number.isInteger(
+                    data.nextQuestion
+                )
+            ) {
+
+                currentQuestion =
+                    data.nextQuestion;
+
+            } else {
+
+                currentQuestion++;
+            }
+
+
+            showQuestion();
+
+
+        } catch (error) {
+
+            console.error(
+                "Submit error:",
+                error
+            );
+
+            showError(
+                "Could not submit your answer."
+            );
+
+        } finally {
+
+            submitting = false;
+        }
+    }
+
+
+    // =====================================================
+    // COMPLETED
+    // =====================================================
+
+    function showCompleted() {
+
+        clearInterval(timer);
+
+        loadingState.classList.add(
+            "hidden"
+        );
+
+        errorState.classList.add(
+            "hidden"
+        );
+
+        quizArea.classList.add(
+            "hidden"
+        );
+
+        completedState.classList.remove(
+            "hidden"
+        );
+
+
+        resultButton.href =
+            `result.html?quizId=${encodeURIComponent(quizId)}`;
+    }
+
+
+    // =====================================================
+    // START
+    // =====================================================
+
+    loadQuiz();
+
+</script>
+
+</body>
+</html>

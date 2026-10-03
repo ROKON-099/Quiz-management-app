@@ -17,87 +17,30 @@
 </head>
 
 
-<body class="bg-slate-50 text-slate-800 min-h-screen">
+<body class="bg-slate-50 min-h-screen">
 
 
-<!-- =====================================================
-     NAVBAR
-====================================================== -->
+<!-- ================= NAVBAR ================= -->
 
-<nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+<nav class="bg-white border-b border-slate-200">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4">
 
         <div class="h-16 flex items-center justify-between">
 
-            <a href="/QuizRank/teacher/dashboard.html"
-               class="flex items-center gap-2">
+            <a href="dashboard.html"
+               class="text-xl font-bold text-indigo-600">
 
-                <div class="w-9 h-9 rounded-lg bg-indigo-600
-                            flex items-center justify-center">
-
-                    <i data-lucide="graduation-cap"
-                       class="w-5 h-5 text-white"></i>
-
-                </div>
-
-                <span class="text-xl font-bold text-indigo-600">
-                    QuizRank
-                </span>
+                QuizRank
 
             </a>
 
+            <a href="dashboard.html"
+               class="text-sm text-slate-600 hover:text-indigo-600">
 
-            <div class="hidden md:flex items-center gap-7">
+                Dashboard
 
-                <a href="/QuizRank/teacher/dashboard.html"
-                   class="text-sm text-slate-600 hover:text-indigo-600">
-                    Home
-                </a>
-
-                <a href="/QuizRank/teacher/my-course.html"
-                   class="text-sm text-slate-600 hover:text-indigo-600">
-                    My Course
-                </a>
-
-                <a href="/QuizRank/teacher/notice.html"
-                   class="text-sm text-slate-600 hover:text-indigo-600">
-                    Notice
-                </a>
-
-                <a href="/QuizRank/leaderboard.html"
-                   class="text-sm text-slate-600 hover:text-indigo-600">
-                    Leaderboard
-                </a>
-
-                <a href="/QuizRank/teacher/profile.html"
-                   class="text-sm text-slate-600 hover:text-indigo-600">
-                    My Profile
-                </a>
-
-            </div>
-
-
-            <button id="logoutButton"
-                    class="hidden md:flex items-center gap-2
-                           text-sm text-slate-600
-                           hover:text-red-600">
-
-                <i data-lucide="log-out"
-                   class="w-4 h-4"></i>
-
-                Logout
-
-            </button>
-
-
-            <button id="mobileMenuButton"
-                    class="md:hidden p-2">
-
-                <i data-lucide="menu"
-                   class="w-6 h-6"></i>
-
-            </button>
+            </a>
 
         </div>
 
@@ -106,155 +49,161 @@
 </nav>
 
 
+<!-- ================= MAIN ================= -->
 
-<!-- =====================================================
-     MAIN
-====================================================== -->
+<main class="max-w-5xl mx-auto px-4 py-8">
 
-<main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-
-    <!-- Header -->
 
     <div class="mb-8">
 
-        <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">
+        <h1 class="text-3xl font-bold text-slate-900">
             Create Quiz
         </h1>
 
         <p class="text-slate-500 mt-2">
-            Create a quiz with exactly 10 MCQ questions.
+            Create a 10-question quiz for your assigned course.
         </p>
 
     </div>
 
 
+    <!-- ================= FORM ================= -->
 
-    <!-- =================================================
-         QUIZ INFORMATION
-    ================================================== -->
-
-    <section class="bg-white border border-slate-200
-                    rounded-2xl p-6 mb-6">
-
-        <h2 class="text-lg font-semibold mb-5">
-            Quiz Information
-        </h2>
+    <form id="quizForm"
+          class="space-y-6">
 
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- QUIZ INFORMATION -->
+
+        <div class="bg-white
+                    border border-slate-200
+                    rounded-2xl
+                    p-6">
+
+            <h2 class="text-lg font-semibold text-slate-900 mb-5">
+                Quiz Information
+            </h2>
 
 
-            <!-- Subject -->
-
-            <div>
-
-                <label class="block text-sm font-medium mb-2">
-                    Subject
-                </label>
-
-                <select id="subjectId"
-                        required
-                        class="w-full px-4 py-3 rounded-xl
-                               border border-slate-300
-                               focus:ring-2
-                               focus:ring-indigo-500
-                               outline-none">
-
-                    <option value="">
-                        Select Subject
-                    </option>
-
-                </select>
-
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
 
-            <!-- Topic -->
-
-            <div>
-
-                <label class="block text-sm font-medium mb-2">
-                    Quiz Topic
-                </label>
-
-                <input id="topic"
-                       type="text"
-                       placeholder="Example: OOP Basics"
-                       required
-                       class="w-full px-4 py-3 rounded-xl
-                              border border-slate-300
-                              focus:ring-2
-                              focus:ring-indigo-500
-                              outline-none">
-
-            </div>
-
-
-            <!-- Date -->
-
-            <div>
-
-                <label class="block text-sm font-medium mb-2">
-                    Quiz Date
-                </label>
-
-                <input id="quizDate"
-                       type="date"
-                       required
-                       class="w-full px-4 py-3 rounded-xl
-                              border border-slate-300
-                              focus:ring-2
-                              focus:ring-indigo-500
-                              outline-none">
-
-            </div>
-
-
-            <!-- Time -->
-
-            <div>
-
-                <label class="block text-sm font-medium mb-2">
-                    Quiz Start Time
-                </label>
-
-                <input id="quizTime"
-                       type="time"
-                       required
-                       class="w-full px-4 py-3 rounded-xl
-                              border border-slate-300
-                              focus:ring-2
-                              focus:ring-indigo-500
-                              outline-none">
-
-            </div>
-
-        </div>
-
-
-        <!-- Timer Information -->
-
-        <div class="mt-5 bg-indigo-50
-                    border border-indigo-100
-                    rounded-xl p-4">
-
-            <div class="flex items-start gap-3">
-
-                <i data-lucide="timer"
-                   class="w-5 h-5 text-indigo-600 mt-0.5"></i>
+                <!-- SUBJECT -->
 
                 <div>
 
-                    <p class="font-medium text-indigo-900">
-                        Quiz Time Rule
-                    </p>
+                    <label
+                        class="block text-sm font-medium
+                               text-slate-700 mb-2">
 
-                    <p class="text-sm text-indigo-700 mt-1">
-                        Each question has 30 seconds.
-                        After 30 seconds, the answer is locked
-                        and the quiz moves to the next question.
-                    </p>
+                        Select Course
+
+                    </label>
+
+
+                    <select
+                        id="subjectId"
+                        name="subjectId"
+                        required
+                        class="w-full px-4 py-3
+                               rounded-xl
+                               border border-slate-300
+                               bg-white
+                               text-slate-800
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
+
+                        <option value="">
+                            Loading your courses...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- TOPIC -->
+
+                <div>
+
+                    <label
+                        class="block text-sm font-medium
+                               text-slate-700 mb-2">
+
+                        Quiz Topic
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="topic"
+                        name="topic"
+                        required
+                        placeholder="Example: Array"
+                        class="w-full px-4 py-3
+                               rounded-xl
+                               border border-slate-300
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div>
+
+                    <label
+                        class="block text-sm font-medium
+                               text-slate-700 mb-2">
+
+                        Quiz Date
+
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="quizDate"
+                        name="quizDate"
+                        required
+                        class="w-full px-4 py-3
+                               rounded-xl
+                               border border-slate-300
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
+
+                </div>
+
+
+                <!-- TIME -->
+
+                <div>
+
+                    <label
+                        class="block text-sm font-medium
+                               text-slate-700 mb-2">
+
+                        Quiz Time
+
+                    </label>
+
+
+                    <input
+                        type="time"
+                        id="quizTime"
+                        name="quizTime"
+                        required
+                        class="w-full px-4 py-3
+                               rounded-xl
+                               border border-slate-300
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
 
                 </div>
 
@@ -262,16 +211,8 @@
 
         </div>
 
-    </section>
 
-
-
-    <!-- =================================================
-         QUESTIONS
-    ================================================== -->
-
-    <form id="quizForm">
-
+        <!-- ================= QUESTIONS ================= -->
 
         <div id="questionsContainer"
              class="space-y-6">
@@ -279,566 +220,679 @@
         </div>
 
 
-        <!-- Submit -->
+        <!-- ================= SUBMIT ================= -->
 
-        <div class="mt-8">
+        <div class="bg-white
+                    border border-slate-200
+                    rounded-2xl
+                    p-6">
 
-            <button type="submit"
-                    id="createQuizButton"
-                    class="w-full sm:w-auto
-                           px-7 py-3
-                           bg-indigo-600
-                           hover:bg-indigo-700
-                           text-white
-                           rounded-xl
-                           font-medium
-                           flex items-center
-                           justify-center
-                           gap-2">
+            <button
+                type="submit"
+                id="createQuizButton"
+                class="inline-flex
+                       items-center
+                       gap-2
+                       px-6 py-3
+                       rounded-xl
+                       bg-indigo-600
+                       hover:bg-indigo-700
+                       text-white
+                       font-medium
+                       transition">
 
                 <i data-lucide="plus-circle"
-                   class="w-5 h-5"></i>
+                   class="w-5 h-5">
+                </i>
 
                 Create Quiz
 
             </button>
 
+
+            <p id="message"
+               class="mt-4 text-sm">
+            </p>
+
         </div>
-
-
-        <p id="formMessage"
-           class="mt-4 text-sm"></p>
 
     </form>
 
 </main>
 
 
+<script>
 
-<!-- =====================================================
-     FOOTER
-====================================================== -->
 
-<footer class="border-t border-slate-200 bg-white mt-12">
+/* ==========================================
+   CREATE 10 QUESTIONS
+========================================== */
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+const questionsContainer =
+    document.getElementById(
+        "questionsContainer"
+    );
 
-        <div class="py-7 flex flex-col sm:flex-row
-                    items-center justify-between gap-4">
 
-            <div class="flex items-center gap-2">
+for (let i = 1; i <= 10; i++) {
 
-                <div class="w-8 h-8 rounded-lg
-                            bg-indigo-600
-                            flex items-center justify-center">
+    questionsContainer.innerHTML += `
 
-                    <i data-lucide="graduation-cap"
-                       class="w-4 h-4 text-white"></i>
+        <div class="bg-white
+                    border border-slate-200
+                    rounded-2xl
+                    p-6">
 
-                </div>
+            <div class="flex items-center
+                        justify-between mb-5">
 
-                <span class="font-bold">
-                    QuizRank
+                <h2 class="text-lg
+                           font-semibold
+                           text-slate-900">
+
+                    Question ${i}
+
+                </h2>
+
+                <span class="text-xs
+                             font-medium
+                             text-indigo-600
+                             bg-indigo-50
+                             px-3 py-1
+                             rounded-full">
+
+                    30 Seconds
+
                 </span>
 
             </div>
 
-            <p class="text-sm text-slate-500">
-                © 2026 QuizRank. All rights reserved.
-            </p>
 
-            <a href="/QuizRank/leaderboard.html"
-               class="text-sm text-slate-600
-                      hover:text-indigo-600">
+            <!-- QUESTION -->
 
-                Leaderboard
+            <div class="mb-5">
 
-            </a>
+                <label class="block
+                              text-sm
+                              font-medium
+                              text-slate-700
+                              mb-2">
 
-        </div>
+                    Question
 
-    </div>
+                </label>
 
-</footer>
+                <textarea
+                    name="question_${i}"
+                    required
+                    rows="3"
+                    placeholder="Write question ${i}"
+                    class="w-full
+                           px-4 py-3
+                           rounded-xl
+                           border border-slate-300
+                           resize-none
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-indigo-500"></textarea>
 
-
-
-<script>
-
-    const questionsContainer =
-        document.getElementById(
-            "questionsContainer"
-        );
-
-
-    // ==========================================
-    // CREATE 10 QUESTIONS
-    // ==========================================
-
-    for (let i = 1; i <= 10; i++) {
-
-        questionsContainer.innerHTML += `
-
-            <section
-                class="bg-white border border-slate-200
-                       rounded-2xl p-6">
-
-                <div class="flex items-center
-                            justify-between mb-5">
-
-                    <h2 class="text-lg font-semibold">
-
-                        Question ${i}
-
-                    </h2>
-
-                    <span class="text-xs
-                                 px-3 py-1
-                                 bg-slate-100
-                                 rounded-full
-                                 text-slate-500">
-
-                        30 seconds
-
-                    </span>
-
-                </div>
+            </div>
 
 
-                <!-- Question -->
+            <!-- OPTIONS -->
 
-                <div class="mb-5">
+            <div class="grid grid-cols-1
+                        md:grid-cols-2
+                        gap-4">
 
-                    <label class="block text-sm
-                                  font-medium mb-2">
 
-                        Question
+                <div>
+
+                    <label class="block
+                                  text-sm
+                                  font-medium
+                                  text-slate-700
+                                  mb-2">
+
+                        Option A
 
                     </label>
 
-                    <textarea
-                        id="question-${i}"
-                        rows="3"
+                    <input
+                        type="text"
+                        name="option_a_${i}"
                         required
-                        placeholder="Write question ${i}..."
-                        class="w-full px-4 py-3
-                               rounded-xl
-                               border border-slate-300
-                               focus:ring-2
-                               focus:ring-indigo-500
-                               outline-none"></textarea>
-
-                </div>
-
-
-                <!-- Options -->
-
-                <div class="grid grid-cols-1
-                            md:grid-cols-2 gap-4">
-
-
-                    <div>
-
-                        <label class="block text-sm
-                                      font-medium mb-2">
-
-                            Option A
-
-                        </label>
-
-                        <input
-                            id="optionA-${i}"
-                            type="text"
-                            required
-                            placeholder="Option A"
-                            class="w-full px-4 py-3
-                                   rounded-xl
-                                   border border-slate-300
-                                   focus:ring-2
-                                   focus:ring-indigo-500
-                                   outline-none">
-
-                    </div>
-
-
-                    <div>
-
-                        <label class="block text-sm
-                                      font-medium mb-2">
-
-                            Option B
-
-                        </label>
-
-                        <input
-                            id="optionB-${i}"
-                            type="text"
-                            required
-                            placeholder="Option B"
-                            class="w-full px-4 py-3
-                                   rounded-xl
-                                   border border-slate-300
-                                   focus:ring-2
-                                   focus:ring-indigo-500
-                                   outline-none">
-
-                    </div>
-
-
-                    <div>
-
-                        <label class="block text-sm
-                                      font-medium mb-2">
-
-                            Option C
-
-                        </label>
-
-                        <input
-                            id="optionC-${i}"
-                            type="text"
-                            required
-                            placeholder="Option C"
-                            class="w-full px-4 py-3
-                                   rounded-xl
-                                   border border-slate-300
-                                   focus:ring-2
-                                   focus:ring-indigo-500
-                                   outline-none">
-
-                    </div>
-
-
-                    <div>
-
-                        <label class="block text-sm
-                                      font-medium mb-2">
-
-                            Option D
-
-                        </label>
-
-                        <input
-                            id="optionD-${i}"
-                            type="text"
-                            required
-                            placeholder="Option D"
-                            class="w-full px-4 py-3
-                                   rounded-xl
-                                   border border-slate-300
-                                   focus:ring-2
-                                   focus:ring-indigo-500
-                                   outline-none">
-
-                    </div>
-
-                </div>
-
-
-                <!-- Correct Answer -->
-
-                <div class="mt-5">
-
-                    <label class="block text-sm
-                                  font-medium mb-2">
-
-                        Correct Answer
-
-                    </label>
-
-                    <select
-                        id="answer-${i}"
-                        required
-                        class="w-full md:w-1/2
+                        placeholder="Option A"
+                        class="w-full
                                px-4 py-3
                                rounded-xl
                                border border-slate-300
+                               focus:outline-none
                                focus:ring-2
-                               focus:ring-indigo-500
-                               outline-none">
-
-                        <option value="">
-                            Select Correct Answer
-                        </option>
-
-                        <option value="A">
-                            Option A
-                        </option>
-
-                        <option value="B">
-                            Option B
-                        </option>
-
-                        <option value="C">
-                            Option C
-                        </option>
-
-                        <option value="D">
-                            Option D
-                        </option>
-
-                    </select>
+                               focus:ring-indigo-500">
 
                 </div>
 
-            </section>
 
+                <div>
+
+                    <label class="block
+                                  text-sm
+                                  font-medium
+                                  text-slate-700
+                                  mb-2">
+
+                        Option B
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="option_b_${i}"
+                        required
+                        placeholder="Option B"
+                        class="w-full
+                               px-4 py-3
+                               rounded-xl
+                               border border-slate-300
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
+
+                </div>
+
+
+                <div>
+
+                    <label class="block
+                                  text-sm
+                                  font-medium
+                                  text-slate-700
+                                  mb-2">
+
+                        Option C
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="option_c_${i}"
+                        required
+                        placeholder="Option C"
+                        class="w-full
+                               px-4 py-3
+                               rounded-xl
+                               border border-slate-300
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
+
+                </div>
+
+
+                <div>
+
+                    <label class="block
+                                  text-sm
+                                  font-medium
+                                  text-slate-700
+                                  mb-2">
+
+                        Option D
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="option_d_${i}"
+                        required
+                        placeholder="Option D"
+                        class="w-full
+                               px-4 py-3
+                               rounded-xl
+                               border border-slate-300
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
+
+                </div>
+
+            </div>
+
+
+            <!-- CORRECT ANSWER -->
+
+            <div class="mt-5">
+
+                <label class="block
+                              text-sm
+                              font-medium
+                              text-slate-700
+                              mb-2">
+
+                    Correct Answer
+
+                </label>
+
+
+                <select
+                    name="correct_answer_${i}"
+                    required
+                    class="w-full
+                           px-4 py-3
+                           rounded-xl
+                           border border-slate-300
+                           bg-white
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-indigo-500">
+
+                    <option value="">
+                        Select correct answer
+                    </option>
+
+                    <option value="A">
+                        Option A
+                    </option>
+
+                    <option value="B">
+                        Option B
+                    </option>
+
+                    <option value="C">
+                        Option C
+                    </option>
+
+                    <option value="D">
+                        Option D
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+lucide.createIcons();
+
+
+/* ==========================================
+   LOAD TEACHER COURSES
+========================================== */
+
+async function loadTeacherCourses() {
+
+    const select =
+        document.getElementById(
+            "subjectId"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/QuizRank/teacher-courses",
+                {
+                    method: "GET",
+                    credentials: "same-origin"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Teacher courses:",
+            data
+        );
+
+
+        if (!response.ok ||
+            !data.success) {
+
+            select.innerHTML = `
+                <option value="">
+                    Unable to load courses
+                </option>
+            `;
+
+            return;
+        }
+
+
+        if (!data.courses ||
+            data.courses.length === 0) {
+
+            select.innerHTML = `
+                <option value="">
+                    No courses assigned
+                </option>
+            `;
+
+            return;
+        }
+
+
+        select.innerHTML = `
+            <option value="">
+                Select a course
+            </option>
+        `;
+
+
+        data.courses.forEach(course => {
+
+            const option =
+                document.createElement("option");
+
+
+            option.value =
+                course.id;
+
+
+            option.textContent =
+                course.name;
+
+
+            select.appendChild(
+                option
+            );
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        select.innerHTML = `
+            <option value="">
+                Failed to load courses
+            </option>
         `;
     }
+}
 
 
-    // ==========================================
-    // LOAD SUBJECTS
-    // ==========================================
-
-    async function loadSubjects() {
-
-        try {
-
-            const response =
-                await fetch("/QuizRank/teacher-subjects");
-
-            const data =
-                await response.json();
-
-            const select =
-                document.getElementById(
-                    "subjectId"
-                );
+loadTeacherCourses();
 
 
-            if (data.success) {
+/* ==========================================
+   CREATE QUIZ
+========================================== */
 
-                data.subjects.forEach(subject => {
+document.getElementById(
+    "quizForm"
+).addEventListener(
+    "submit",
+    async function(event) {
 
-                    select.innerHTML += `
+        event.preventDefault();
 
-                        <option value="${subject.id}">
-                            ${escapeHtml(subject.name)}
-                        </option>
 
-                    `;
+        const button =
+            document.getElementById(
+                "createQuizButton"
+            );
 
-                });
 
-            }
+        const message =
+            document.getElementById(
+                "message"
+            );
 
-        } catch (error) {
 
-            console.error(
-                "Subject loading error:",
-                error
+        const subjectId =
+            document.getElementById(
+                "subjectId"
+            ).value;
+
+
+        const topic =
+            document.getElementById(
+                "topic"
+            ).value.trim();
+
+
+        const quizDate =
+            document.getElementById(
+                "quizDate"
+            ).value;
+
+
+        const quizTime =
+            document.getElementById(
+                "quizTime"
+            ).value;
+
+
+        if (!subjectId) {
+
+            message.textContent =
+                "Please select a course.";
+
+            message.className =
+                "mt-4 text-sm text-red-600";
+
+            return;
+        }
+
+
+        /*
+         * Build form data
+         */
+
+        const formData =
+            new URLSearchParams();
+
+
+        formData.append(
+            "subjectId",
+            subjectId
+        );
+
+
+        formData.append(
+            "topic",
+            topic
+        );
+
+
+        formData.append(
+            "quizDate",
+            quizDate
+        );
+
+
+        formData.append(
+            "quizTime",
+            quizTime
+        );
+
+
+        formData.append(
+            "totalQuestions",
+            "10"
+        );
+
+
+        for (let i = 1; i <= 10; i++) {
+
+            formData.append(
+                `question_${i}`,
+                document.querySelector(
+                    `[name="question_${i}"]`
+                ).value.trim()
+            );
+
+
+            formData.append(
+                `option_a_${i}`,
+                document.querySelector(
+                    `[name="option_a_${i}"]`
+                ).value.trim()
+            );
+
+
+            formData.append(
+                `option_b_${i}`,
+                document.querySelector(
+                    `[name="option_b_${i}"]`
+                ).value.trim()
+            );
+
+
+            formData.append(
+                `option_c_${i}`,
+                document.querySelector(
+                    `[name="option_c_${i}"]`
+                ).value.trim()
+            );
+
+
+            formData.append(
+                `option_d_${i}`,
+                document.querySelector(
+                    `[name="option_d_${i}"]`
+                ).value.trim()
+            );
+
+
+            formData.append(
+                `correct_answer_${i}`,
+                document.querySelector(
+                    `[name="correct_answer_${i}"]`
+                ).value
             );
 
         }
 
-    }
+
+        button.disabled = true;
+
+        button.innerHTML = `
+            <i data-lucide="loader-circle"
+               class="w-5 h-5 animate-spin">
+            </i>
+
+            Creating Quiz...
+        `;
+
+        lucide.createIcons();
 
 
-    // ==========================================
-    // SUBMIT QUIZ
-    // ==========================================
+        try {
 
-    document
-        .getElementById("quizForm")
-        .addEventListener(
-            "submit",
-            async function(event) {
+            const response =
+                await fetch(
+                    "/QuizRank/create-quiz",
+                    {
+                        method: "POST",
 
-                event.preventDefault();
+                        headers: {
+                            "Content-Type":
+                                "application/x-www-form-urlencoded"
+                        },
 
+                        credentials:
+                            "same-origin",
 
-                const questions = [];
-
-
-                for (let i = 1; i <= 10; i++) {
-
-                    questions.push({
-
-                        question:
-                            document
-                                .getElementById(
-                                    `question-${i}`
-                                )
-                                .value
-                                .trim(),
-
-                        optionA:
-                            document
-                                .getElementById(
-                                    `optionA-${i}`
-                                )
-                                .value
-                                .trim(),
-
-                        optionB:
-                            document
-                                .getElementById(
-                                    `optionB-${i}`
-                                )
-                                .value
-                                .trim(),
-
-                        optionC:
-                            document
-                                .getElementById(
-                                    `optionC-${i}`
-                                )
-                                .value
-                                .trim(),
-
-                        optionD:
-                            document
-                                .getElementById(
-                                    `optionD-${i}`
-                                )
-                                .value
-                                .trim(),
-
-                        correctAnswer:
-                            document
-                                .getElementById(
-                                    `answer-${i}`
-                                )
-                                .value
-
-                    });
-
-                }
-
-
-                const quizData = {
-
-                    subjectId:
-                        document.getElementById(
-                            "subjectId"
-                        ).value,
-
-                    topic:
-                        document.getElementById(
-                            "topic"
-                        ).value.trim(),
-
-                    quizDate:
-                        document.getElementById(
-                            "quizDate"
-                        ).value,
-
-                    quizTime:
-                        document.getElementById(
-                            "quizTime"
-                        ).value,
-
-                    questions: questions
-
-                };
-
-
-                const message =
-                    document.getElementById(
-                        "formMessage"
-                    );
-
-
-                try {
-
-                    const response =
-                        await fetch(
-                            "/QuizRank/create-quiz",
-                            {
-
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body:
-                                    JSON.stringify(
-                                        quizData
-                                    )
-
-                            }
-                        );
-
-
-                    const data =
-                        await response.json();
-
-
-                    if (data.success) {
-
-                        message.textContent =
-                            "Quiz created successfully.";
-
-                        message.className =
-                            "mt-4 text-sm text-emerald-600";
-
-
-                        document
-                            .getElementById("quizForm")
-                            .reset();
-
-                    } else {
-
-                        message.textContent =
-                            data.message ||
-                            "Failed to create quiz.";
-
-                        message.className =
-                            "mt-4 text-sm text-red-600";
-
+                        body:
+                            formData
                     }
+                );
 
-                } catch (error) {
 
-                    console.error(error);
+            const data =
+                await response.json();
 
-                    message.textContent =
-                        "Server error. Please try again.";
 
-                    message.className =
-                        "mt-4 text-sm text-red-600";
+            console.log(
+                "Create quiz response:",
+                data
+            );
 
-                }
 
+            if (!response.ok ||
+                !data.success) {
+
+                message.textContent =
+                    data.message ||
+                    "Server error. Please try again.";
+
+                message.className =
+                    "mt-4 text-sm text-red-600";
+
+
+                button.disabled = false;
+
+                button.innerHTML = `
+                    <i data-lucide="plus-circle"
+                       class="w-5 h-5">
+                    </i>
+
+                    Create Quiz
+                `;
+
+                lucide.createIcons();
+
+                return;
             }
-        );
 
 
-    function escapeHtml(value) {
+            message.textContent =
+                "Quiz created successfully!";
 
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-    }
+            message.className =
+                "mt-4 text-sm text-green-600";
 
 
-    // Logout
+            /*
+             * Go back to My Course
+             */
 
-    document
-        .getElementById("logoutButton")
-        .addEventListener(
-            "click",
-            function() {
-
-                localStorage.removeItem("user");
+            setTimeout(() => {
 
                 window.location.href =
-                    "/QuizRank/logout";
+                    "my-course.html";
 
-            }
-        );
+            }, 1200);
 
 
-    loadSubjects();
+        } catch (error) {
 
-    lucide.createIcons();
+            console.error(error);
+
+
+            message.textContent =
+                "Server error. Please try again.";
+
+            message.className =
+                "mt-4 text-sm text-red-600";
+
+
+            button.disabled = false;
+
+            button.innerHTML = `
+                <i data-lucide="plus-circle"
+                   class="w-5 h-5">
+                </i>
+
+                Create Quiz
+            `;
+
+            lucide.createIcons();
+        }
+
+    });
 
 </script>
 

@@ -15,11 +15,11 @@ public class LoginServlet extends HttpServlet {
 
     private UserDAO userDAO;
 
+
     @Override
     public void init() throws ServletException {
 
         userDAO = new UserDAO();
-
     }
 
 
@@ -29,14 +29,17 @@ public class LoginServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String userId = request.getParameter("userId");
-        String password = request.getParameter("password");
 
+        String userId =
+                request.getParameter("userId");
 
-        // Validate input
+        String password =
+                request.getParameter("password");
+
 
         if (userId == null ||
             password == null ||
@@ -48,123 +51,182 @@ public class LoginServlet extends HttpServlet {
             );
 
             response.getWriter().write(
-                    "{\"success\":false,\"message\":\"User ID and password are required\"}"
+                    """
+                    {
+                        "success": false,
+                        "message": "User ID and password are required"
+                    }
+                    """
             );
 
             return;
         }
 
 
-        // Login check
-
-        User user = userDAO.login(
-                userId.trim(),
-                password
-        );
-
-
-        // Login successful
-
-        if (user != null) {
-
-            HttpSession session =
-                    request.getSession();
-
-            session.setAttribute(
-                    "userId",
-                    user.getId()
-            );
-
-            session.setAttribute(
-                    "loginUserId",
-                    user.getUserId()
-            );
-
-            session.setAttribute(
-                    "name",
-                    user.getName()
-            );
-
-            session.setAttribute(
-                    "role",
-                    user.getRole()
-            );
-
-            session.setAttribute(
-                    "department",
-                    user.getDepartment()
-            );
-
-            session.setAttribute(
-                    "batch",
-                    user.getBatch()
-            );
+        User user =
+                userDAO.login(
+                        userId.trim(),
+                        password
+                );
 
 
-            response.setStatus(
-                    HttpServletResponse.SC_OK
-            );
-
-
-            String jsonResponse =
-                    "{"
-                    + "\"success\":true,"
-                    + "\"message\":\"Login successful\","
-                    + "\"user\":{"
-                    + "\"userId\":\""
-                    + escapeJson(user.getUserId())
-                    + "\","
-
-                    + "\"name\":\""
-                    + escapeJson(user.getName())
-                    + "\","
-
-                    + "\"role\":\""
-                    + escapeJson(user.getRole())
-                    + "\","
-
-                    + "\"department\":\""
-                    + escapeJson(user.getDepartment())
-                    + "\","
-
-                    + "\"batch\":\""
-                    + escapeJson(user.getBatch())
-                    + "\""
-
-                    + "}"
-                    + "}";
-
-
-            response.getWriter().write(
-                    jsonResponse
-            );
-
-        }
-
-
-        // Login failed
-
-        else {
+        if (user == null) {
 
             response.setStatus(
                     HttpServletResponse.SC_UNAUTHORIZED
             );
 
             response.getWriter().write(
-                    "{\"success\":false,\"message\":\"Invalid User ID or password\"}"
+                    """
+                    {
+                        "success": false,
+                        "message": "Invalid User ID or password"
+                    }
+                    """
             );
+
+            return;
         }
+
+
+        /*
+         * ==========================================
+         * CREATE SESSION
+         * ==========================================
+         */
+
+        HttpSession session =
+                request.getSession(true);
+
+
+        /*
+         * VERY IMPORTANT
+         *
+         * user.getId()
+         * = database primary key
+         *
+         * Example:
+         * T001 → 3
+         * T002 → 4
+         * T003 → 5
+         * T004 → 6
+         */
+
+        session.setAttribute(
+                "userId",
+                user.getId()
+        );
+
+
+        session.setAttribute(
+                "loginUserId",
+                user.getUserId()
+        );
+
+
+        session.setAttribute(
+                "name",
+                user.getName()
+        );
+
+
+        session.setAttribute(
+                "role",
+                user.getRole()
+        );
+
+
+        session.setAttribute(
+                "department",
+                user.getDepartment()
+        );
+
+
+        session.setAttribute(
+                "batch",
+                user.getBatch()
+        );
+
+
+        /*
+         * DEBUG
+         */
+
+        System.out.println(
+                "================================"
+        );
+
+        System.out.println(
+                "Login User ID: "
+                + user.getUserId()
+        );
+
+        System.out.println(
+                "Database User ID: "
+                + user.getId()
+        );
+
+        System.out.println(
+                "Role: "
+                + user.getRole()
+        );
+
+        System.out.println(
+                "================================"
+        );
+
+
+        /*
+         * ==========================================
+         * JSON RESPONSE
+         * ==========================================
+         */
+
+        String jsonResponse =
+                "{"
+                + "\"success\":true,"
+                + "\"message\":\"Login successful\","
+                + "\"user\":{"
+
+                + "\"userId\":\""
+                + escapeJson(user.getUserId())
+                + "\","
+
+                + "\"name\":\""
+                + escapeJson(user.getName())
+                + "\","
+
+                + "\"role\":\""
+                + escapeJson(user.getRole())
+                + "\","
+
+                + "\"department\":\""
+                + escapeJson(user.getDepartment())
+                + "\","
+
+                + "\"batch\":\""
+                + escapeJson(user.getBatch())
+                + "\""
+
+                + "}"
+                + "}";
+
+
+        response.setStatus(
+                HttpServletResponse.SC_OK
+        );
+
+
+        response.getWriter().write(
+                jsonResponse
+        );
     }
 
-
-    // Escape JSON characters
 
     private String escapeJson(String value) {
 
         if (value == null) {
-
             return "";
-
         }
 
         return value

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Leaderboard - QuizRank</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #374151;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 30px;
+            margin-bottom: 6px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-title {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .table-box {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #f9fafb;
+            padding: 15px;
+            text-align: left;
+            font-size: 14px;
+            color: #4b5563;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .rank {
+            font-weight: bold;
+        }
+
+        .student-name {
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .score {
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+            font-size: 18px;
+        }
+
+        .error {
+            display: none;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 15px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .container {
+                width: 96%;
+                margin: 20px auto;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            QuizRank
+        </div>
+
+        <div class="nav-links">
+            <a href="/QuizRank/Student/dashboard.html">Dashboard</a>
+            <a href="/QuizRank/Student/my-course.html">My Course</a>
+            <a href="/QuizRank/Student/notice.html">Notice</a>
+            <a href="/QuizRank/leaderboard.html">Leaderboard</a>
+            <a href="/QuizRank/Student/profile.html">Profile</a>
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <div class="page-title">
+            <h1>Leaderboard</h1>
+            <p>Overall student performance ranking</p>
+        </div>
+
+
+        <!-- Error -->
+        <div id="errorBox" class="error"></div>
+
+
+        <!-- Summary Cards -->
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-title">
+                    Total Students
+                </div>
+
+                <div id="totalStudents" class="card-value">
+                    0
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-title">
+                    Total Quiz Attempts
+                </div>
+
+                <div id="totalAttempts" class="card-value">
+                    0
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-title">
+                    Top Student
+                </div>
+
+                <div id="topStudent" class="card-value">
+                    -
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Table -->
+        <div class="table-box">
+
+            <div id="loading" class="loading">
+                Loading leaderboard...
+            </div>
+
+            <div id="empty" class="empty" style="display:none;">
+                No quiz result found.
+            </div>
+
+            <table id="leaderboardTable" style="display:none;">
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Student</th>
+                        <th>ID</th>
+                        <th>Batch</th>
+                        <th>Quizzes</th>
+                        <th>Total Score</th>
+                        <th>Average Mark</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="leaderboardBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+<script>
+
+async function loadLeaderboard() {
+
+    const loading = document.getElementById("loading");
+    const table = document.getElementById("leaderboardTable");
+    const body = document.getElementById("leaderboardBody");
+    const errorBox = document.getElementById("errorBox");
+    const empty = document.getElementById("empty");
+
+    try {
+
+        console.log("Loading leaderboard...");
+
+        const response = await fetch("/QuizRank/leaderboard", {
+            method: "GET",
+            credentials: "include"
+        });
+
+        console.log("Response status:", response.status);
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server returned HTTP " + response.status
+            );
+        }
+
+        const data = await response.json();
+
+        console.log("Leaderboard data:", data);
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message || "Failed to load leaderboard"
+            );
+        }
+
+        loading.style.display = "none";
+
+        const students = data.students || [];
+
+        if (students.length === 0) {
+
+            empty.style.display = "block";
+
+            document.getElementById("totalStudents").textContent = "0";
+            document.getElementById("totalAttempts").textContent = "0";
+            document.getElementById("topStudent").textContent = "-";
+
+            return;
+        }
+
+        table.style.display = "table";
+
+        body.innerHTML = "";
+
+        let totalAttempts = 0;
+
+        students.forEach(function(student) {
+
+            totalAttempts += Number(student.quizCount || 0);
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>
+                    <span class="rank">
+                        ${student.rank}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="student-name">
+                        ${escapeHTML(student.name)}
+                    </span>
+                </td>
+
+                <td>
+                    ${escapeHTML(student.userId)}
+                </td>
+
+                <td>
+                    <span class="badge">
+                        ${escapeHTML(student.batch)}
+                    </span>
+                </td>
+
+                <td>
+                    ${student.quizCount}
+                </td>
+
+                <td>
+                    <span class="score">
+                        ${student.totalScore}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="score">
+                        ${Number(student.averageMark).toFixed(2)}%
+                    </span>
+                </td>
+            `;
+
+            body.appendChild(row);
+
+        });
+
+
+        document.getElementById("totalStudents").textContent =
+            students.length;
+
+        document.getElementById("totalAttempts").textContent =
+            totalAttempts;
+
+        document.getElementById("topStudent").textContent =
+            students[0].name;
+
+
+    } catch (error) {
+
+        console.error("Leaderboard error:", error);
+
+        loading.style.display = "none";
+
+        errorBox.style.display = "block";
+
+        errorBox.textContent =
+            "Leaderboard Error: " + error.message;
+
+    }
+
+}
+
+
+function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+loadLeaderboard();
+
+</script>
+
+</body>
+</html>
