@@ -1,0 +1,402 @@
+<nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="h-16 flex items-center justify-between">
+
+            <!-- Logo -->
+
+            <a id="logoLink"
+               href="#"
+               class="flex items-center gap-2">
+
+                <div class="w-9 h-9 rounded-lg
+                            bg-indigo-600
+                            flex items-center justify-center">
+
+                    <i data-lucide="trophy"
+                       class="w-5 h-5 text-white"></i>
+
+                </div>
+
+                <span class="text-xl font-bold text-slate-900">
+                    QuizRank
+                </span>
+
+            </a>
+
+
+            <!-- Desktop Navigation -->
+
+            <div class="hidden md:flex items-center gap-7 text-sm">
+
+                <!-- Home -->
+
+                <a id="homeLink"
+                   href="#"
+                   class="nav-link text-slate-600
+                          hover:text-indigo-600 transition">
+                    Home
+                </a>
+
+
+                <!-- My Course -->
+
+                <a id="courseLink"
+                   href="#"
+                   class="nav-link text-slate-600
+                          hover:text-indigo-600 transition">
+                    My Course
+                </a>
+
+
+                <!-- Notice -->
+
+                <a id="noticeLink"
+                   href="#"
+                   class="nav-link flex items-center gap-1
+                          text-slate-600
+                          hover:text-indigo-600 transition">
+
+                    <i data-lucide="bell"
+                       class="w-4 h-4"></i>
+
+                    Notice
+
+                </a>
+
+
+                <!-- Leaderboard -->
+
+                <a id="leaderboardLink"
+                   href="#"
+                   class="nav-link text-slate-600
+                          hover:text-indigo-600 transition">
+                    Leaderboard
+                </a>
+
+
+                <!-- Profile -->
+
+                <a id="profileLink"
+                   href="#"
+                   class="nav-link text-slate-600
+                          hover:text-indigo-600 transition">
+                    My Profile
+                </a>
+
+            </div>
+
+
+            <!-- Logout -->
+
+            <button id="logoutBtn"
+                    class="hidden md:flex items-center gap-2
+                           text-sm font-medium
+                           text-slate-600
+                           hover:text-red-600 transition">
+
+                <i data-lucide="log-out"
+                   class="w-4 h-4"></i>
+
+                Logout
+
+            </button>
+
+
+            <!-- Mobile Menu Button -->
+
+            <button id="menuBtn"
+                    class="md:hidden text-slate-700">
+
+                <i data-lucide="menu"
+                   class="w-6 h-6"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- Mobile Menu -->
+
+        <div id="mobileMenu"
+             class="hidden md:hidden
+                    border-t border-slate-100
+                    pb-5">
+
+            <div class="flex flex-col gap-4 pt-5 text-sm">
+
+                <a id="mobileHomeLink"
+                   href="#"
+                   class="text-slate-600">
+                    Home
+                </a>
+
+                <a id="mobileCourseLink"
+                   href="#"
+                   class="text-slate-600">
+                    My Course
+                </a>
+
+                <a id="mobileNoticeLink"
+                   href="#"
+                   class="flex items-center gap-2
+                          text-slate-600">
+
+                    <i data-lucide="bell"
+                       class="w-4 h-4"></i>
+
+                    Notice
+
+                </a>
+
+                <a id="mobileLeaderboardLink"
+                   href="#"
+                   class="text-slate-600">
+                    Leaderboard
+                </a>
+
+                <a id="mobileProfileLink"
+                   href="#"
+                   class="text-slate-600">
+                    My Profile
+                </a>
+
+                <button id="mobileLogoutBtn"
+                        class="text-left text-red-600">
+
+                    Logout
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<script>
+
+    /*
+     * Determine whether current page is inside
+     * Student or teacher folder.
+     */
+
+    const currentPath = window.location.pathname;
+
+    const isStudent =
+        currentPath.includes("/Student/");
+
+    const isTeacher =
+        currentPath.includes("/teacher/");
+
+
+    /*
+     * Base paths
+     */
+
+    let homePath;
+    let coursePath;
+    let noticePath;
+    let profilePath;
+
+
+    if (isStudent) {
+
+        homePath =
+            "/QuizRank/Student/dashboard.html";
+
+        coursePath =
+            "/QuizRank/Student/my-course.html";
+
+        noticePath =
+            "/QuizRank/Student/notice.html";
+
+        profilePath =
+            "/QuizRank/Student/profile.html";
+
+    }
+
+    else if (isTeacher) {
+
+        homePath =
+            "/QuizRank/teacher/dashboard.html";
+
+        coursePath =
+            "/QuizRank/teacher/my-course.html";
+
+        noticePath =
+            "/QuizRank/teacher/notice.html";
+
+        profilePath =
+            "/QuizRank/teacher/profile.html";
+
+    }
+
+    else {
+
+        homePath =
+            "/QuizRank/index.html";
+
+        coursePath =
+            "#";
+
+        noticePath =
+            "#";
+
+        profilePath =
+            "#";
+
+    }
+
+
+    const leaderboardPath =
+        "/QuizRank/leaderboard.html";
+
+
+    /*
+     * Desktop links
+     */
+
+    document.getElementById("logoLink").href =
+        homePath;
+
+    document.getElementById("homeLink").href =
+        homePath;
+
+    document.getElementById("courseLink").href =
+        coursePath;
+
+    document.getElementById("noticeLink").href =
+        noticePath;
+
+    document.getElementById("leaderboardLink").href =
+        leaderboardPath;
+
+    document.getElementById("profileLink").href =
+        profilePath;
+
+
+    /*
+     * Mobile links
+     */
+
+    document.getElementById("mobileHomeLink").href =
+        homePath;
+
+    document.getElementById("mobileCourseLink").href =
+        coursePath;
+
+    document.getElementById("mobileNoticeLink").href =
+        noticePath;
+
+    document.getElementById("mobileLeaderboardLink").href =
+        leaderboardPath;
+
+    document.getElementById("mobileProfileLink").href =
+        profilePath;
+
+
+    /*
+     * Mobile menu
+     */
+
+    const menuBtn =
+        document.getElementById("menuBtn");
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
+
+
+    menuBtn.addEventListener("click", () => {
+
+        mobileMenu.classList.toggle("hidden");
+
+    });
+
+
+    /*
+     * Logout
+     */
+
+    async function logoutUser() {
+
+        try {
+
+            await fetch("/QuizRank/logout", {
+                method: "GET"
+            });
+
+        } catch (error) {
+
+            console.log("Logout request failed:", error);
+
+        }
+
+
+        localStorage.removeItem("user");
+
+        window.location.href =
+            "/QuizRank/index.html";
+
+    }
+
+
+    document.getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            logoutUser
+        );
+
+
+    document.getElementById("mobileLogoutBtn")
+        .addEventListener(
+            "click",
+            logoutUser
+        );
+
+
+    /*
+     * Highlight current page
+     */
+
+    const currentPage =
+        window.location.pathname;
+
+
+    document.querySelectorAll(".nav-link")
+        .forEach(link => {
+
+            if (
+                link.getAttribute("href") ===
+                currentPage
+            ) {
+
+                link.classList.remove(
+                    "text-slate-600"
+                );
+
+                link.classList.add(
+                    "text-indigo-600",
+                    "font-semibold"
+                );
+
+            }
+
+        });
+
+
+    /*
+     * Lucide icons
+     */
+
+    if (typeof lucide !== "undefined") {
+
+        lucide.createIcons();
+
+    }
+
+</script>

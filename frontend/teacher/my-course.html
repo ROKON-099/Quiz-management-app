@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Course - QuizRank</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body class="bg-slate-50 min-h-screen">
+
+<nav class="bg-white border-b border-slate-200">
+
+    <div class="max-w-7xl mx-auto px-4">
+
+        <div class="h-16 flex items-center justify-between">
+
+            <a href="dashboard.html"
+               class="font-bold text-xl text-indigo-600">
+                QuizRank
+            </a>
+
+            <a href="dashboard.html"
+               class="text-sm text-slate-600">
+                Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<main class="max-w-7xl mx-auto px-4 py-8">
+
+    <div class="mb-8">
+
+        <h1 class="text-3xl font-bold text-slate-900">
+            My Courses
+        </h1>
+
+        <p class="text-slate-500 mt-2">
+            Create quizzes only for your assigned courses.
+        </p>
+
+    </div>
+
+
+    <div id="courseContainer"
+         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    </div>
+
+
+    <p id="message"
+       class="text-center text-slate-500 mt-8">
+        Loading courses...
+    </p>
+
+</main>
+
+
+<script>
+
+async function loadCourses() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/QuizRank/teacher-courses"
+            );
+
+        const data =
+            await response.json();
+
+        const container =
+            document.getElementById(
+                "courseContainer"
+            );
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+        container.innerHTML = "";
+
+        if (!data.success ||
+            data.courses.length === 0) {
+
+            message.textContent =
+                "No courses assigned.";
+
+            return;
+        }
+
+        message.textContent = "";
+
+        data.courses.forEach(course => {
+
+            container.innerHTML += `
+
+                <div class="bg-white
+                            border border-slate-200
+                            rounded-2xl
+                            p-6">
+
+                    <div class="w-12 h-12
+                                rounded-xl
+                                bg-indigo-50
+                                flex items-center
+                                justify-center
+                                mb-5">
+
+                        <i data-lucide="book-open"
+                           class="w-6 h-6
+                                  text-indigo-600">
+                        </i>
+
+                    </div>
+
+                    <h2 class="text-lg
+                               font-semibold
+                               text-slate-900">
+
+                        ${escapeHtml(course.name)}
+
+                    </h2>
+
+                    <p class="text-sm
+                              text-slate-500
+                              mt-2">
+
+                        You can create quizzes
+                        for this course.
+
+                    </p>
+
+                    <a href="quiz.html?subjectId=${course.id}"
+                       class="mt-5
+                              inline-flex
+                              items-center
+                              gap-2
+                              px-4 py-2.5
+                              rounded-xl
+                              bg-indigo-600
+                              text-white
+                              text-sm
+                              font-medium
+                              hover:bg-indigo-700">
+
+                        <i data-lucide="plus"
+                           class="w-4 h-4">
+                        </i>
+
+                        Create Quiz
+
+                    </a>
+
+                </div>
+
+            `;
+        });
+
+        lucide.createIcons();
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "Failed to load courses.";
+
+    }
+}
+
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+loadCourses();
+
+</script>
+
+</body>
+
+</html>

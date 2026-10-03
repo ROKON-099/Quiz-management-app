@@ -17,6 +17,8 @@ public class DBConnection {
 
         try {
 
+            Class.forName("org.mariadb.jdbc.Driver");
+
             Connection connection =
                     DriverManager.getConnection(
                             URL,
@@ -24,21 +26,21 @@ public class DBConnection {
                             PASSWORD
                     );
 
-            System.out.println(
-                    "Database connected successfully!"
-            );
+            System.out.println("Database connected successfully!");
 
             return connection;
 
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException e) {
 
-            System.out.println(
-                    "Database connection failed!"
-            );
-
+            System.out.println("MariaDB Driver not found!");
             e.printStackTrace();
 
-            return null;
+        } catch (SQLException e) {
+
+            System.out.println("Database connection failed!");
+            e.printStackTrace();
         }
+
+        return null;
     }
 }

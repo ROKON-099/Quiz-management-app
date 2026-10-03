@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Notices - QuizRank</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+
+<!-- NAVBAR -->
+
+<nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+
+    <div class="max-w-7xl mx-auto px-4
+                sm:px-6 lg:px-8">
+
+        <div class="h-16 flex items-center
+                    justify-between">
+
+
+            <!-- Logo -->
+
+            <a href="/QuizRank/Student/dashboard.html"
+               class="flex items-center gap-2">
+
+                <div class="w-9 h-9 rounded-lg
+                            bg-indigo-600
+                            flex items-center justify-center">
+
+                    <i data-lucide="graduation-cap"
+                       class="w-5 h-5 text-white"></i>
+
+                </div>
+
+                <span class="text-xl font-bold
+                             text-indigo-600">
+                    QuizRank
+                </span>
+
+            </a>
+
+
+            <!-- Desktop -->
+
+            <div class="hidden md:flex
+                        items-center gap-7">
+
+                <a href="/QuizRank/Student/dashboard.html"
+                   class="text-sm text-slate-600
+                          hover:text-indigo-600">
+                    Home
+                </a>
+
+                <a href="/QuizRank/Student/my-course.html"
+                   class="text-sm text-slate-600
+                          hover:text-indigo-600">
+                    My Course
+                </a>
+
+
+                <!-- Notice -->
+
+                <a href="/QuizRank/Student/notice.html"
+                   class="relative flex items-center gap-1.5
+                          text-sm font-medium
+                          text-indigo-600">
+
+                    <i data-lucide="bell"
+                       class="w-5 h-5"></i>
+
+                    Notice
+
+                    <span id="noticeBadge"
+                          class="hidden absolute
+                                 -top-2 -right-4
+                                 min-w-[18px] h-[18px]
+                                 px-1
+                                 bg-red-500
+                                 text-white
+                                 text-[10px]
+                                 font-bold
+                                 rounded-full
+                                 items-center
+                                 justify-center">
+                    </span>
+
+                </a>
+
+
+                <a href="/QuizRank/leaderboard.html"
+                   class="text-sm text-slate-600
+                          hover:text-indigo-600">
+                    Leaderboard
+                </a>
+
+
+                <a href="/QuizRank/Student/profile.html"
+                   class="text-sm text-slate-600
+                          hover:text-indigo-600">
+                    My Profile
+                </a>
+
+            </div>
+
+
+            <!-- Logout -->
+
+            <button id="logoutButton"
+                    class="hidden md:flex
+                           items-center gap-2
+                           text-sm text-slate-600
+                           hover:text-red-600">
+
+                <i data-lucide="log-out"
+                   class="w-4 h-4"></i>
+
+                Logout
+
+            </button>
+
+
+            <!-- Mobile -->
+
+            <button id="mobileMenuButton"
+                    class="md:hidden p-2">
+
+                <i data-lucide="menu"
+                   class="w-6 h-6"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- MAIN -->
+
+<main class="flex-1 max-w-5xl mx-auto w-full
+             px-4 sm:px-6 lg:px-8 py-8">
+
+
+    <div class="mb-8">
+
+        <h1 class="text-2xl sm:text-3xl
+                   font-bold text-slate-900">
+
+            Notices
+
+        </h1>
+
+        <p class="text-slate-500 mt-2">
+
+            Latest notices from your teachers.
+
+        </p>
+
+    </div>
+
+
+    <div id="noticeList"
+         class="space-y-4">
+
+        <div class="text-center
+                    text-slate-400 py-10">
+
+            Loading notices...
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<!-- FOOTER -->
+
+<footer class="border-t border-slate-200 bg-white mt-12">
+
+    <div class="max-w-7xl mx-auto
+                px-4 sm:px-6 lg:px-8">
+
+        <div class="py-7 flex flex-col
+                    sm:flex-row
+                    items-center justify-between
+                    gap-4">
+
+            <div class="flex items-center gap-2">
+
+                <div class="w-8 h-8 rounded-lg
+                            bg-indigo-600
+                            flex items-center justify-center">
+
+                    <i data-lucide="graduation-cap"
+                       class="w-4 h-4 text-white"></i>
+
+                </div>
+
+                <span class="font-bold">
+                    QuizRank
+                </span>
+
+            </div>
+
+            <p class="text-sm text-slate-500">
+                © 2026 QuizRank. All rights reserved.
+            </p>
+
+            <a href="/QuizRank/leaderboard.html"
+               class="text-sm text-slate-600
+                      hover:text-indigo-600">
+
+                Leaderboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+    // =====================================
+    // LOAD NOTICES
+    // =====================================
+
+    async function loadNotices() {
+
+        try {
+
+            const response =
+                await fetch("/QuizRank/notices");
+
+
+            const data =
+                await response.json();
+
+
+            const notices =
+                data.notices || [];
+
+
+            // Notification badge
+
+            const badge =
+                document.getElementById(
+                    "noticeBadge"
+                );
+
+
+            if (notices.length > 0) {
+
+                badge.textContent =
+                    notices.length;
+
+                badge.classList.remove(
+                    "hidden"
+                );
+
+                badge.classList.add(
+                    "flex"
+                );
+
+            } else {
+
+                badge.classList.add(
+                    "hidden"
+                );
+
+            }
+
+
+            // Notice list
+
+            const noticeList =
+                document.getElementById(
+                    "noticeList"
+                );
+
+
+            if (notices.length === 0) {
+
+                noticeList.innerHTML = `
+
+                    <div class="bg-white
+                                border border-slate-200
+                                rounded-2xl
+                                p-10 text-center">
+
+                        <i data-lucide="bell-off"
+                           class="w-10 h-10
+                                  text-slate-300
+                                  mx-auto mb-3"></i>
+
+                        <p class="text-slate-500">
+                            No notices available.
+                        </p>
+
+                    </div>
+
+                `;
+
+                lucide.createIcons();
+
+                return;
+            }
+
+
+            noticeList.innerHTML =
+                notices.map(notice => `
+
+                <div class="bg-white
+                            border border-slate-200
+                            rounded-2xl
+                            p-5 sm:p-6">
+
+                    <div class="flex gap-4">
+
+                        <div class="w-11 h-11
+                                    rounded-xl
+                                    bg-indigo-50
+                                    flex items-center
+                                    justify-center
+                                    shrink-0">
+
+                            <i data-lucide="bell"
+                               class="w-5 h-5
+                                      text-indigo-600"></i>
+
+                        </div>
+
+
+                        <div class="flex-1">
+
+                            <div class="flex
+                                        flex-col sm:flex-row
+                                        sm:items-center
+                                        sm:justify-between
+                                        gap-2">
+
+                                <h2 class="font-semibold
+                                           text-slate-900">
+
+                                    ${escapeHtml(notice.topic)}
+
+                                </h2>
+
+
+                                <span class="text-xs
+                                             text-slate-400">
+
+                                    ${notice.quizDate || ""}
+
+                                </span>
+
+                            </div>
+
+
+                            <p class="text-sm
+                                      text-slate-600
+                                      mt-3 leading-6">
+
+                                ${escapeHtml(notice.message)}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `).join("");
+
+
+            lucide.createIcons();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById(
+                "noticeList"
+            ).innerHTML = `
+
+                <div class="bg-white
+                            border border-red-200
+                            rounded-2xl p-6
+                            text-center
+                            text-red-600">
+
+                    Failed to load notices.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+
+    // =====================================
+    // ESCAPE HTML
+    // =====================================
+
+    function escapeHtml(value) {
+
+        if (!value) return "";
+
+        return value
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+
+    // =====================================
+    // LOGOUT
+    // =====================================
+
+    document
+        .getElementById("logoutButton")
+        .addEventListener(
+            "click",
+            function() {
+
+                localStorage.removeItem("user");
+
+                window.location.href =
+                    "/QuizRank/logout";
+
+            }
+        );
+
+
+    // =====================================
+    // INIT
+    // =====================================
+
+    loadNotices();
+
+    lucide.createIcons();
+
+</script>
+
+</body>
+
+</html>

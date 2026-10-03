@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | QuizRank</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+            <!-- Logo -->
+            <a href="dashboard.html"
+               class="text-xl font-bold text-slate-900">
+                Quiz<span class="text-indigo-600">Rank</span>
+            </a>
+
+            <!-- Navigation -->
+            <div class="flex items-center gap-6">
+
+                <a href="my-course.html"
+                   class="flex items-center gap-2 text-sm text-slate-600 hover:text-indigo-600">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    My Course
+                </a>
+
+               <a href="/QuizRank/Student/notice.html"
+   class="relative flex items-center gap-1.5
+          text-sm font-medium
+          text-slate-600 hover:text-indigo-600">
+
+    <i data-lucide="bell"
+       class="w-5 h-5"></i>
+
+    <span>Notice</span>
+
+    <!-- Notification Count -->
+    <span id="noticeBadge"
+          class="hidden absolute -top-2 -right-3
+                 min-w-[18px] h-[18px]
+                 px-1
+                 bg-red-500
+                 text-white
+                 text-[10px]
+                 font-bold
+                 rounded-full
+                 flex items-center
+                 justify-center">
+
+        0
+
+    </span>
+
+</a>
+
+                <a href="../leaderboard.html"
+                   class="flex items-center gap-2 text-sm text-slate-600 hover:text-indigo-600">
+                    <i data-lucide="trophy" class="w-4 h-4"></i>
+                    Leaderboard
+                </a>
+
+                <a href="profile.html"
+                   class="flex items-center gap-2 text-sm text-slate-600 hover:text-indigo-600">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                    Profile
+                </a>
+
+                <button onclick="logout()"
+                        class="flex items-center gap-2 text-sm text-red-500 hover:text-red-600">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    Logout
+                </button>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Main -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- Welcome -->
+        <section class="mb-8">
+
+            <h1 id="welcomeName"
+                class="text-2xl font-bold text-slate-900">
+                Welcome
+            </h1>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Student Dashboard
+            </p>
+
+        </section>
+
+
+        <!-- Stats -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+
+            <!-- Courses -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5">
+                <div class="flex items-center justify-between">
+
+                    <div>
+                        <p class="text-sm text-slate-500">
+                            Courses
+                        </p>
+
+                        <h2 class="text-2xl font-bold mt-1">
+                            0
+                        </h2>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center">
+                        <i data-lucide="book-open"
+                           class="w-5 h-5 text-indigo-600"></i>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Quizzes -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5">
+                <div class="flex items-center justify-between">
+
+                    <div>
+                        <p class="text-sm text-slate-500">
+                            Quizzes
+                        </p>
+
+                        <h2 class="text-2xl font-bold mt-1">
+                            0
+                        </h2>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+                        <i data-lucide="file-question"
+                           class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Results -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5">
+                <div class="flex items-center justify-between">
+
+                    <div>
+                        <p class="text-sm text-slate-500">
+                            Results
+                        </p>
+
+                        <h2 class="text-2xl font-bold mt-1">
+                            0
+                        </h2>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                        <i data-lucide="chart-column"
+                           class="w-5 h-5 text-amber-600"></i>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Rank -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5">
+                <div class="flex items-center justify-between">
+
+                    <div>
+                        <p class="text-sm text-slate-500">
+                            Rank
+                        </p>
+
+                        <h2 class="text-2xl font-bold mt-1">
+                            -
+                        </h2>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
+                        <i data-lucide="trophy"
+                           class="w-5 h-5 text-purple-600"></i>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Content -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Upcoming Quiz -->
+            <div class="lg:col-span-2 bg-white border border-slate-200 rounded-xl">
+
+                <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+
+                    <h2 class="font-semibold">
+                        Upcoming Quiz
+                    </h2>
+
+                    <i data-lucide="calendar-days"
+                       class="w-5 h-5 text-slate-400"></i>
+
+                </div>
+
+                <div class="p-6">
+
+                    <div class="text-center py-10 text-slate-400">
+
+                        <i data-lucide="clipboard-list"
+                           class="w-10 h-10 mx-auto mb-3"></i>
+
+                        <p class="text-sm">
+                            No upcoming quiz
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Recent Results -->
+            <div class="bg-white border border-slate-200 rounded-xl">
+
+                <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+
+                    <h2 class="font-semibold">
+                        Recent Results
+                    </h2>
+
+                    <i data-lucide="history"
+                       class="w-5 h-5 text-slate-400"></i>
+
+                </div>
+
+                <div class="p-6">
+
+                    <div class="text-center py-10 text-slate-400">
+
+                        <i data-lucide="bar-chart-3"
+                           class="w-10 h-10 mx-auto mb-3"></i>
+
+                        <p class="text-sm">
+                            No results yet
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        // Get logged-in student information
+        async function loadStudent() {
+
+            try {
+
+                const response = await fetch("../profile");
+
+                if (!response.ok) {
+                    throw new Error("Unable to load profile");
+                }
+
+                const data = await response.json();
+
+                if (data.success && data.user) {
+
+                    document.getElementById("welcomeName").textContent =
+                        `Welcome, ${data.user.name}`;
+
+                }
+
+            } catch (error) {
+
+                console.error("Profile loading error:", error);
+
+            }
+        }
+
+
+        // Logout
+        function logout() {
+
+            fetch("../logout", {
+                method: "POST"
+            })
+            .then(() => {
+                window.location.href = "../index.html";
+            })
+            .catch(() => {
+                window.location.href = "../index.html";
+            });
+        }
+
+
+        // Load Lucide icons
+        lucide.createIcons();
+
+        // Load student
+        loadStudent();
+
+    </script>
+
+</body>
+</html>

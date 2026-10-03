@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/courses")
-public class CourseServlet extends HttpServlet {
+@WebServlet("/teacher-courses")
+public class TeacherCourseServlet extends HttpServlet {
 
     private CourseDAO courseDAO;
 
@@ -49,11 +49,11 @@ public class CourseServlet extends HttpServlet {
             return;
         }
 
-        int studentId =
+        int teacherId =
                 (Integer) session.getAttribute("userId");
 
         List<Course> courses =
-                courseDAO.getStudentCourses(studentId);
+                courseDAO.getTeacherCourses(teacherId);
 
         StringBuilder json =
                 new StringBuilder();
@@ -70,20 +70,13 @@ public class CourseServlet extends HttpServlet {
 
             json.append("{");
 
-            json.append("\"courseTitle\":\"")
-                    .append(escape(course.getCourseTitle()))
-                    .append("\",");
-
-            json.append("\"totalQuizzes\":")
-                    .append(course.getTotalQuizzes())
+            json.append("\"id\":")
+                    .append(course.getId())
                     .append(",");
 
-            json.append("\"averageMark\":")
-                    .append(String.format(
-                            java.util.Locale.US,
-                            "%.2f",
-                            course.getAverageMark()
-                    ));
+            json.append("\"name\":\"")
+                    .append(escape(course.getCourseTitle()))
+                    .append("\"");
 
             json.append("}");
         }

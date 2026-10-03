@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | QuizRank</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+
+<body class="bg-slate-50 text-slate-800">
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="bg-white border-b border-slate-200">
+
+        <div class="max-w-7xl mx-auto px-6 h-16
+                    flex items-center justify-between">
+
+            <!-- Logo -->
+
+            <a href="dashboard.html"
+               class="text-xl font-bold text-slate-900">
+
+                Quiz<span class="text-indigo-600">Rank</span>
+
+            </a>
+
+
+            <!-- Navigation -->
+
+            <div class="flex items-center gap-6">
+
+                <a href="dashboard.html"
+                   class="flex items-center gap-2
+                          text-sm text-slate-600
+                          hover:text-indigo-600">
+
+                    <i data-lucide="layout-dashboard"
+                       class="w-4 h-4"></i>
+
+                    Dashboard
+
+                </a>
+
+
+                <a href="my-course.html"
+                   class="flex items-center gap-2
+                          text-sm text-slate-600
+                          hover:text-indigo-600">
+
+                    <i data-lucide="book-open"
+                       class="w-4 h-4"></i>
+
+                    My Course
+
+                </a>
+
+
+                <a href="notice.html"
+                   class="flex items-center gap-2
+                          text-sm text-slate-600
+                          hover:text-indigo-600">
+
+                    <i data-lucide="bell"
+                       class="w-4 h-4"></i>
+
+                    Notice
+
+                </a>
+
+
+                <a href="../leaderboard.html"
+                   class="flex items-center gap-2
+                          text-sm text-slate-600
+                          hover:text-indigo-600">
+
+                    <i data-lucide="trophy"
+                       class="w-4 h-4"></i>
+
+                    Leaderboard
+
+                </a>
+
+
+                <a href="profile.html"
+                   class="flex items-center gap-2
+                          text-sm font-semibold
+                          text-indigo-600">
+
+                    <i data-lucide="user-round"
+                       class="w-4 h-4"></i>
+
+                    Profile
+
+                </a>
+
+
+                <button onclick="logout()"
+                        class="flex items-center gap-2
+                               text-sm text-red-500
+                               hover:text-red-600">
+
+                    <i data-lucide="log-out"
+                       class="w-4 h-4"></i>
+
+                    Logout
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+
+
+        <!-- Page Header -->
+
+        <div class="mb-7">
+
+            <h1 class="text-2xl font-bold text-slate-900">
+                My Profile
+            </h1>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Student academic profile
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             PROFILE LAYOUT
+        ========================== -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
+
+
+            <!-- =========================
+                 LEFT PROFILE CARD
+            ========================== -->
+
+            <div class="bg-white border border-slate-200
+                        rounded-2xl p-6
+                        shadow-sm">
+
+
+                <!-- Student Image / Icon -->
+
+                <div class="flex justify-center mb-5">
+
+                    <div class="w-32 h-32 rounded-full
+                                bg-indigo-50
+                                border-8 border-slate-50
+                                flex items-center justify-center">
+
+                        <i data-lucide="graduation-cap"
+                           class="w-16 h-16 text-indigo-600
+                                  stroke-[1.5]"></i>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Name -->
+
+                <h2 id="studentName"
+                    class="text-xl font-bold
+                           text-slate-900 text-center">
+
+                    Loading...
+
+                </h2>
+
+
+                <!-- ID -->
+
+                <p class="text-sm text-slate-500
+                          text-center mt-1">
+
+                    ID:
+                    <span id="studentId">
+                        -
+                    </span>
+
+                </p>
+
+
+                <!-- Role -->
+
+                <div class="flex justify-center mt-3">
+
+                    <span class="inline-flex items-center gap-1.5
+                                 px-3 py-1 rounded-full
+                                 bg-indigo-50
+                                 text-indigo-600
+                                 text-xs font-semibold">
+
+                        <i data-lucide="user-round"
+                           class="w-3.5 h-3.5"></i>
+
+                        Student
+
+                    </span>
+
+                </div>
+
+
+                <!-- Divider -->
+
+                <div class="border-t border-slate-200 my-6"></div>
+
+
+                <!-- Department -->
+
+                <div class="flex gap-3 mb-5">
+
+                    <div class="w-9 h-9 shrink-0
+                                rounded-lg bg-slate-100
+                                flex items-center justify-center">
+
+                        <i data-lucide="graduation-cap"
+                           class="w-4 h-4 text-slate-600"></i>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-xs text-slate-400">
+                            Department
+                        </p>
+
+                        <p id="department"
+                           class="text-sm font-medium
+                                  text-slate-700 mt-1">
+
+                            -
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Batch -->
+
+                <div class="flex gap-3">
+
+                    <div class="w-9 h-9 shrink-0
+                                rounded-lg bg-slate-100
+                                flex items-center justify-center">
+
+                        <i data-lucide="users-round"
+                           class="w-4 h-4 text-slate-600"></i>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-xs text-slate-400">
+                            Batch
+                        </p>
+
+                        <p id="batch"
+                           class="text-sm font-medium
+                                  text-slate-700 mt-1">
+
+                            -
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 RIGHT SIDE
+            ========================== -->
+
+            <div class="space-y-6">
+
+
+                <!-- =========================
+                     ACADEMIC PERFORMANCE
+                ========================== -->
+
+                <div class="bg-white border border-slate-200
+                            rounded-2xl p-6 shadow-sm">
+
+
+                    <!-- Header -->
+
+                    <div class="flex items-center gap-3 mb-5">
+
+                        <div class="w-10 h-10 rounded-lg
+                                    bg-indigo-50
+                                    flex items-center justify-center">
+
+                            <i data-lucide="chart-column"
+                               class="w-5 h-5 text-indigo-600"></i>
+
+                        </div>
+
+                        <h2 class="text-lg font-bold
+                                   text-slate-900">
+
+                            Academic Performance
+
+                        </h2>
+
+                    </div>
+
+
+
+                    <!-- Cards -->
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2
+                                xl:grid-cols-4 gap-4">
+
+
+                        <!-- Current CGPA -->
+
+                        <div class="rounded-xl
+                                    bg-emerald-50
+                                    border border-emerald-100
+                                    p-5">
+
+                            <div class="w-10 h-10 rounded-lg
+                                        bg-emerald-100
+                                        flex items-center justify-center
+                                        mb-4">
+
+                                <i data-lucide="graduation-cap"
+                                   class="w-5 h-5 text-emerald-600"></i>
+
+                            </div>
+
+                            <p class="text-sm text-slate-600">
+                                Current CGPA
+                            </p>
+
+                            <h3 id="currentCgpa"
+                                class="text-3xl font-bold
+                                       text-emerald-600 mt-1">
+
+                                -
+
+                            </h3>
+
+                        </div>
+
+
+
+                        <!-- Previous CGPA -->
+
+                        <div class="rounded-xl
+                                    bg-blue-50
+                                    border border-blue-100
+                                    p-5">
+
+                            <div class="w-10 h-10 rounded-lg
+                                        bg-blue-100
+                                        flex items-center justify-center
+                                        mb-4">
+
+                                <i data-lucide="book-marked"
+                                   class="w-5 h-5 text-blue-600"></i>
+
+                            </div>
+
+                            <p class="text-sm text-slate-600">
+                                Previous CGPA
+                            </p>
+
+                            <h3 id="previousCgpa"
+                                class="text-3xl font-bold
+                                       text-blue-600 mt-1">
+
+                                -
+
+                            </h3>
+
+                        </div>
+
+
+
+                        <!-- Batch Rank -->
+
+                        <div class="rounded-xl
+                                    bg-amber-50
+                                    border border-amber-100
+                                    p-5">
+
+                            <div class="w-10 h-10 rounded-lg
+                                        bg-amber-100
+                                        flex items-center justify-center
+                                        mb-4">
+
+                                <i data-lucide="trophy"
+                                   class="w-5 h-5 text-amber-600"></i>
+
+                            </div>
+
+                            <p class="text-sm text-slate-600">
+                                Batch Rank
+                            </p>
+
+                            <h3 id="batchRank"
+                                class="text-3xl font-bold
+                                       text-amber-600 mt-1">
+
+                                -
+
+                            </h3>
+
+                        </div>
+
+
+
+                        <!-- Department Rank -->
+
+                        <div class="rounded-xl
+                                    bg-purple-50
+                                    border border-purple-100
+                                    p-5">
+
+                            <div class="w-10 h-10 rounded-lg
+                                        bg-purple-100
+                                        flex items-center justify-center
+                                        mb-4">
+
+                                <i data-lucide="users"
+                                   class="w-5 h-5 text-purple-600"></i>
+
+                            </div>
+
+                            <p class="text-sm text-slate-600">
+                                Department Rank
+                            </p>
+
+                            <h3 id="departmentRank"
+                                class="text-3xl font-bold
+                                       text-purple-600 mt-1">
+
+                                -
+
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================
+                     RANK DETAILS
+                ========================== -->
+
+                <div class="bg-white border border-slate-200
+                            rounded-2xl p-6 shadow-sm">
+
+
+                    <div class="flex items-center gap-3 mb-5">
+
+                        <div class="w-10 h-10 rounded-lg
+                                    bg-slate-100
+                                    flex items-center justify-center">
+
+                            <i data-lucide="bar-chart-3"
+                               class="w-5 h-5 text-slate-600"></i>
+
+                        </div>
+
+                        <h2 class="text-lg font-bold
+                                   text-slate-900">
+
+                            Rank Details
+
+                        </h2>
+
+                    </div>
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-2
+                                gap-4">
+
+
+                        <!-- Batch Rank -->
+
+                        <div class="rounded-xl
+                                    bg-amber-50
+                                    border border-amber-100
+                                    p-5">
+
+                            <div class="flex items-center gap-4">
+
+                                <div class="w-12 h-12 rounded-xl
+                                            bg-amber-100
+                                            flex items-center justify-center">
+
+                                    <i data-lucide="trophy"
+                                       class="w-6 h-6 text-amber-600"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <p class="text-sm text-slate-500">
+                                        Batch Rank
+                                    </p>
+
+                                    <h3 id="batchRankDetail"
+                                        class="text-2xl font-bold
+                                               text-amber-600 mt-1">
+
+                                        -
+
+                                    </h3>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Department Rank -->
+
+                        <div class="rounded-xl
+                                    bg-purple-50
+                                    border border-purple-100
+                                    p-5">
+
+                            <div class="flex items-center gap-4">
+
+                                <div class="w-12 h-12 rounded-xl
+                                            bg-purple-100
+                                            flex items-center justify-center">
+
+                                    <i data-lucide="users-round"
+                                       class="w-6 h-6 text-purple-600"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <p class="text-sm text-slate-500">
+                                        Department Rank
+                                    </p>
+
+                                    <h3 id="departmentRankDetail"
+                                        class="text-2xl font-bold
+                                               text-purple-600 mt-1">
+
+                                        -
+
+                                    </h3>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        // Initialize Lucide
+        lucide.createIcons();
+
+
+        // =========================
+        // LOAD USER
+        // =========================
+
+        const user =
+            JSON.parse(
+                localStorage.getItem("user")
+            );
+
+
+        // No logged-in user
+
+        if (!user) {
+
+            window.location.href =
+                "../index.html";
+
+        } else {
+
+            // Basic user information
+
+            document.getElementById(
+                "studentName"
+            ).textContent =
+                user.name || "-";
+
+
+            document.getElementById(
+                "studentId"
+            ).textContent =
+                user.userId || "-";
+
+
+            document.getElementById(
+                "department"
+            ).textContent =
+                user.department || "-";
+
+
+            document.getElementById(
+                "batch"
+            ).textContent =
+                user.batch || "-";
+
+        }
+
+
+
+        // =========================
+        // LOAD ACADEMIC DATA
+        // =========================
+
+        async function loadAcademicData() {
+
+            try {
+
+                const response =
+                    await fetch("../profile");
+
+
+                // Session expired
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("user");
+
+                    window.location.href =
+                        "../index.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!data.success) {
+
+                    return;
+
+                }
+
+
+                const academic =
+                    data.academic;
+
+
+                if (!academic) {
+
+                    return;
+
+                }
+
+
+                // Current CGPA
+
+                document.getElementById(
+                    "currentCgpa"
+                ).textContent =
+                    academic.currentCgpa ?? "-";
+
+
+                // Previous CGPA
+
+                document.getElementById(
+                    "previousCgpa"
+                ).textContent =
+                    academic.previousCgpa ?? "-";
+
+
+                // Batch Rank
+
+                document.getElementById(
+                    "batchRank"
+                ).textContent =
+                    academic.batchRank ?? "-";
+
+
+                document.getElementById(
+                    "batchRankDetail"
+                ).textContent =
+                    academic.batchRank ?? "-";
+
+
+                // Department Rank
+
+                document.getElementById(
+                    "departmentRank"
+                ).textContent =
+                    academic.departmentRank ?? "-";
+
+
+                document.getElementById(
+                    "departmentRankDetail"
+                ).textContent =
+                    academic.departmentRank ?? "-";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Academic data error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        loadAcademicData();
+
+
+
+        // =========================
+        // LOGOUT
+        // =========================
+
+        function logout() {
+
+            localStorage.removeItem("user");
+
+            fetch("../logout", {
+                method: "POST"
+            })
+            .finally(() => {
+
+                window.location.href =
+                    "../index.html";
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,9 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
         tailwind.config = {
@@ -23,9 +27,9 @@
     </script>
 </head>
 
+
 <body class="min-h-screen bg-slate-50">
 
-    <!-- Main -->
     <main class="min-h-screen flex items-center justify-center px-4 py-8">
 
         <div class="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden">
@@ -35,18 +39,25 @@
                 <!-- =========================
                      LEFT SIDE
                 ========================== -->
-                <div class="hidden md:flex relative bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-700 p-10 text-white">
+
+                <div
+                    class="hidden md:flex relative bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-700 p-10 text-white">
 
                     <div class="relative z-10 flex flex-col justify-between w-full">
 
                         <!-- Logo -->
+
                         <div class="flex items-center gap-3">
 
-                            <div class="w-11 h-11 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center">
-                                <span class="text-xl font-bold">Q</span>
+                            <div
+                                class="w-11 h-11 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center">
+
+                                <i data-lucide="layers" class="w-5 h-5"></i>
+
                             </div>
 
                             <div>
+
                                 <h1 class="text-2xl font-bold">
                                     QuizRank
                                 </h1>
@@ -54,58 +65,53 @@
                                 <p class="text-xs text-indigo-200">
                                     Department Quiz Platform
                                 </p>
+
                             </div>
 
                         </div>
 
 
-                        <!-- Main Content -->
+                        <!-- Center Content -->
+
                         <div class="my-12">
 
-                            <p class="text-indigo-200 text-sm font-semibold tracking-wider mb-3">
-                                WELCOME TO QUIZRANK
-                            </p>
-
                             <h2 class="text-4xl font-bold leading-tight">
-                                Learn. Compete.
-                                <span class="text-indigo-200">
-                                    Rank.
-                                </span>
+                                Test your knowledge.
                             </h2>
 
-                            <p class="mt-5 text-indigo-100 leading-7 max-w-md">
-                                Take department quizzes, improve your knowledge,
-                                track your performance and see your position
-                                on the leaderboard.
+                            <p class="mt-4 text-indigo-100 max-w-sm leading-7">
+                                Practice, compete and track your progress.
                             </p>
 
                         </div>
 
 
                         <!-- Features -->
-                        <div class="grid grid-cols-3 gap-3">
 
-                            <div class="bg-white/10 border border-white/10 rounded-xl p-4">
-                                <p class="text-2xl font-bold">10</p>
-                                <p class="text-xs text-indigo-200 mt-1">
-                                    MCQ / Quiz
-                                </p>
+                        <div class="flex items-center gap-6 text-indigo-100 text-sm">
+
+                            <div class="flex items-center gap-2">
+
+                                <i data-lucide="book-open" class="w-4 h-4"></i>
+
+                                <span>Courses</span>
+
                             </div>
 
-                            <div class="bg-white/10 border border-white/10 rounded-xl p-4">
-                                <p class="text-2xl font-bold">30s</p>
-                                <p class="text-xs text-indigo-200 mt-1">
-                                    Per Question
-                                </p>
+                            <div class="flex items-center gap-2">
+
+                                <i data-lucide="trophy" class="w-4 h-4"></i>
+
+                                <span>Leaderboard</span>
+
                             </div>
 
-                            <div class="bg-white/10 border border-white/10 rounded-xl p-4">
-                                <p class="text-2xl font-bold">
-                                    Rank
-                                </p>
-                                <p class="text-xs text-indigo-200 mt-1">
-                                    Daily Result
-                                </p>
+                            <div class="flex items-center gap-2">
+
+                                <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+
+                                <span>Progress</span>
+
                             </div>
 
                         </div>
@@ -113,31 +119,41 @@
                     </div>
 
 
-                    <!-- Decorative circles -->
-                    <div class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-white/5"></div>
+                    <!-- Decorative Circles -->
 
-                    <div class="absolute -left-20 -bottom-24 w-72 h-72 rounded-full bg-purple-400/10"></div>
+                    <div
+                        class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-white/5">
+                    </div>
+
+                    <div
+                        class="absolute -left-20 -bottom-24 w-72 h-72 rounded-full bg-purple-400/10">
+                    </div>
 
                 </div>
+
 
 
                 <!-- =========================
                      RIGHT SIDE - LOGIN
                 ========================== -->
+
                 <div class="p-7 sm:p-10 md:p-12">
 
                     <!-- Mobile Logo -->
-                    <div class="md:hidden flex justify-center mb-8">
+
+                    <div class="md:hidden flex justify-center mb-10">
 
                         <div class="flex items-center gap-3">
 
-                            <div class="w-11 h-11 rounded-xl bg-indigo-600 text-white flex items-center justify-center">
-                                <span class="text-xl font-bold">
-                                    Q
-                                </span>
+                            <div
+                                class="w-11 h-11 rounded-xl bg-indigo-600 text-white flex items-center justify-center">
+
+                                <i data-lucide="layers" class="w-5 h-5"></i>
+
                             </div>
 
                             <div>
+
                                 <h1 class="text-2xl font-bold text-gray-900">
                                     QuizRank
                                 </h1>
@@ -145,6 +161,7 @@
                                 <p class="text-xs text-gray-500">
                                     Department Quiz Platform
                                 </p>
+
                             </div>
 
                         </div>
@@ -153,6 +170,7 @@
 
 
                     <!-- Heading -->
+
                     <div class="mb-8">
 
                         <h2 class="text-3xl font-bold text-gray-900">
@@ -160,13 +178,14 @@
                         </h2>
 
                         <p class="text-gray-500 mt-2">
-                            Login to continue to your QuizRank account.
+                            Sign in to continue.
                         </p>
 
                     </div>
 
 
                     <!-- Error -->
+
                     <div
                         id="errorMessage"
                         class="hidden mb-5 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
@@ -174,9 +193,11 @@
 
 
                     <!-- Login Form -->
+
                     <form id="loginForm" class="space-y-5">
 
                         <!-- User ID -->
+
                         <div>
 
                             <label
@@ -187,28 +208,40 @@
 
                             </label>
 
-                            <input
-                                type="text"
-                                id="userId"
-                                name="userId"
-                                placeholder="Example: CSE2026001"
-                                autocomplete="username"
-                                required
-                                class="w-full px-4 py-3.5 rounded-xl
-                                       border border-gray-200
-                                       bg-gray-50
-                                       text-gray-900
-                                       outline-none
-                                       transition
-                                       focus:bg-white
-                                       focus:border-indigo-500
-                                       focus:ring-4
-                                       focus:ring-indigo-100">
+
+                            <div class="relative">
+
+                                <i
+                                    data-lucide="user-round"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400">
+                                </i>
+
+
+                                <input
+                                    type="text"
+                                    id="userId"
+                                    name="userId"
+                                    placeholder="Enter your ID"
+                                    autocomplete="username"
+                                    required
+                                    class="w-full pl-12 pr-4 py-3.5 rounded-xl
+                                    border border-gray-200
+                                    bg-gray-50
+                                    text-gray-900
+                                    outline-none
+                                    transition
+                                    focus:bg-white
+                                    focus:border-indigo-500
+                                    focus:ring-4
+                                    focus:ring-indigo-100">
+
+                            </div>
 
                         </div>
 
 
                         <!-- Password -->
+
                         <div>
 
                             <div class="flex items-center justify-between mb-2">
@@ -220,6 +253,7 @@
                                     Password
 
                                 </label>
+
 
                                 <button
                                     type="button"
@@ -234,6 +268,12 @@
 
                             <div class="relative">
 
+                                <i
+                                    data-lucide="lock-keyhole"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400">
+                                </i>
+
+
                                 <input
                                     type="password"
                                     id="password"
@@ -241,48 +281,33 @@
                                     placeholder="Enter your password"
                                     autocomplete="current-password"
                                     required
-                                    class="w-full px-4 py-3.5 pr-12 rounded-xl
-                                           border border-gray-200
-                                           bg-gray-50
-                                           text-gray-900
-                                           outline-none
-                                           transition
-                                           focus:bg-white
-                                           focus:border-indigo-500
-                                           focus:ring-4
-                                           focus:ring-indigo-100">
+                                    class="w-full pl-12 pr-12 py-3.5 rounded-xl
+                                    border border-gray-200
+                                    bg-gray-50
+                                    text-gray-900
+                                    outline-none
+                                    transition
+                                    focus:bg-white
+                                    focus:border-indigo-500
+                                    focus:ring-4
+                                    focus:ring-indigo-100">
 
 
-                                <!-- Toggle Password -->
+                                <!-- Password Toggle -->
+
                                 <button
                                     type="button"
                                     id="togglePassword"
                                     class="absolute right-4 top-1/2
-                                           -translate-y-1/2
-                                           text-gray-400
-                                           hover:text-gray-600">
+                                    -translate-y-1/2
+                                    text-gray-400
+                                    hover:text-gray-600">
 
-                                    <svg
+                                    <i
+                                        data-lucide="eye"
                                         id="eyeIcon"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.8"
-                                        stroke="currentColor"
                                         class="w-5 h-5">
-
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12
-                                               18 18.75 12 18.75 2.25 12 2.25 12Z"/>
-
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-
-                                    </svg>
+                                    </i>
 
                                 </button>
 
@@ -292,15 +317,15 @@
 
 
                         <!-- Remember Me -->
+
                         <div class="flex items-center gap-2">
 
                             <input
                                 type="checkbox"
                                 id="remember"
-                                class="w-4 h-4 rounded
-                                       border-gray-300
-                                       text-indigo-600
-                                       focus:ring-indigo-500">
+                                class="w-4 h-4 rounded border-gray-300
+                                text-indigo-600
+                                focus:ring-indigo-500">
 
                             <label
                                 for="remember"
@@ -314,32 +339,39 @@
 
 
                         <!-- Login Button -->
+
                         <button
                             type="submit"
                             id="loginButton"
                             class="w-full py-3.5 px-5 rounded-xl
-                                   bg-indigo-600
-                                   hover:bg-indigo-700
-                                   active:bg-indigo-800
-                                   text-white
-                                   font-semibold
-                                   transition
-                                   duration-200
-                                   shadow-lg
-                                   shadow-indigo-200">
+                            bg-indigo-600
+                            hover:bg-indigo-700
+                            active:bg-indigo-800
+                            text-white
+                            font-semibold
+                            transition
+                            duration-200
+                            shadow-lg
+                            shadow-indigo-200
+                            flex items-center justify-center gap-2">
 
-                            Login
+                            <i data-lucide="log-in" class="w-5 h-5"></i>
+
+                            <span>Login</span>
 
                         </button>
 
                     </form>
 
 
-                    <!-- Divider -->
+                    <!-- Register -->
+
                     <div class="relative my-8">
 
                         <div class="absolute inset-0 flex items-center">
+
                             <div class="w-full border-t border-gray-200"></div>
+
                         </div>
 
                         <div class="relative flex justify-center">
@@ -353,16 +385,17 @@
                     </div>
 
 
-                    <!-- Register -->
                     <a
                         href="register.html"
                         class="w-full py-3.5 px-5 rounded-xl
-                               border border-gray-200
-                               text-gray-700
-                               font-semibold
-                               hover:bg-gray-50
-                               transition
-                               flex items-center justify-center">
+                        border border-gray-200
+                        text-gray-700
+                        font-semibold
+                        hover:bg-gray-50
+                        transition
+                        flex items-center justify-center gap-2">
+
+                        <i data-lucide="user-plus" class="w-5 h-5"></i>
 
                         Create an account
 
@@ -370,8 +403,9 @@
 
 
                     <!-- Footer -->
+
                     <p class="text-center text-xs text-gray-400 mt-8">
-                        © 2026 QuizRank. Department Quiz Platform.
+                        © 2026 QuizRank
                     </p>
 
                 </div>
@@ -386,21 +420,35 @@
     <!-- =========================
          JAVASCRIPT
     ========================== -->
+
     <script>
 
-        const loginForm = document.getElementById("loginForm");
+        // Initialize Lucide
+        lucide.createIcons();
 
-        const userIdInput = document.getElementById("userId");
 
-        const passwordInput = document.getElementById("password");
+        // Elements
 
-        const errorMessage = document.getElementById("errorMessage");
+        const loginForm =
+            document.getElementById("loginForm");
 
-        const togglePassword = document.getElementById("togglePassword");
+        const userIdInput =
+            document.getElementById("userId");
 
-        const eyeIcon = document.getElementById("eyeIcon");
+        const passwordInput =
+            document.getElementById("password");
 
-        const loginButton = document.getElementById("loginButton");
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+        const eyeIcon =
+            document.getElementById("eyeIcon");
+
+        const loginButton =
+            document.getElementById("loginButton");
 
 
         // =========================
@@ -413,94 +461,204 @@
 
                 passwordInput.type = "text";
 
-                eyeIcon.innerHTML = `
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3.98 8.223A10.477 10.477 0 0 0 2.25 12
-                           10.477 10.477 0 0 0 12 18.75
-                           10.477 10.477 0 0 0 21.75 12
-                           10.477 10.477 0 0 0 20.02 8.223"/>
-
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6.228 6.228L17.772 17.772"/>
-                `;
+                eyeIcon.setAttribute(
+                    "data-lucide",
+                    "eye-off"
+                );
 
             } else {
 
                 passwordInput.type = "password";
 
-                eyeIcon.innerHTML = `
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12
-                           18 18.75 12 18.75 2.25 12 2.25 12Z"/>
-
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                `;
+                eyeIcon.setAttribute(
+                    "data-lucide",
+                    "eye"
+                );
 
             }
+
+            lucide.createIcons();
 
         });
 
 
         // =========================
-        // LOGIN FORM
+        // LOGIN
         // =========================
 
-        loginForm.addEventListener("submit", (event) => {
+        loginForm.addEventListener(
+            "submit",
+            async (event) => {
 
-            event.preventDefault();
-
-            const userId = userIdInput.value.trim();
-
-            const password = passwordInput.value.trim();
-
-            errorMessage.classList.add("hidden");
-
-            errorMessage.textContent = "";
+                event.preventDefault();
 
 
-            // Validate User ID
-            if (!userId) {
+                const userId =
+                    userIdInput.value.trim();
 
-                showError("Please enter your Student / Teacher ID.");
-
-                return;
-
-            }
+                const password =
+                    passwordInput.value;
 
 
-            // Validate Password
-            if (!password) {
-
-                showError("Please enter your password.");
-
-                return;
-
-            }
+                errorMessage.classList.add("hidden");
+                errorMessage.textContent = "";
 
 
-            // Temporary frontend state
-            // Backend will be connected later.
+                // Validation
 
-            loginButton.disabled = true;
+                if (!userId) {
 
-            loginButton.classList.add(
-                "opacity-70",
-                "cursor-not-allowed"
-            );
+                    showError(
+                        "Please enter your ID."
+                    );
 
-            loginButton.textContent = "Logging in...";
+                    return;
+                }
 
 
-            setTimeout(() => {
+                if (!password) {
+
+                    showError(
+                        "Please enter your password."
+                    );
+
+                    return;
+                }
+
+
+                // Loading
+
+                loginButton.disabled = true;
+
+                loginButton.classList.add(
+                    "opacity-70",
+                    "cursor-not-allowed"
+                );
+
+                loginButton.innerHTML = `
+                    <i data-lucide="loader-circle"
+                       class="w-5 h-5 animate-spin"></i>
+                    <span>Signing in...</span>
+                `;
+
+                lucide.createIcons();
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/QuizRank/login",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded"
+                                },
+
+                                body:
+                                    new URLSearchParams({
+                                        userId: userId,
+                                        password: password
+                                    })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Login response:",
+                        data
+                    );
+
+
+                    // =========================
+                    // LOGIN SUCCESS
+                    // =========================
+
+                    if (data.success) {
+
+                        /*
+                         * Save logged-in user
+                         * for dynamic dashboard
+                         */
+
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify(data.user)
+                        );
+
+
+                        // Student
+
+                        if (
+                            data.user.role ===
+                            "STUDENT"
+                        ) {
+
+                            window.location.href =
+                                "/QuizRank/Student/dashboard.html";
+
+                        }
+
+
+                        // Teacher
+
+                        else if (
+                            data.user.role ===
+                            "TEACHER"
+                        ) {
+
+                            window.location.href =
+                                "/QuizRank/teacher/dashboard.html";
+
+                        }
+
+
+                        else {
+
+                            showError(
+                                "Unknown user role."
+                            );
+
+                        }
+
+                    }
+
+
+                    // =========================
+                    // LOGIN FAILED
+                    // =========================
+
+                    else {
+
+                        showError(
+                            data.message ||
+                            "Invalid ID or password."
+                        );
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Login error:",
+                        error
+                    );
+
+                    showError(
+                        "Server connection failed."
+                    );
+
+                }
+
+
+                // Restore button
 
                 loginButton.disabled = false;
 
@@ -509,31 +667,35 @@
                     "cursor-not-allowed"
                 );
 
-                loginButton.textContent = "Login";
+                loginButton.innerHTML = `
+                    <i data-lucide="log-in"
+                       class="w-5 h-5"></i>
+                    <span>Login</span>
+                `;
 
+                lucide.createIcons();
 
-                showError(
-                    "Login backend is not connected yet. LoginServlet will be connected later."
-                );
-
-            }, 700);
-
-        });
+            }
+        );
 
 
         // =========================
-        // ERROR MESSAGE
+        // ERROR
         // =========================
 
         function showError(message) {
 
-            errorMessage.textContent = message;
+            errorMessage.textContent =
+                message;
 
-            errorMessage.classList.remove("hidden");
+            errorMessage.classList.remove(
+                "hidden"
+            );
 
         }
 
     </script>
 
 </body>
+
 </html>

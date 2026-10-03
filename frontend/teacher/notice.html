@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Notices - QuizRank</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="h-16 flex items-center justify-between">
+
+
+            <!-- Logo -->
+
+            <a href="/QuizRank/teacher/dashboard.html"
+               class="flex items-center gap-2">
+
+                <div class="w-9 h-9 rounded-lg bg-indigo-600
+                            flex items-center justify-center">
+
+                    <i data-lucide="graduation-cap"
+                       class="w-5 h-5 text-white"></i>
+
+                </div>
+
+                <span class="text-xl font-bold text-indigo-600">
+                    QuizRank
+                </span>
+
+            </a>
+
+
+            <!-- Desktop Menu -->
+
+            <div class="hidden md:flex items-center gap-7">
+
+                <a href="/QuizRank/teacher/dashboard.html"
+                   class="text-sm font-medium text-slate-600
+                          hover:text-indigo-600">
+                    Home
+                </a>
+
+                <a href="/QuizRank/teacher/my-course.html"
+                   class="text-sm font-medium text-slate-600
+                          hover:text-indigo-600">
+                    My Course
+                </a>
+
+                <a href="/QuizRank/teacher/notice.html"
+                   class="text-sm font-medium text-indigo-600
+                          flex items-center gap-1.5">
+
+                    <i data-lucide="bell"
+                       class="w-4 h-4"></i>
+
+                    Notice
+
+                </a>
+
+                <a href="/QuizRank/leaderboard.html"
+                   class="text-sm font-medium text-slate-600
+                          hover:text-indigo-600">
+                    Leaderboard
+                </a>
+
+                <a href="/QuizRank/teacher/profile.html"
+                   class="text-sm font-medium text-slate-600
+                          hover:text-indigo-600">
+                    My Profile
+                </a>
+
+            </div>
+
+
+            <!-- Logout -->
+
+            <button id="logoutButton"
+                    class="hidden md:flex items-center gap-2
+                           text-sm font-medium
+                           text-slate-600 hover:text-red-600">
+
+                <i data-lucide="log-out"
+                   class="w-4 h-4"></i>
+
+                Logout
+
+            </button>
+
+
+            <!-- Mobile -->
+
+            <button id="mobileMenuButton"
+                    class="md:hidden p-2">
+
+                <i data-lucide="menu"
+                   class="w-6 h-6"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- Mobile Menu -->
+
+        <div id="mobileMenu"
+             class="hidden md:hidden border-t border-slate-100 py-3">
+
+            <div class="flex flex-col">
+
+                <a href="/QuizRank/teacher/dashboard.html"
+                   class="px-3 py-3 text-sm">
+                    Home
+                </a>
+
+                <a href="/QuizRank/teacher/my-course.html"
+                   class="px-3 py-3 text-sm">
+                    My Course
+                </a>
+
+                <a href="/QuizRank/teacher/notice.html"
+                   class="px-3 py-3 text-sm text-indigo-600">
+                    Notice
+                </a>
+
+                <a href="/QuizRank/leaderboard.html"
+                   class="px-3 py-3 text-sm">
+                    Leaderboard
+                </a>
+
+                <a href="/QuizRank/teacher/profile.html"
+                   class="px-3 py-3 text-sm">
+                    My Profile
+                </a>
+
+                <button id="mobileLogoutButton"
+                        class="text-left px-3 py-3
+                               text-sm text-red-600">
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="flex-1 max-w-7xl mx-auto w-full
+             px-4 sm:px-6 lg:px-8 py-8">
+
+
+    <!-- Heading -->
+
+    <div class="mb-8">
+
+        <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">
+            Notice Management
+        </h1>
+
+        <p class="text-slate-500 mt-2">
+            Send notices to all students and manage your previous notices.
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         CREATE NOTICE
+    ================================================== -->
+
+    <section class="bg-white border border-slate-200
+                    rounded-2xl p-6 mb-8">
+
+        <div class="flex items-center gap-3 mb-6">
+
+            <div class="w-10 h-10 rounded-lg bg-indigo-50
+                        flex items-center justify-center">
+
+                <i data-lucide="send"
+                   class="w-5 h-5 text-indigo-600"></i>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-lg font-semibold">
+                    Send New Notice
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    This notice will be visible to all students.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="noticeForm"
+              class="space-y-5">
+
+
+            <!-- Topic -->
+
+            <div>
+
+                <label class="block text-sm font-medium
+                              text-slate-700 mb-2">
+
+                    Notice Title
+
+                </label>
+
+                <input
+                    type="text"
+                    id="topic"
+                    placeholder="Example: Midterm Exam Notice"
+                    required
+                    class="w-full px-4 py-3 rounded-xl
+                           border border-slate-300
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-indigo-500">
+
+            </div>
+
+
+            <!-- Message -->
+
+            <div>
+
+                <label class="block text-sm font-medium
+                              text-slate-700 mb-2">
+
+                    Notice Message
+
+                </label>
+
+                <textarea
+                    id="message"
+                    rows="5"
+                    placeholder="Write your notice here..."
+                    required
+                    class="w-full px-4 py-3 rounded-xl
+                           border border-slate-300
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-indigo-500"></textarea>
+
+            </div>
+
+
+            <!-- Date / Time -->
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                <div>
+
+                    <label class="block text-sm font-medium
+                                  text-slate-700 mb-2">
+
+                        Date
+
+                    </label>
+
+                    <input
+                        type="date"
+                        id="quizDate"
+                        required
+                        class="w-full px-4 py-3 rounded-xl
+                               border border-slate-300
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
+
+                </div>
+
+
+                <div>
+
+                    <label class="block text-sm font-medium
+                                  text-slate-700 mb-2">
+
+                        Time
+
+                    </label>
+
+                    <input
+                        type="time"
+                        id="quizTime"
+                        required
+                        class="w-full px-4 py-3 rounded-xl
+                               border border-slate-300
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-indigo-500">
+
+                </div>
+
+            </div>
+
+
+            <!-- Button -->
+
+            <button
+                type="submit"
+                id="sendButton"
+                class="w-full sm:w-auto
+                       px-6 py-3
+                       bg-indigo-600
+                       hover:bg-indigo-700
+                       text-white
+                       font-medium
+                       rounded-xl
+                       transition
+                       flex items-center
+                       justify-center
+                       gap-2">
+
+                <i data-lucide="send"
+                   class="w-4 h-4"></i>
+
+                Send Notice To All Students
+
+            </button>
+
+
+            <p id="formMessage"
+               class="text-sm hidden"></p>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MANAGE NOTICE
+    ================================================== -->
+
+    <section>
+
+        <div class="flex items-center justify-between mb-5">
+
+            <div>
+
+                <h2 class="text-xl font-semibold text-slate-900">
+                    Manage Notices
+                </h2>
+
+                <p class="text-sm text-slate-500 mt-1">
+                    Edit or delete your previous notices.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Notice List -->
+
+        <div id="noticeList"
+             class="space-y-4">
+
+            <div class="bg-white border border-slate-200
+                        rounded-2xl p-8 text-center">
+
+                <div class="animate-pulse text-slate-400">
+                    Loading notices...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="border-t border-slate-200 bg-white mt-12">
+
+    <div class="max-w-7xl mx-auto
+                px-4 sm:px-6 lg:px-8">
+
+        <div class="py-7 flex flex-col sm:flex-row
+                    items-center justify-between gap-4">
+
+            <div class="flex items-center gap-2">
+
+                <div class="w-8 h-8 rounded-lg bg-indigo-600
+                            flex items-center justify-center">
+
+                    <i data-lucide="graduation-cap"
+                       class="w-4 h-4 text-white"></i>
+
+                </div>
+
+                <span class="font-bold">
+                    QuizRank
+                </span>
+
+            </div>
+
+            <p class="text-sm text-slate-500">
+                © 2026 QuizRank. All rights reserved.
+            </p>
+
+            <a href="/QuizRank/leaderboard.html"
+               class="text-sm text-slate-600
+                      hover:text-indigo-600">
+
+                Leaderboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+    const noticeForm =
+        document.getElementById("noticeForm");
+
+    const noticeList =
+        document.getElementById("noticeList");
+
+    const formMessage =
+        document.getElementById("formMessage");
+
+
+    // ==========================================
+    // CREATE NOTICE
+    // ==========================================
+
+    noticeForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const topic =
+                document.getElementById("topic").value.trim();
+
+            const message =
+                document.getElementById("message").value.trim();
+
+            const quizDate =
+                document.getElementById("quizDate").value;
+
+            const quizTime =
+                document.getElementById("quizTime").value;
+
+
+            try {
+
+                const response =
+                    await fetch("/QuizRank/create-notice", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/x-www-form-urlencoded"
+                        },
+
+                        body: new URLSearchParams({
+
+                            topic: topic,
+
+                            message: message,
+
+                            quizDate: quizDate,
+
+                            quizTime: quizTime
+
+                        })
+
+                    });
+
+
+                const data =
+                    await response.json();
+
+
+                if (data.success) {
+
+                    formMessage.textContent =
+                        "Notice sent successfully to all students.";
+
+                    formMessage.className =
+                        "text-sm text-emerald-600";
+
+
+                    noticeForm.reset();
+
+                    loadNotices();
+
+                } else {
+
+                    formMessage.textContent =
+                        data.message || "Failed to send notice.";
+
+                    formMessage.className =
+                        "text-sm text-red-600";
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                formMessage.textContent =
+                    "Server error. Please try again.";
+
+                formMessage.className =
+                    "text-sm text-red-600";
+
+            }
+
+        }
+    );
+
+
+
+    // ==========================================
+    // LOAD NOTICES
+    // ==========================================
+
+    async function loadNotices() {
+
+        try {
+
+            const response =
+                await fetch("/QuizRank/notices");
+
+            const data =
+                await response.json();
+
+
+            if (!data.success ||
+                !data.notices ||
+                data.notices.length === 0) {
+
+                noticeList.innerHTML = `
+
+                    <div class="bg-white
+                                border border-slate-200
+                                rounded-2xl p-10
+                                text-center">
+
+                        <i data-lucide="bell-off"
+                           class="w-10 h-10
+                                  text-slate-300
+                                  mx-auto mb-3"></i>
+
+                        <p class="text-slate-500">
+                            No notices found.
+                        </p>
+
+                    </div>
+
+                `;
+
+                lucide.createIcons();
+
+                return;
+
+            }
+
+
+            noticeList.innerHTML =
+                data.notices.map(notice => `
+
+                <div class="bg-white
+                            border border-slate-200
+                            rounded-2xl p-5 sm:p-6">
+
+                    <div class="flex flex-col
+                                sm:flex-row
+                                sm:items-start
+                                sm:justify-between
+                                gap-4">
+
+
+                        <div class="flex gap-4">
+
+
+                            <div class="w-11 h-11
+                                        rounded-xl
+                                        bg-indigo-50
+                                        flex items-center
+                                        justify-center
+                                        shrink-0">
+
+                                <i data-lucide="bell"
+                                   class="w-5 h-5
+                                          text-indigo-600"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3 class="font-semibold
+                                           text-slate-900">
+
+                                    ${escapeHtml(notice.topic)}
+
+                                </h3>
+
+
+                                <p class="text-xs
+                                          text-slate-400
+                                          mt-1">
+
+                                    ${notice.quizDate || ""}
+                                    ${notice.quizTime || ""}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="flex gap-2">
+
+
+                            <button
+                                onclick="editNotice(${notice.id})"
+                                class="px-3 py-2
+                                       rounded-lg
+                                       bg-indigo-50
+                                       text-indigo-600
+                                       hover:bg-indigo-100
+                                       text-sm
+                                       flex items-center
+                                       gap-1">
+
+                                <i data-lucide="pencil"
+                                   class="w-4 h-4"></i>
+
+                                Edit
+
+                            </button>
+
+
+                            <button
+                                onclick="deleteNotice(${notice.id})"
+                                class="px-3 py-2
+                                       rounded-lg
+                                       bg-red-50
+                                       text-red-600
+                                       hover:bg-red-100
+                                       text-sm
+                                       flex items-center
+                                       gap-1">
+
+                                <i data-lucide="trash-2"
+                                   class="w-4 h-4"></i>
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="text-sm text-slate-600
+                              mt-4 leading-6">
+
+                        ${escapeHtml(notice.message)}
+
+                    </p>
+
+                </div>
+
+            `).join("");
+
+
+            lucide.createIcons();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            noticeList.innerHTML = `
+
+                <div class="bg-white
+                            border border-red-200
+                            rounded-2xl p-6
+                            text-center
+                            text-red-600">
+
+                    Failed to load notices.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+
+    // ==========================================
+    // EDIT NOTICE
+    // ==========================================
+
+    async function editNotice(id) {
+
+        const newTopic =
+            prompt("Enter new notice title:");
+
+        if (newTopic === null) return;
+
+
+        const newMessage =
+            prompt("Enter new notice message:");
+
+        if (newMessage === null) return;
+
+
+        try {
+
+            const response =
+                await fetch("/QuizRank/update-notice", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+
+                    body: new URLSearchParams({
+
+                        id: id,
+
+                        topic: newTopic,
+
+                        message: newMessage
+
+                    })
+
+                });
+
+
+            const data =
+                await response.json();
+
+
+            if (data.success) {
+
+                alert("Notice updated successfully.");
+
+                loadNotices();
+
+            } else {
+
+                alert(
+                    data.message ||
+                    "Failed to update notice."
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Server error.");
+
+        }
+
+    }
+
+
+
+    // ==========================================
+    // DELETE NOTICE
+    // ==========================================
+
+    async function deleteNotice(id) {
+
+        const confirmDelete =
+            confirm(
+                "Are you sure you want to delete this notice?"
+            );
+
+
+        if (!confirmDelete) return;
+
+
+        try {
+
+            const response =
+                await fetch("/QuizRank/delete-notice", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+
+                    body: new URLSearchParams({
+
+                        id: id
+
+                    })
+
+                });
+
+
+            const data =
+                await response.json();
+
+
+            if (data.success) {
+
+                loadNotices();
+
+            } else {
+
+                alert(
+                    data.message ||
+                    "Failed to delete notice."
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Server error.");
+
+        }
+
+    }
+
+
+
+    // ==========================================
+    // HTML ESCAPE
+    // ==========================================
+
+    function escapeHtml(value) {
+
+        if (!value) return "";
+
+        return value
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+
+    // ==========================================
+    // MOBILE MENU
+    // ==========================================
+
+    const mobileMenuButton =
+        document.getElementById(
+            "mobileMenuButton"
+        );
+
+    const mobileMenu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+
+    mobileMenuButton.addEventListener(
+        "click",
+        function() {
+
+            mobileMenu.classList.toggle(
+                "hidden"
+            );
+
+        }
+    );
+
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    function logout() {
+
+        localStorage.removeItem("user");
+
+        window.location.href =
+            "/QuizRank/logout";
+
+    }
+
+
+    document
+        .getElementById("logoutButton")
+        .addEventListener("click", logout);
+
+
+    document
+        .getElementById("mobileLogoutButton")
+        .addEventListener("click", logout);
+
+
+
+    // ==========================================
+    // INITIALIZE
+    // ==========================================
+
+    loadNotices();
+
+    lucide.createIcons();
+
+</script>
+
+</body>
+</html>

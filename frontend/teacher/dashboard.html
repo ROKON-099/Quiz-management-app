@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Teacher Dashboard - QuizRank</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="h-16 flex items-center justify-between">
+
+                <!-- Logo -->
+                <a href="/QuizRank/teacher/dashboard.html"
+                   class="flex items-center gap-2">
+
+                    <div class="w-9 h-9 rounded-lg bg-indigo-600
+                                flex items-center justify-center">
+
+                        <i data-lucide="graduation-cap"
+                           class="w-5 h-5 text-white"></i>
+
+                    </div>
+
+                    <span class="text-xl font-bold text-indigo-600">
+                        QuizRank
+                    </span>
+
+                </a>
+
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-7">
+
+                    <a href="/QuizRank/teacher/dashboard.html"
+                       class="text-sm font-medium text-indigo-600">
+                        Home
+                    </a>
+
+                    <a href="/QuizRank/teacher/my-course.html"
+                       class="text-sm font-medium text-slate-600
+                              hover:text-indigo-600 transition">
+                        My Course
+                    </a>
+
+                    <a href="/QuizRank/teacher/notice.html"
+                       class="text-sm font-medium text-slate-600
+                              hover:text-indigo-600 transition
+                              flex items-center gap-1.5">
+
+                        <i data-lucide="bell" class="w-4 h-4"></i>
+                        Notice
+
+                    </a>
+
+                    <a href="/QuizRank/leaderboard.html"
+                       class="text-sm font-medium text-slate-600
+                              hover:text-indigo-600 transition">
+
+                        Leaderboard
+
+                    </a>
+
+                    <a href="/QuizRank/teacher/profile.html"
+                       class="text-sm font-medium text-slate-600
+                              hover:text-indigo-600 transition">
+
+                        My Profile
+
+                    </a>
+
+                </div>
+
+
+                <!-- Desktop Logout -->
+                <button id="logoutButton"
+                        class="hidden md:flex items-center gap-2
+                               text-sm font-medium text-slate-600
+                               hover:text-red-600 transition">
+
+                    <i data-lucide="log-out"
+                       class="w-4 h-4"></i>
+
+                    Logout
+
+                </button>
+
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuButton"
+                        class="md:hidden p-2 rounded-lg
+                               text-slate-600
+                               hover:bg-slate-100">
+
+                    <i data-lucide="menu"
+                       class="w-6 h-6"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu"
+                 class="hidden md:hidden border-t border-slate-100 py-3">
+
+                <div class="flex flex-col gap-1">
+
+                    <a href="/QuizRank/teacher/dashboard.html"
+                       class="px-3 py-3 rounded-lg
+                              text-sm font-medium
+                              text-indigo-600
+                              hover:bg-indigo-50">
+                        Home
+                    </a>
+
+                    <a href="/QuizRank/teacher/my-course.html"
+                       class="px-3 py-3 rounded-lg
+                              text-sm font-medium
+                              text-slate-600
+                              hover:bg-slate-50">
+                        My Course
+                    </a>
+
+                    <a href="/QuizRank/teacher/notice.html"
+                       class="px-3 py-3 rounded-lg
+                              text-sm font-medium
+                              text-slate-600
+                              hover:bg-slate-50">
+                        Notice
+                    </a>
+
+                    <a href="/QuizRank/leaderboard.html"
+                       class="px-3 py-3 rounded-lg
+                              text-sm font-medium
+                              text-slate-600
+                              hover:bg-slate-50">
+                        Leaderboard
+                    </a>
+
+                    <a href="/QuizRank/teacher/profile.html"
+                       class="px-3 py-3 rounded-lg
+                              text-sm font-medium
+                              text-slate-600
+                              hover:bg-slate-50">
+                        My Profile
+                    </a>
+
+                    <button id="mobileLogoutButton"
+                            class="text-left px-3 py-3 rounded-lg
+                                   text-sm font-medium
+                                   text-red-600
+                                   hover:bg-red-50">
+
+                        Logout
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN DASHBOARD
+    ========================== -->
+
+    <main class="flex-1 max-w-7xl mx-auto w-full
+                 px-4 sm:px-6 lg:px-8 py-8">
+
+
+        <!-- Welcome -->
+        <section class="mb-8">
+
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">
+
+                Welcome,
+                <span id="teacherName">Teacher</span>
+
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+                Manage your courses, quizzes and notices from here.
+            </p>
+
+        </section>
+
+
+        <!-- Quick Actions -->
+        <section>
+
+            <h2 class="text-xl font-semibold text-slate-900 mb-5">
+                Quick Actions
+            </h2>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2
+                        lg:grid-cols-3 gap-5">
+
+
+                <!-- Create Quiz -->
+                <a href="create-quiz.html"
+                   class="bg-white border border-slate-200
+                          rounded-2xl p-6
+                          hover:shadow-md
+                          hover:border-indigo-300
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-indigo-50
+                                flex items-center justify-center mb-4">
+
+                        <i data-lucide="plus-circle"
+                           class="w-6 h-6 text-indigo-600"></i>
+
+                    </div>
+
+                    <h3 class="font-semibold text-lg text-slate-900">
+                        Create Quiz
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        Create a new quiz for your students.
+                    </p>
+
+                </a>
+
+
+                <!-- Add Questions -->
+                <a href="add-question.html"
+                   class="bg-white border border-slate-200
+                          rounded-2xl p-6
+                          hover:shadow-md
+                          hover:border-emerald-300
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-emerald-50
+                                flex items-center justify-center mb-4">
+
+                        <i data-lucide="circle-help"
+                           class="w-6 h-6 text-emerald-600"></i>
+
+                    </div>
+
+                    <h3 class="font-semibold text-lg text-slate-900">
+                        Add Questions
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        Add MCQ questions to your quizzes.
+                    </p>
+
+                </a>
+
+
+                <!-- Send Notice -->
+                <a href="notice.html"
+                   class="bg-white border border-slate-200
+                          rounded-2xl p-6
+                          hover:shadow-md
+                          hover:border-amber-300
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-amber-50
+                                flex items-center justify-center mb-4">
+
+                        <i data-lucide="bell-plus"
+                           class="w-6 h-6 text-amber-600"></i>
+
+                    </div>
+
+                    <h3 class="font-semibold text-lg text-slate-900">
+                        Send Notice
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        Send quiz and course notices to students.
+                    </p>
+
+                </a>
+
+
+                <!-- Manage Notices -->
+                <a href="notice.html"
+                   class="bg-white border border-slate-200
+                          rounded-2xl p-6
+                          hover:shadow-md
+                          hover:border-rose-300
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-rose-50
+                                flex items-center justify-center mb-4">
+
+                        <i data-lucide="clipboard-list"
+                           class="w-6 h-6 text-rose-600"></i>
+
+                    </div>
+
+                    <h3 class="font-semibold text-lg text-slate-900">
+                        Manage Notices
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        View and delete previous notices.
+                    </p>
+
+                </a>
+
+
+                <!-- My Course -->
+                <a href="my-course.html"
+                   class="bg-white border border-slate-200
+                          rounded-2xl p-6
+                          hover:shadow-md
+                          hover:border-blue-300
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-blue-50
+                                flex items-center justify-center mb-4">
+
+                        <i data-lucide="book-open"
+                           class="w-6 h-6 text-blue-600"></i>
+
+                    </div>
+
+                    <h3 class="font-semibold text-lg text-slate-900">
+                        My Course
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        View your assigned courses.
+                    </p>
+
+                </a>
+
+
+                <!-- Leaderboard -->
+                <a href="../leaderboard.html"
+                   class="bg-white border border-slate-200
+                          rounded-2xl p-6
+                          hover:shadow-md
+                          hover:border-purple-300
+                          transition">
+
+                    <div class="w-12 h-12 rounded-xl
+                                bg-purple-50
+                                flex items-center justify-center mb-4">
+
+                        <i data-lucide="trophy"
+                           class="w-6 h-6 text-purple-600"></i>
+
+                    </div>
+
+                    <h3 class="font-semibold text-lg text-slate-900">
+                        Leaderboard
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        Check student quiz rankings.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="border-t border-slate-200 bg-white mt-12">
+
+        <div class="max-w-7xl mx-auto
+                    px-4 sm:px-6 lg:px-8">
+
+            <div class="py-7
+                        flex flex-col sm:flex-row
+                        items-center justify-between
+                        gap-4">
+
+
+                <!-- Logo -->
+                <div class="flex items-center gap-2">
+
+                    <div class="w-8 h-8 rounded-lg
+                                bg-indigo-600
+                                flex items-center justify-center">
+
+                        <i data-lucide="graduation-cap"
+                           class="w-4 h-4 text-white"></i>
+
+                    </div>
+
+                    <span class="font-bold text-slate-800">
+                        QuizRank
+                    </span>
+
+                </div>
+
+
+                <!-- Copyright -->
+                <p class="text-xs sm:text-sm text-slate-500">
+                    © 2026 QuizRank. All rights reserved.
+                </p>
+
+
+                <!-- Leaderboard -->
+                <a href="/QuizRank/leaderboard.html"
+                   class="text-sm font-medium
+                          text-slate-600
+                          hover:text-indigo-600 transition">
+
+                    Leaderboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        // Teacher name
+        function loadTeacherName() {
+
+            const savedUser =
+                localStorage.getItem("user");
+
+            if (!savedUser) return;
+
+            try {
+
+                const user =
+                    JSON.parse(savedUser);
+
+                if (user.name) {
+
+                    document.getElementById(
+                        "teacherName"
+                    ).textContent = user.name;
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "User data error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // Logout
+        function logout() {
+
+            window.location.href =
+                "/QuizRank/logout";
+
+        }
+
+
+        document
+            .getElementById("logoutButton")
+            .addEventListener(
+                "click",
+                logout
+            );
+
+
+        document
+            .getElementById("mobileLogoutButton")
+            .addEventListener(
+                "click",
+                logout
+            );
+
+
+        // Mobile menu
+        const mobileMenuButton =
+            document.getElementById(
+                "mobileMenuButton"
+            );
+
+        const mobileMenu =
+            document.getElementById(
+                "mobileMenu"
+            );
+
+
+        mobileMenuButton.addEventListener(
+            "click",
+            function () {
+
+                mobileMenu.classList.toggle(
+                    "hidden"
+                );
+
+                const icon =
+                    mobileMenuButton.querySelector(
+                        "i"
+                    );
+
+                const isOpen =
+                    !mobileMenu.classList.contains(
+                        "hidden"
+                    );
+
+                icon.setAttribute(
+                    "data-lucide",
+                    isOpen ? "x" : "menu"
+                );
+
+                lucide.createIcons();
+
+            }
+        );
+
+
+        // Load teacher name
+        loadTeacherName();
+
+
+        // Lucide icons
+        lucide.createIcons();
+
+    </script>
+
+</body>
+</html>
