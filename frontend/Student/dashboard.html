@@ -14,6 +14,39 @@
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
+
+<style>
+    @keyframes floatSoft {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-7px); }
+    }
+    @keyframes pulseGlow {
+        0%, 100% { opacity: .18; transform: scale(1); }
+        50% { opacity: .28; transform: scale(1.06); }
+    }
+    .hero-float { animation: floatSoft 5s ease-in-out infinite; }
+    .hero-glow { animation: pulseGlow 4s ease-in-out infinite; }
+    .quiz-card {
+        transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .quiz-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, .10);
+        border-color: rgb(199 210 254);
+    }
+    .quick-card {
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .quick-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, .08);
+    }
+    .logout-loading {
+        opacity: .7;
+        pointer-events: none;
+    }
+</style>
+
 </head>
 
 
@@ -352,14 +385,20 @@
 
     <section class="mb-8">
 
-        <div class="bg-gradient-to-r
-                    from-indigo-600
-                    to-indigo-500
-                    rounded-2xl
-                    p-6 sm:p-8
+        <div class="bg-gradient-to-br
+                    from-indigo-700 via-indigo-600 to-violet-600
+                    rounded-3xl
+                    p-6 sm:p-8 lg:p-10
                     text-white
                     relative
-                    overflow-hidden">
+                    overflow-hidden
+                    shadow-xl shadow-indigo-200/50">
+
+            <div class="absolute -top-20 -right-16 w-72 h-72 rounded-full bg-white/10 hero-glow"></div>
+            <div class="absolute -bottom-28 right-24 w-64 h-64 rounded-full bg-violet-300/10"></div>
+            <div class="absolute top-8 right-8 hidden sm:flex w-16 h-16 rounded-2xl bg-white/10 border border-white/10 items-center justify-center hero-float">
+                <i data-lucide="sparkles" class="w-8 h-8 text-white/90"></i>
+            </div>
 
             <div class="relative z-10">
 
@@ -395,6 +434,17 @@
 
                 </p>
 
+                <div class="mt-5 flex flex-wrap gap-2 text-xs sm:text-sm">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1.5 backdrop-blur-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-300"></span>
+                        Your dashboard
+                    </span>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1.5 backdrop-blur-sm">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                        Student portal
+                    </span>
+                </div>
+
             </div>
 
 
@@ -420,23 +470,22 @@
 
         <div class="mb-5">
 
-            <h2 class="text-xl
-                       sm:text-2xl
-                       font-bold
-                       text-slate-900">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+                    <i data-lucide="clipboard-check" class="w-5 h-5 text-indigo-600"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+                        Upcoming Quizzes
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">
+                        Quizzes available for your enrolled courses.
+                    </p>
+                </div>
+            </div>
 
-                Upcoming Quizzes
-
-            </h2>
 
 
-            <p class="text-sm
-                      text-slate-500
-                      mt-1">
-
-                Quizzes available for your enrolled courses.
-
-            </p>
 
         </div>
 
@@ -834,7 +883,7 @@ async function loadStudentQuizzes() {
 
                 container.innerHTML += `
 
-                    <div class="bg-white
+                    <div class="quiz-card bg-white
                                 border
                                 border-slate-200
                                 rounded-2xl
@@ -1052,28 +1101,67 @@ async function loadNoticeCount() {
 // LOGOUT
 // =====================================================
 
+let logoutInProgress = false;
+
 async function logout() {
+
+    if (logoutInProgress) return;
+
+    logoutInProgress = true;
+
+    const logoutButtons =
+        document.querySelectorAll(
+            'button[onclick="logout()"]'
+        );
+
+    logoutButtons.forEach(button => {
+        button.classList.add("logout-loading");
+        button.innerHTML = `
+            <i data-lucide="loader-2"
+               class="w-4 h-4 animate-spin"></i>
+            Logging out...
+        `;
+    });
 
     try {
 
-        await fetch(
+        const response = await fetch(
             "/QuizRank/logout",
             {
                 method: "GET",
-                credentials: "same-origin"
+                credentials: "same-origin",
+                cache: "no-store",
+                redirect: "follow"
             }
         );
 
+        /*
+         * If the logout servlet responds normally, continue to login page.
+         * If it returns an error status, the fallback navigation below still
+         * takes the user out of the dashboard.
+         */
+        if (!response.ok) {
+            console.warn(
+                "Logout servlet returned:",
+                response.status
+            );
+        }
+
     } catch (error) {
 
-        console.error(error);
+        console.warn(
+            "Logout request failed. Using fallback navigation.",
+            error
+        );
 
     } finally {
 
         localStorage.removeItem("user");
+        sessionStorage.clear();
 
-        window.location.href =
-            "/QuizRank/index.html";
+        window.location.replace(
+            "/QuizRank/index.html"
+        );
     }
 }
 

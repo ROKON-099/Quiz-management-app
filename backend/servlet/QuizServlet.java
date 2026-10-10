@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 @WebServlet("/quiz")
@@ -167,6 +168,91 @@ public class QuizServlet extends HttpServlet {
 
 
         // ==========================================
+        // 1 HOUR PARTICIPATION CHECK
+        // ==========================================
+
+        Timestamp createdAt =
+                quiz.getCreatedAt();
+
+
+        if (createdAt == null) {
+
+            response.setStatus(500);
+
+            response.getWriter().write(
+                "{\"success\":false,\"message\":\"Quiz creation time is missing\"}"
+            );
+
+            return;
+        }
+
+
+        long createdTime =
+                createdAt.getTime();
+
+
+        long currentTime =
+                System.currentTimeMillis();
+
+
+        long oneHour =
+                60L * 60L * 1000L;
+
+
+        long elapsedTime =
+                currentTime - createdTime;
+
+
+        System.out.println(
+            "Quiz Created At: "
+            + createdAt
+        );
+
+        System.out.println(
+            "Elapsed Time: "
+            + elapsedTime
+            + " ms"
+        );
+
+
+        /*
+         * Quiz created in the future
+         * should also be blocked.
+         */
+
+        if (elapsedTime < 0) {
+
+            response.setStatus(403);
+
+            response.getWriter().write(
+                "{\"success\":false,\"message\":\"Quiz participation is not available yet\"}"
+            );
+
+            return;
+        }
+
+
+        /*
+         * More than 1 hour passed
+         */
+
+        if (elapsedTime >= oneHour) {
+
+            response.setStatus(403);
+
+            response.getWriter().write(
+                "{"
+                + "\"success\":false,"
+                + "\"expired\":true,"
+                + "\"message\":\"Participation time for this quiz has expired. You had 1 hour to participate.\""
+                + "}"
+            );
+
+            return;
+        }
+
+
+        // ==========================================
         // LOAD QUESTIONS
         // ==========================================
 
@@ -250,9 +336,13 @@ public class QuizServlet extends HttpServlet {
 
         json.append("\"quiz\":{");
 
+
         json.append("\"id\":")
-                .append(quiz.getId())
+                .append(
+                    quiz.getId()
+                )
                 .append(",");
+
 
         json.append("\"subjectName\":\"")
                 .append(
@@ -262,6 +352,7 @@ public class QuizServlet extends HttpServlet {
                 )
                 .append("\",");
 
+
         json.append("\"topic\":\"")
                 .append(
                     escape(
@@ -269,6 +360,7 @@ public class QuizServlet extends HttpServlet {
                     )
                 )
                 .append("\",");
+
 
         json.append("\"quizDate\":\"")
                 .append(
@@ -278,13 +370,28 @@ public class QuizServlet extends HttpServlet {
                 )
                 .append("\",");
 
+
         json.append("\"quizTime\":\"")
                 .append(
                     escape(
                         quiz.getQuizTime()
                     )
                 )
+                .append("\",");
+
+
+        // ==========================================
+        // NEW: CREATED AT
+        // ==========================================
+
+        json.append("\"createdAt\":\"")
+                .append(
+                    escape(
+                        createdAt.toString()
+                    )
+                )
                 .append("\"");
+
 
         json.append("},");
 
@@ -298,6 +405,7 @@ public class QuizServlet extends HttpServlet {
                     attempt.getCurrentQuestion()
                 )
                 .append(",");
+
 
         json.append("\"score\":")
                 .append(
@@ -322,17 +430,20 @@ public class QuizServlet extends HttpServlet {
 
 
             if (i > 0) {
+
                 json.append(",");
             }
 
 
             json.append("{");
 
+
             json.append("\"id\":")
                     .append(
                         question.getId()
                     )
                     .append(",");
+
 
             json.append("\"question\":\"")
                     .append(
@@ -342,6 +453,7 @@ public class QuizServlet extends HttpServlet {
                     )
                     .append("\",");
 
+
             json.append("\"optionA\":\"")
                     .append(
                         escape(
@@ -349,6 +461,7 @@ public class QuizServlet extends HttpServlet {
                         )
                     )
                     .append("\",");
+
 
             json.append("\"optionB\":\"")
                     .append(
@@ -358,6 +471,7 @@ public class QuizServlet extends HttpServlet {
                     )
                     .append("\",");
 
+
             json.append("\"optionC\":\"")
                     .append(
                         escape(
@@ -366,6 +480,7 @@ public class QuizServlet extends HttpServlet {
                     )
                     .append("\",");
 
+
             json.append("\"optionD\":\"")
                     .append(
                         escape(
@@ -373,6 +488,7 @@ public class QuizServlet extends HttpServlet {
                         )
                     )
                     .append("\"");
+
 
             json.append("}");
         }
@@ -401,8 +517,10 @@ public class QuizServlet extends HttpServlet {
     private String escape(String value) {
 
         if (value == null) {
+
             return "";
         }
+
 
         return value
                 .replace("\\", "\\\\")

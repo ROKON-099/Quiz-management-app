@@ -7,220 +7,303 @@
     <title>Quiz Result - QuizRank</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(59,130,246,.10), transparent 32%),
+                radial-gradient(circle at bottom right, rgba(99,102,241,.08), transparent 30%),
+                #f8fafc;
+        }
+
+        .glass-nav {
+            background: rgba(255,255,255,.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .result-card {
+            background: rgba(255,255,255,.96);
+            box-shadow: 0 18px 45px rgba(15,23,42,.07);
+        }
+
+        .score-ring {
+            width: min(220px, 62vw);
+            aspect-ratio: 1;
+            border-radius: 9999px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto;
+            background: conic-gradient(#2563eb var(--progress, 0%), #e2e8f0 0);
+            padding: 10px;
+        }
+
+        .score-ring-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 9999px;
+            background: white;
+            display: grid;
+            place-items: center;
+        }
+
+        .stat-card {
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(15,23,42,.08);
+        }
+
+        @media (max-width: 640px) {
+            .result-title {
+                font-size: 2.25rem;
+                line-height: 1.1;
+            }
+
+            .score-number {
+                font-size: 3rem;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-slate-100 min-h-screen">
+<body class="min-h-screen text-slate-800">
 
-    <!-- Navbar -->
-    <nav class="bg-white border-b border-slate-200">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-
+    <!-- Navbar: unchanged functionality -->
+    <nav class="glass-nav sticky top-0 z-50 border-b border-slate-200/80">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
             <a href="/QuizRank/Student/dashboard.html"
-               class="text-2xl font-bold text-blue-600">
+               class="text-xl sm:text-2xl font-extrabold tracking-tight text-blue-600">
                 QuizRank
             </a>
 
             <a href="/QuizRank/Student/dashboard.html"
-               class="text-sm font-medium text-slate-600 hover:text-blue-600">
-                ← Dashboard
+               class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600
+                      hover:text-blue-600 transition-colors">
+                <span aria-hidden="true">←</span>
+                <span>Dashboard</span>
             </a>
-
         </div>
     </nav>
 
 
     <!-- Loading -->
     <div id="loading"
-         class="min-h-[70vh] flex items-center justify-center">
+         class="min-h-[calc(100vh-73px)] flex items-center justify-center px-4">
 
         <div class="text-center">
-
-            <div class="w-10 h-10 border-4 border-blue-600
-                        border-t-transparent rounded-full
-                        animate-spin mx-auto mb-4">
+            <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent
+                        rounded-full animate-spin mx-auto mb-5">
             </div>
 
-            <p class="text-slate-600">
+            <p class="text-slate-600 font-medium">
                 Loading result...
             </p>
 
+            <p class="text-xs text-slate-400 mt-2">
+                Please wait a moment
+            </p>
         </div>
-
     </div>
 
 
     <!-- Error -->
     <div id="errorBox"
-         class="hidden max-w-3xl mx-auto px-4 py-10">
+         class="hidden min-h-[calc(100vh-73px)] max-w-3xl mx-auto px-4 sm:px-6 py-10
+                flex items-center justify-center">
 
-        <div class="bg-red-50 border border-red-200
-                    rounded-2xl p-8 text-center">
+        <div class="w-full bg-white border border-red-200 rounded-3xl p-6 sm:p-10
+                    text-center shadow-lg shadow-red-100/50">
 
-            <h2 class="text-2xl font-bold text-red-600 mb-3">
+            <div class="mx-auto mb-5 w-14 h-14 rounded-full bg-red-50
+                        flex items-center justify-center text-2xl">
+                !
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-bold text-red-600 mb-3">
                 Unable to Load Result
             </h2>
 
             <p id="errorMessage"
-               class="text-red-500 mb-6">
+               class="text-red-500 mb-7 break-words">
                 Something went wrong.
             </p>
 
             <button onclick="location.reload()"
-                    class="bg-red-600 text-white px-6 py-3
-                           rounded-lg font-semibold hover:bg-red-700">
+                    class="inline-flex items-center justify-center bg-red-600 text-white
+                           px-6 py-3 rounded-xl font-semibold hover:bg-red-700
+                           active:scale-[.98] transition">
                 Try Again
             </button>
-
         </div>
-
     </div>
 
 
     <!-- Result -->
     <main id="resultContainer"
-          class="hidden max-w-4xl mx-auto px-4 py-10">
+          class="hidden max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
         <!-- Header -->
-        <div class="text-center mb-8">
+        <div class="text-center mb-8 sm:mb-10">
 
-            <p class="text-blue-600 font-semibold mb-2">
-                Quiz Completed
-            </p>
+            <div class="inline-flex items-center gap-2 rounded-full bg-blue-50
+                        border border-blue-100 px-4 py-2 text-blue-600
+                        text-sm font-semibold mb-4">
+                <span>✓</span>
+                <span>Quiz Completed</span>
+            </div>
 
-            <h1 class="text-4xl font-bold text-slate-800">
+            <h1 class="result-title text-4xl sm:text-5xl font-extrabold
+                       tracking-tight text-slate-900">
                 Your Result
             </h1>
 
             <p id="subjectName"
-               class="text-slate-500 mt-2">
+               class="text-slate-500 mt-3 text-base sm:text-lg font-medium">
             </p>
 
             <p id="topic"
                class="text-slate-400 text-sm mt-1">
             </p>
-
         </div>
 
 
         <!-- Score Card -->
-        <div class="bg-white rounded-3xl shadow-sm
-                    border border-slate-200 p-8 mb-6">
+        <div class="result-card rounded-3xl border border-slate-200/80
+                    p-6 sm:p-9 mb-6 overflow-hidden">
 
             <div class="text-center">
 
-                <p class="text-slate-500 mb-2">
+                <p class="text-slate-500 font-medium mb-5">
                     Your Score
                 </p>
 
-                <div class="text-6xl font-bold text-blue-600">
-                    <span id="score">0</span>
-                    <span class="text-3xl text-slate-400">
-                        /
-                    </span>
-                    <span id="total">0</span>
+                <div id="scoreRing" class="score-ring" style="--progress: 0%">
+                    <div class="score-ring-inner">
+                        <div>
+                            <div class="score-number text-5xl sm:text-6xl
+                                        font-extrabold text-blue-600 leading-none">
+                                <span id="score">0</span>
+                                <span class="text-2xl sm:text-3xl text-slate-300 font-bold">
+                                    /
+                                </span>
+                                <span id="total">0</span>
+                            </div>
+
+                            <p id="percentage"
+                               class="text-lg sm:text-xl font-bold text-slate-700 mt-3">
+                                0%
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <p id="percentage"
-                   class="text-xl font-semibold text-slate-700 mt-4">
-                    0%
-                </p>
-
             </div>
-
         </div>
 
 
         <!-- Statistics -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-6">
 
             <!-- Correct -->
-            <div class="bg-white rounded-2xl
-                        border border-slate-200
-                        p-6 text-center">
+            <div class="stat-card bg-white rounded-2xl border border-slate-200
+                        p-5 sm:p-6 text-center">
 
-                <p class="text-slate-500 mb-2">
+                <div class="mx-auto mb-3 w-11 h-11 rounded-full bg-green-50
+                            flex items-center justify-center text-green-600 font-bold">
+                    ✓
+                </div>
+
+                <p class="text-slate-500 text-sm font-medium mb-1">
                     Correct
                 </p>
 
                 <p id="correct"
-                   class="text-3xl font-bold text-green-600">
+                   class="text-3xl font-extrabold text-green-600">
                     0
                 </p>
-
             </div>
 
 
             <!-- Incorrect -->
-            <div class="bg-white rounded-2xl
-                        border border-slate-200
-                        p-6 text-center">
+            <div class="stat-card bg-white rounded-2xl border border-slate-200
+                        p-5 sm:p-6 text-center">
 
-                <p class="text-slate-500 mb-2">
+                <div class="mx-auto mb-3 w-11 h-11 rounded-full bg-red-50
+                            flex items-center justify-center text-red-600 font-bold">
+                    ×
+                </div>
+
+                <p class="text-slate-500 text-sm font-medium mb-1">
                     Incorrect
                 </p>
 
                 <p id="incorrect"
-                   class="text-3xl font-bold text-red-600">
+                   class="text-3xl font-extrabold text-red-600">
                     0
                 </p>
-
             </div>
 
 
             <!-- Total -->
-            <div class="bg-white rounded-2xl
-                        border border-slate-200
-                        p-6 text-center">
+            <div class="stat-card bg-white rounded-2xl border border-slate-200
+                        p-5 sm:p-6 text-center">
 
-                <p class="text-slate-500 mb-2">
+                <div class="mx-auto mb-3 w-11 h-11 rounded-full bg-slate-100
+                            flex items-center justify-center text-slate-600 font-bold">
+                    #
+                </div>
+
+                <p class="text-slate-500 text-sm font-medium mb-1">
                     Total Questions
                 </p>
 
                 <p id="totalQuestions"
-                   class="text-3xl font-bold text-slate-700">
+                   class="text-3xl font-extrabold text-slate-700">
                     0
                 </p>
-
             </div>
 
         </div>
 
 
         <!-- Submitted -->
-        <div class="bg-white rounded-2xl
-                    border border-slate-200
-                    p-5 mb-8 text-center">
+        <div class="bg-white rounded-2xl border border-slate-200
+                    p-5 sm:p-6 mb-8 text-center">
 
-            <p class="text-sm text-slate-400">
+            <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold">
                 Submitted At
             </p>
 
             <p id="submittedAt"
-               class="text-slate-700 font-medium mt-1">
+               class="text-slate-700 font-semibold mt-2 break-words">
                 -
             </p>
-
         </div>
 
 
         <!-- Buttons -->
-        <div class="flex flex-col sm:flex-row
-                    justify-center gap-4">
+        <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
 
             <a href="/QuizRank/Student/dashboard.html"
-               class="bg-blue-600 text-white
-                      px-7 py-3 rounded-xl
-                      font-semibold text-center
-                      hover:bg-blue-700">
+               class="w-full sm:w-auto inline-flex items-center justify-center
+                      bg-blue-600 text-white px-7 py-3.5 rounded-xl
+                      font-semibold hover:bg-blue-700 active:scale-[.98]
+                      transition shadow-sm">
                 Back to Dashboard
             </a>
 
             <a href="/QuizRank/leaderboard.html"
-               class="bg-white text-slate-700
-                      border border-slate-300
-                      px-7 py-3 rounded-xl
-                      font-semibold text-center
-                      hover:bg-slate-50">
+               class="w-full sm:w-auto inline-flex items-center justify-center
+                      bg-white text-slate-700 border border-slate-300
+                      px-7 py-3.5 rounded-xl font-semibold hover:bg-slate-50
+                      hover:border-slate-400 active:scale-[.98] transition">
                 View Leaderboard
             </a>
 
@@ -379,6 +462,19 @@
                 Number(data.percentage || 0)
                     .toFixed(1)
                 + "%";
+
+            const scoreRing =
+                document.getElementById("scoreRing");
+
+            if (scoreRing) {
+                const progress =
+                    Math.max(0, Math.min(100, Number(data.percentage || 0)));
+
+                scoreRing.style.setProperty(
+                    "--progress",
+                    progress + "%"
+                );
+            }
 
 
             const score =

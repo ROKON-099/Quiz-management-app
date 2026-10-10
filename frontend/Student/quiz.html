@@ -1,7 +1,10 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -11,6 +14,7 @@
 
     <title>Quiz | QuizRank</title>
 
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -26,6 +30,7 @@
     </script>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -39,49 +44,223 @@
                 BlinkMacSystemFont,
                 "Segoe UI",
                 sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(79, 70, 229, 0.08),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(99, 102, 241, 0.07),
+                    transparent 35%
+                ),
+                #f8fafc;
         }
 
+        /* =========================================
+           OPTION CARD
+        ========================================= */
+
         .option-card {
-            transition: all 0.2s ease;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
         .option-card:hover {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            border-color: #a5b4fc;
+            box-shadow:
+                0 8px 20px rgba(79, 70, 229, 0.08);
         }
 
         .option-card.selected {
             border-color: #4f46e5;
             background-color: #eef2ff;
+            box-shadow:
+                0 8px 25px rgba(79, 70, 229, 0.10);
         }
+
+
+        /* =========================================
+           QUESTION TIMER
+        ========================================= */
 
         .timer-danger {
             color: #dc2626 !important;
             background-color: #fef2f2 !important;
             border-color: #fecaca !important;
+            animation: timerPulse 0.8s infinite;
         }
+
+        @keyframes timerPulse {
+
+            0% {
+                box-shadow: 0 0 0 0
+                    rgba(220, 38, 38, 0.15);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px
+                    rgba(220, 38, 38, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0
+                    rgba(220, 38, 38, 0);
+            }
+        }
+
+
+        /* =========================================
+           PARTICIPATION TIMER
+        ========================================= */
+
+        .deadline-normal {
+            color: #4f46e5;
+            background: #eef2ff;
+            border-color: #c7d2fe;
+        }
+
+        .deadline-warning {
+            color: #ea580c;
+            background: #fff7ed;
+            border-color: #fed7aa;
+        }
+
+        .deadline-danger {
+            color: #dc2626;
+            background: #fef2f2;
+            border-color: #fecaca;
+            animation: deadlinePulse 1s infinite;
+        }
+
+        @keyframes deadlinePulse {
+
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+
+        /* =========================================
+           CARD EFFECT
+        ========================================= */
+
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            box-shadow:
+                0 15px 40px rgba(15, 23, 42, 0.06);
+        }
+
+
+        /* =========================================
+           PROGRESS SHINE
+        ========================================= */
+
+        .progress-shine {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-shine::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,.45),
+                    transparent
+                );
+
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+
+        /* =========================================
+           PAGE ANIMATION
+        ========================================= */
+
+        .fade-up {
+            animation: fadeUp .5s ease both;
+        }
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
     </style>
+
 </head>
 
 
-<body class="min-h-screen bg-slate-50 text-slate-800">
+<body class="min-h-screen text-slate-800">
 
 
 <!-- =====================================================
      NAVBAR
 ===================================================== -->
 
-<nav class="border-b border-slate-200 bg-white">
+<nav
+    class="sticky top-0 z-50 border-b
+           border-slate-200/80
+           bg-white/90 backdrop-blur-xl"
+>
 
     <div
-        class="mx-auto flex max-w-7xl items-center
-               justify-between px-4 py-4
+        class="mx-auto flex max-w-7xl
+               items-center justify-between
+               px-4 py-4
                sm:px-6 lg:px-8"
     >
 
         <!-- Logo -->
+
         <a
             href="dashboard.html"
-            class="text-xl font-bold text-indigo-600
+            class="text-xl font-extrabold
+                   tracking-tight text-indigo-600
                    sm:text-2xl"
         >
             QuizRank
@@ -89,44 +268,52 @@
 
 
         <!-- Desktop Menu -->
-        <div class="hidden items-center gap-6 md:flex">
+
+        <div
+            class="hidden items-center gap-6 md:flex"
+        >
 
             <a
                 href="dashboard.html"
-                class="text-sm font-medium text-slate-600
-                       hover:text-indigo-600"
+                class="text-sm font-medium
+                       text-slate-600
+                       transition hover:text-indigo-600"
             >
                 Dashboard
             </a>
 
             <a
                 href="my-course.html"
-                class="text-sm font-medium text-slate-600
-                       hover:text-indigo-600"
+                class="text-sm font-medium
+                       text-slate-600
+                       transition hover:text-indigo-600"
             >
                 My Course
             </a>
 
             <a
                 href="notice.html"
-                class="text-sm font-medium text-slate-600
-                       hover:text-indigo-600"
+                class="text-sm font-medium
+                       text-slate-600
+                       transition hover:text-indigo-600"
             >
                 Notice
             </a>
 
             <a
                 href="../leaderboard.html"
-                class="text-sm font-medium text-slate-600
-                       hover:text-indigo-600"
+                class="text-sm font-medium
+                       text-slate-600
+                       transition hover:text-indigo-600"
             >
                 Leaderboard
             </a>
 
             <a
                 href="profile.html"
-                class="text-sm font-medium text-slate-600
-                       hover:text-indigo-600"
+                class="text-sm font-medium
+                       text-slate-600
+                       transition hover:text-indigo-600"
             >
                 My Profile
             </a>
@@ -134,8 +321,12 @@
             <button
                 id="logoutBtn"
                 type="button"
-                class="rounded-lg bg-red-50 px-4 py-2
-                       text-sm font-semibold text-red-600
+                class="rounded-xl
+                       bg-red-50
+                       px-4 py-2
+                       text-sm font-semibold
+                       text-red-600
+                       transition
                        hover:bg-red-100"
             >
                 Logout
@@ -145,11 +336,16 @@
 
 
         <!-- Mobile Button -->
+
         <button
             id="mobileMenuBtn"
             type="button"
-            class="rounded-lg p-2 text-slate-600
-                   hover:bg-slate-100 md:hidden"
+            class="rounded-xl
+                   p-2
+                   text-slate-600
+                   transition
+                   hover:bg-slate-100
+                   md:hidden"
         >
 
             <svg
@@ -160,11 +356,13 @@
                 stroke="currentColor"
                 stroke-width="2"
             >
+
                 <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M4 6h16M4 12h16M4 18h16"
                 />
+
             </svg>
 
         </button>
@@ -173,9 +371,11 @@
 
 
     <!-- Mobile Menu -->
+
     <div
         id="mobileMenu"
-        class="hidden border-t border-slate-100
+        class="hidden
+               border-t border-slate-100
                bg-white md:hidden"
     >
 
@@ -183,7 +383,8 @@
 
             <a
                 href="dashboard.html"
-                class="block rounded-lg px-3 py-3
+                class="block rounded-xl
+                       px-3 py-3
                        text-sm font-medium
                        hover:bg-slate-50"
             >
@@ -192,7 +393,8 @@
 
             <a
                 href="my-course.html"
-                class="block rounded-lg px-3 py-3
+                class="block rounded-xl
+                       px-3 py-3
                        text-sm font-medium
                        hover:bg-slate-50"
             >
@@ -201,7 +403,8 @@
 
             <a
                 href="notice.html"
-                class="block rounded-lg px-3 py-3
+                class="block rounded-xl
+                       px-3 py-3
                        text-sm font-medium
                        hover:bg-slate-50"
             >
@@ -210,7 +413,8 @@
 
             <a
                 href="../leaderboard.html"
-                class="block rounded-lg px-3 py-3
+                class="block rounded-xl
+                       px-3 py-3
                        text-sm font-medium
                        hover:bg-slate-50"
             >
@@ -219,7 +423,8 @@
 
             <a
                 href="profile.html"
-                class="block rounded-lg px-3 py-3
+                class="block rounded-xl
+                       px-3 py-3
                        text-sm font-medium
                        hover:bg-slate-50"
             >
@@ -229,9 +434,12 @@
             <button
                 id="mobileLogoutBtn"
                 type="button"
-                class="w-full rounded-lg bg-red-50
-                       px-3 py-3 text-left text-sm
-                       font-semibold text-red-600"
+                class="w-full rounded-xl
+                       bg-red-50
+                       px-3 py-3
+                       text-left
+                       text-sm font-semibold
+                       text-red-600"
             >
                 Logout
             </button>
@@ -248,7 +456,11 @@
      MAIN
 ===================================================== -->
 
-<main class="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+<main
+    class="px-4 py-6
+           sm:px-6 sm:py-8
+           lg:px-8"
+>
 
     <div class="mx-auto max-w-4xl">
 
@@ -259,18 +471,32 @@
 
         <div
             id="loadingState"
-            class="rounded-2xl border border-slate-200
-                   bg-white p-10 text-center shadow-sm"
+            class="quiz-card rounded-3xl
+                   border border-slate-200
+                   p-10 text-center
+                   fade-up"
         >
 
             <div
-                class="mx-auto mb-4 h-10 w-10 animate-spin
-                       rounded-full border-4 border-slate-200
+                class="mx-auto mb-5
+                       h-12 w-12
+                       animate-spin
+                       rounded-full
+                       border-4
+                       border-slate-200
                        border-t-indigo-600"
             ></div>
 
-            <p class="text-sm text-slate-500">
+            <p
+                class="font-medium text-slate-600"
+            >
                 Loading quiz...
+            </p>
+
+            <p
+                class="mt-1 text-xs text-slate-400"
+            >
+                Please wait a moment
             </p>
 
         </div>
@@ -283,24 +509,31 @@
 
         <div
             id="errorState"
-            class="hidden rounded-2xl border
-                   border-red-200 bg-red-50 p-8 text-center"
+            class="hidden
+                   rounded-3xl
+                   border border-red-200
+                   bg-red-50
+                   p-8 text-center
+                   shadow-sm"
         >
 
             <div
-                class="mx-auto flex h-14 w-14
+                class="mx-auto flex
+                       h-16 w-16
                        items-center justify-center
-                       rounded-full bg-red-100"
+                       rounded-full
+                       bg-red-100"
             >
 
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-7 w-7 text-red-600"
+                    class="h-8 w-8 text-red-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                     stroke-width="2"
                 >
+
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
@@ -311,12 +544,14 @@
                            l-8.1-14a1.875 1.875 0
                            00-3.248 0z"
                     />
+
                 </svg>
 
             </div>
 
             <h2
-                class="mt-5 text-xl font-bold text-red-700"
+                class="mt-5 text-xl
+                       font-bold text-red-700"
             >
                 Unable to Load Quiz
             </h2>
@@ -330,9 +565,13 @@
 
             <a
                 href="dashboard.html"
-                class="mt-6 inline-flex rounded-xl
-                       bg-red-600 px-6 py-3
-                       text-sm font-semibold text-white
+                class="mt-6 inline-flex
+                       rounded-xl
+                       bg-red-600
+                       px-6 py-3
+                       text-sm font-semibold
+                       text-white
+                       transition
                        hover:bg-red-700"
             >
                 ← Back to Dashboard
@@ -348,28 +587,56 @@
 
         <section
             id="quizArea"
-            class="hidden"
+            class="hidden fade-up"
         >
 
 
-            <!-- Quiz Information -->
+            <!-- =============================================
+                 QUIZ INFORMATION
+            ============================================== -->
+
             <div
-                class="mb-5 rounded-2xl border
-                       border-slate-200 bg-white
-                       p-5 shadow-sm sm:p-6"
+                class="quiz-card mb-5
+                       rounded-3xl
+                       border border-slate-200
+                       p-5 sm:p-6"
             >
 
                 <div
-                    class="flex flex-col gap-5
-                           sm:flex-row sm:items-start
+                    class="flex flex-col
+                           gap-5
+                           sm:flex-row
+                           sm:items-start
                            sm:justify-between"
                 >
 
                     <div class="min-w-0">
 
+                        <div
+                            class="inline-flex
+                                   items-center gap-2
+                                   rounded-full
+                                   bg-indigo-50
+                                   px-3 py-1
+                                   text-xs font-bold
+                                   text-indigo-600"
+                        >
+
+                            <span
+                                class="h-2 w-2
+                                       rounded-full
+                                       bg-indigo-500"
+                            ></span>
+
+                            Quiz
+
+                        </div>
+
+
                         <p
                             id="subjectName"
-                            class="text-sm font-semibold
+                            class="mt-3
+                                   text-sm font-semibold
                                    text-indigo-600"
                         >
                             Subject
@@ -377,17 +644,22 @@
 
                         <h1
                             id="quizTopic"
-                            class="mt-1 break-words
-                                   text-xl font-bold
+                            class="mt-1
+                                   break-words
+                                   text-2xl
+                                   font-extrabold
+                                   tracking-tight
                                    text-slate-900
-                                   sm:text-2xl"
+                                   sm:text-3xl"
                         >
                             Quiz
                         </h1>
 
                         <p
                             id="quizSchedule"
-                            class="mt-2 text-sm text-slate-500"
+                            class="mt-2
+                                   text-sm
+                                   text-slate-500"
                         >
                             Date • Time
                         </p>
@@ -395,24 +667,31 @@
                     </div>
 
 
-                    <!-- Timer -->
+                    <!-- Question Timer -->
+
                     <div
                         id="timerBox"
-                        class="flex shrink-0 items-center
-                               justify-center gap-2
-                               rounded-xl border
+                        class="flex shrink-0
+                               items-center
+                               justify-center
+                               gap-2
+                               rounded-2xl
+                               border
                                border-indigo-100
-                               bg-indigo-50 px-5 py-3"
+                               bg-indigo-50
+                               px-5 py-3"
                     >
 
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 text-indigo-600"
+                            class="h-5 w-5
+                                   text-indigo-600"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
                             stroke-width="2"
                         >
+
                             <path
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
@@ -420,11 +699,13 @@
                                    0 11-20 0 10 10
                                    0 0120 0z"
                             />
+
                         </svg>
 
                         <span
                             id="timer"
-                            class="text-lg font-bold
+                            class="text-lg
+                                   font-extrabold
                                    text-indigo-600"
                         >
                             30s
@@ -435,13 +716,109 @@
                 </div>
 
 
-                <!-- Progress -->
+                <!-- =========================================
+                     PARTICIPATION DEADLINE
+                ========================================== -->
+
+                <div
+                    id="deadlineBox"
+                    class="mt-6
+                           rounded-2xl
+                           border
+                           deadline-normal
+                           p-4"
+                >
+
+                    <div
+                        class="flex flex-col
+                               gap-3
+                               sm:flex-row
+                               sm:items-center
+                               sm:justify-between"
+                    >
+
+                        <div>
+
+                            <p
+                                class="text-xs
+                                       font-bold
+                                       uppercase
+                                       tracking-wider
+                                       opacity-70"
+                            >
+                                Participation Deadline
+                            </p>
+
+                            <p
+                                id="deadlineText"
+                                class="mt-1
+                                       text-sm
+                                       font-semibold"
+                            >
+                                You have 1 hour to participate.
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            id="participationCountdown"
+                            class="min-w-[150px]
+                                   rounded-xl
+                                   border
+                                   border-current/10
+                                   bg-white/70
+                                   px-5 py-2.5
+                                   text-center
+                                   text-2xl
+                                   font-extrabold
+                                   tabular-nums
+                                   shadow-sm"
+                        >
+                            60:00
+                        </div>
+
+                    </div>
+
+
+                    <!-- Deadline progress -->
+
+                    <div
+                        class="mt-4
+                               h-2
+                               overflow-hidden
+                               rounded-full
+                               bg-black/5"
+                    >
+
+                        <div
+                            id="deadlineProgress"
+                            class="h-full
+                                   rounded-full
+                                   bg-indigo-600
+                                   transition-all
+                                   duration-1000"
+                            style="width: 100%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     QUESTION PROGRESS
+                ========================================== -->
+
                 <div class="mt-6">
 
                     <div
-                        class="mb-2 flex items-center
-                               justify-between text-xs
-                               font-medium text-slate-500"
+                        class="mb-2
+                               flex items-center
+                               justify-between
+                               text-xs
+                               font-semibold
+                               text-slate-500"
                     >
 
                         <span id="questionNumber">
@@ -454,15 +831,23 @@
 
                     </div>
 
+
                     <div
-                        class="h-2 overflow-hidden
-                               rounded-full bg-slate-100"
+                        class="progress-shine
+                               h-2
+                               overflow-hidden
+                               rounded-full
+                               bg-slate-100"
                     >
 
                         <div
                             id="progressBar"
-                            class="h-full rounded-full
-                                   bg-indigo-600 transition-all"
+                            class="h-full
+                                   rounded-full
+                                   bg-gradient-to-r
+                                   from-indigo-600
+                                   to-violet-500
+                                   transition-all"
                             style="width: 10%"
                         ></div>
 
@@ -474,45 +859,65 @@
 
 
 
-            <!-- Question -->
+            <!-- =============================================
+                 QUESTION
+            ============================================== -->
+
             <div
-                class="rounded-2xl border
-                       border-slate-200 bg-white
-                       p-5 shadow-sm sm:p-8"
+                class="quiz-card
+                       rounded-3xl
+                       border border-slate-200
+                       p-5 sm:p-8"
             >
 
-                <p
-                    class="text-xs font-semibold
-                           uppercase tracking-wider
-                           text-slate-400"
+                <div
+                    class="inline-flex
+                           rounded-lg
+                           bg-slate-100
+                           px-3 py-1
+                           text-xs
+                           font-bold
+                           uppercase
+                           tracking-wider
+                           text-slate-500"
                 >
                     Question
-                </p>
+                </div>
+
 
                 <h2
                     id="questionText"
-                    class="mt-3 break-words
-                           text-lg font-bold leading-8
-                           text-slate-900 sm:text-xl"
+                    class="mt-4
+                           break-words
+                           text-lg
+                           font-bold
+                           leading-8
+                           text-slate-900
+                           sm:text-xl"
                 >
                     Loading question...
                 </h2>
 
 
                 <!-- Options -->
+
                 <div
                     id="optionsContainer"
                     class="mt-7 space-y-3"
                 >
 
+
                     <!-- A -->
+
                     <label
                         data-option="A"
-                        class="option-card block cursor-pointer
-                               rounded-xl border
-                               border-slate-200 p-4
-                               hover:border-indigo-300
-                               hover:bg-slate-50"
+                        class="option-card
+                               block cursor-pointer
+                               rounded-2xl
+                               border
+                               border-slate-200
+                               bg-white
+                               p-4"
                     >
 
                         <div
@@ -528,10 +933,14 @@
                             >
 
                             <span
-                                class="flex h-7 w-7 shrink-0
-                                       items-center justify-center
-                                       rounded-lg bg-slate-100
-                                       text-sm font-bold
+                                class="flex h-8 w-8
+                                       shrink-0
+                                       items-center
+                                       justify-center
+                                       rounded-xl
+                                       bg-slate-100
+                                       text-sm
+                                       font-extrabold
                                        text-slate-600"
                             >
                                 A
@@ -539,8 +948,10 @@
 
                             <span
                                 id="optionA"
-                                class="min-w-0 break-words
-                                       text-sm leading-6
+                                class="min-w-0
+                                       break-words
+                                       text-sm
+                                       leading-6
                                        text-slate-700
                                        sm:text-base"
                             ></span>
@@ -550,14 +961,18 @@
                     </label>
 
 
+
                     <!-- B -->
+
                     <label
                         data-option="B"
-                        class="option-card block cursor-pointer
-                               rounded-xl border
-                               border-slate-200 p-4
-                               hover:border-indigo-300
-                               hover:bg-slate-50"
+                        class="option-card
+                               block cursor-pointer
+                               rounded-2xl
+                               border
+                               border-slate-200
+                               bg-white
+                               p-4"
                     >
 
                         <div
@@ -573,10 +988,14 @@
                             >
 
                             <span
-                                class="flex h-7 w-7 shrink-0
-                                       items-center justify-center
-                                       rounded-lg bg-slate-100
-                                       text-sm font-bold
+                                class="flex h-8 w-8
+                                       shrink-0
+                                       items-center
+                                       justify-center
+                                       rounded-xl
+                                       bg-slate-100
+                                       text-sm
+                                       font-extrabold
                                        text-slate-600"
                             >
                                 B
@@ -584,8 +1003,10 @@
 
                             <span
                                 id="optionB"
-                                class="min-w-0 break-words
-                                       text-sm leading-6
+                                class="min-w-0
+                                       break-words
+                                       text-sm
+                                       leading-6
                                        text-slate-700
                                        sm:text-base"
                             ></span>
@@ -595,14 +1016,18 @@
                     </label>
 
 
+
                     <!-- C -->
+
                     <label
                         data-option="C"
-                        class="option-card block cursor-pointer
-                               rounded-xl border
-                               border-slate-200 p-4
-                               hover:border-indigo-300
-                               hover:bg-slate-50"
+                        class="option-card
+                               block cursor-pointer
+                               rounded-2xl
+                               border
+                               border-slate-200
+                               bg-white
+                               p-4"
                     >
 
                         <div
@@ -618,10 +1043,14 @@
                             >
 
                             <span
-                                class="flex h-7 w-7 shrink-0
-                                       items-center justify-center
-                                       rounded-lg bg-slate-100
-                                       text-sm font-bold
+                                class="flex h-8 w-8
+                                       shrink-0
+                                       items-center
+                                       justify-center
+                                       rounded-xl
+                                       bg-slate-100
+                                       text-sm
+                                       font-extrabold
                                        text-slate-600"
                             >
                                 C
@@ -629,8 +1058,10 @@
 
                             <span
                                 id="optionC"
-                                class="min-w-0 break-words
-                                       text-sm leading-6
+                                class="min-w-0
+                                       break-words
+                                       text-sm
+                                       leading-6
                                        text-slate-700
                                        sm:text-base"
                             ></span>
@@ -640,14 +1071,18 @@
                     </label>
 
 
+
                     <!-- D -->
+
                     <label
                         data-option="D"
-                        class="option-card block cursor-pointer
-                               rounded-xl border
-                               border-slate-200 p-4
-                               hover:border-indigo-300
-                               hover:bg-slate-50"
+                        class="option-card
+                               block cursor-pointer
+                               rounded-2xl
+                               border
+                               border-slate-200
+                               bg-white
+                               p-4"
                     >
 
                         <div
@@ -663,10 +1098,14 @@
                             >
 
                             <span
-                                class="flex h-7 w-7 shrink-0
-                                       items-center justify-center
-                                       rounded-lg bg-slate-100
-                                       text-sm font-bold
+                                class="flex h-8 w-8
+                                       shrink-0
+                                       items-center
+                                       justify-center
+                                       rounded-xl
+                                       bg-slate-100
+                                       text-sm
+                                       font-extrabold
                                        text-slate-600"
                             >
                                 D
@@ -674,8 +1113,10 @@
 
                             <span
                                 id="optionD"
-                                class="min-w-0 break-words
-                                       text-sm leading-6
+                                class="min-w-0
+                                       break-words
+                                       text-sm
+                                       leading-6
                                        text-slate-700
                                        sm:text-base"
                             ></span>
@@ -688,30 +1129,45 @@
 
 
                 <!-- Bottom -->
+
                 <div
-                    class="mt-8 flex flex-col gap-4
-                           border-t border-slate-100
-                           pt-6 sm:flex-row
+                    class="mt-8
+                           flex flex-col
+                           gap-4
+                           border-t
+                           border-slate-100
+                           pt-6
+                           sm:flex-row
                            sm:items-center
                            sm:justify-between"
                 >
 
                     <p
                         id="answerStatus"
-                        class="text-center text-sm
+                        class="text-center
+                               text-sm
                                text-slate-500
                                sm:text-left"
                     >
                         Select an answer.
                     </p>
 
+
                     <button
                         id="nextButton"
                         type="button"
-                        class="w-full rounded-xl
-                               bg-indigo-600 px-6 py-3.5
-                               text-sm font-semibold
-                               text-white hover:bg-indigo-700
+                        class="w-full
+                               rounded-xl
+                               bg-indigo-600
+                               px-6 py-3.5
+                               text-sm
+                               font-semibold
+                               text-white
+                               shadow-lg
+                               shadow-indigo-200
+                               transition
+                               hover:-translate-y-0.5
+                               hover:bg-indigo-700
                                disabled:cursor-not-allowed
                                disabled:opacity-50
                                sm:w-auto"
@@ -733,70 +1189,101 @@
 
         <section
             id="completedState"
-            class="hidden rounded-2xl border
-                   border-green-200 bg-white
-                   p-8 text-center shadow-sm
+            class="hidden
+                   rounded-3xl
+                   border
+                   border-green-200
+                   bg-white
+                   p-8 text-center
+                   shadow-xl
                    sm:p-12"
         >
 
             <div
-                class="mx-auto flex h-16 w-16
+                class="mx-auto flex
+                       h-20 w-20
                        items-center justify-center
-                       rounded-full bg-green-100"
+                       rounded-full
+                       bg-green-100"
             >
 
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-8 w-8 text-green-600"
+                    class="h-10 w-10 text-green-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                     stroke-width="2"
                 >
+
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="M5 13l4 4L19 7"
                     />
+
                 </svg>
 
             </div>
 
+
             <h2
-                class="mt-5 text-2xl font-bold
+                class="mt-6
+                       text-3xl
+                       font-extrabold
                        text-slate-900"
             >
                 Quiz Completed
             </h2>
 
+
             <p
-                class="mt-2 text-sm text-slate-500"
+                class="mt-2
+                       text-sm
+                       text-slate-500"
             >
                 Your result has been saved successfully.
             </p>
 
+
             <div
-                class="mt-6 flex flex-col gap-3
-                       sm:flex-row sm:justify-center"
+                class="mt-7
+                       flex flex-col
+                       gap-3
+                       sm:flex-row
+                       sm:justify-center"
             >
 
                 <a
                     id="resultButton"
                     href="#"
-                    class="rounded-xl bg-indigo-600
-                           px-6 py-3 text-sm
-                           font-semibold text-white
+                    class="rounded-xl
+                           bg-indigo-600
+                           px-7 py-3
+                           text-sm
+                           font-semibold
+                           text-white
+                           shadow-lg
+                           shadow-indigo-200
+                           transition
+                           hover:-translate-y-0.5
                            hover:bg-indigo-700"
                 >
                     View Result
                 </a>
 
+
                 <a
                     href="dashboard.html"
-                    class="rounded-xl border
-                           border-slate-200 px-6 py-3
-                           text-sm font-semibold
-                           text-slate-700 hover:bg-slate-50"
+                    class="rounded-xl
+                           border
+                           border-slate-200
+                           px-7 py-3
+                           text-sm
+                           font-semibold
+                           text-slate-700
+                           transition
+                           hover:bg-slate-50"
                 >
                     Dashboard
                 </a>
@@ -813,572 +1300,612 @@
 
 <script>
 
-    // =====================================================
-    // QUIZ ID
-    // =====================================================
+/* =====================================================
+   QUIZ ID
+===================================================== */
 
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
 
-    const quizId =
-        params.get("quizId");
+const quizId =
+    params.get("quizId");
 
 
-    // =====================================================
-    // STATE
-    // =====================================================
 
-    let quiz = null;
-
-    let questions = [];
+/* =====================================================
+   STATE
+===================================================== */
 
-    let currentQuestion = 0;
+let quiz = null;
 
-    let timeLeft = 30;
+let questions = [];
 
-    let timer = null;
+let currentQuestion = 0;
 
-    let submitting = false;
+let timeLeft = 30;
 
-
-    // =====================================================
-    // ELEMENTS
-    // =====================================================
-
-    const loadingState =
-        document.getElementById(
-            "loadingState"
-        );
+let timer = null;
 
-    const errorState =
-        document.getElementById(
-            "errorState"
-        );
+let submitting = false;
 
-    const errorMessage =
-        document.getElementById(
-            "errorMessage"
-        );
 
-    const quizArea =
-        document.getElementById(
-            "quizArea"
-        );
+/*
+ * NEW:
+ * 1 HOUR PARTICIPATION TIMER
+ */
 
-    const completedState =
-        document.getElementById(
-            "completedState"
-        );
+let participationTimer = null;
 
-    const subjectName =
-        document.getElementById(
-            "subjectName"
-        );
+const PARTICIPATION_TIME =
+    60 * 60 * 1000;
 
-    const quizTopic =
-        document.getElementById(
-            "quizTopic"
-        );
+let participationDeadline = null;
 
-    const quizSchedule =
-        document.getElementById(
-            "quizSchedule"
-        );
 
-    const timerBox =
-        document.getElementById(
-            "timerBox"
-        );
 
-    const timerElement =
-        document.getElementById(
-            "timer"
-        );
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-    const questionNumber =
-        document.getElementById(
-            "questionNumber"
-        );
+const loadingState =
+    document.getElementById(
+        "loadingState"
+    );
 
-    const progressPercent =
-        document.getElementById(
-            "progressPercent"
-        );
+const errorState =
+    document.getElementById(
+        "errorState"
+    );
 
-    const progressBar =
-        document.getElementById(
-            "progressBar"
-        );
+const errorMessage =
+    document.getElementById(
+        "errorMessage"
+    );
 
-    const questionText =
-        document.getElementById(
-            "questionText"
-        );
+const quizArea =
+    document.getElementById(
+        "quizArea"
+    );
 
-    const nextButton =
-        document.getElementById(
-            "nextButton"
-        );
+const completedState =
+    document.getElementById(
+        "completedState"
+    );
 
-    const answerStatus =
-        document.getElementById(
-            "answerStatus"
-        );
+const subjectName =
+    document.getElementById(
+        "subjectName"
+    );
 
-    const resultButton =
-        document.getElementById(
-            "resultButton"
-        );
+const quizTopic =
+    document.getElementById(
+        "quizTopic"
+    );
 
+const quizSchedule =
+    document.getElementById(
+        "quizSchedule"
+    );
 
-    // =====================================================
-    // MOBILE MENU
-    // =====================================================
+const timerBox =
+    document.getElementById(
+        "timerBox"
+    );
 
-    document
-        .getElementById("mobileMenuBtn")
-        .addEventListener(
-            "click",
-            () => {
+const timerElement =
+    document.getElementById(
+        "timer"
+    );
 
-                document
-                    .getElementById("mobileMenu")
-                    .classList.toggle("hidden");
-
-            }
-        );
-
-
-    // =====================================================
-    // LOGOUT
-    // =====================================================
-
-    function logout() {
-
-        clearInterval(timer);
-
-        window.location.href =
-            "/QuizRank/logout";
-    }
-
-    document
-        .getElementById("logoutBtn")
-        .addEventListener(
-            "click",
-            logout
-        );
-
-    document
-        .getElementById("mobileLogoutBtn")
-        .addEventListener(
-            "click",
-            logout
-        );
-
-
-    // =====================================================
-    // ERROR
-    // =====================================================
-
-    function showError(message) {
-
-        clearInterval(timer);
-
-        loadingState.classList.add(
-            "hidden"
-        );
-
-        quizArea.classList.add(
-            "hidden"
-        );
-
-        completedState.classList.add(
-            "hidden"
-        );
-
-        errorMessage.textContent =
-            message ||
-            "Something went wrong.";
-
-        errorState.classList.remove(
-            "hidden"
-        );
-    }
-
-
-    // =====================================================
-    // LOAD QUIZ
-    // =====================================================
-
-    async function loadQuiz() {
-
-        if (!quizId) {
-
-            showError(
-                "Quiz ID is missing."
-            );
-
-            return;
-        }
-
-
-        try {
-
-            const response =
-                await fetch(
-                    `/QuizRank/quiz?id=${encodeURIComponent(quizId)}`,
-                    {
-                        method: "GET",
-                        credentials: "same-origin",
-                        cache: "no-store"
-                    }
-                );
-
-
-            const text =
-                await response.text();
-
-
-            console.log(
-                "Quiz API Status:",
-                response.status
-            );
-
-            console.log(
-                "Quiz API Response:",
-                text
-            );
-
-
-            if (!response.ok) {
-
-                showError(
-                    `Server error (${response.status}). Please check the backend.`
-                );
-
-                return;
-            }
-
-
-            let data;
-
-            try {
-
-                data =
-                    JSON.parse(text);
-
-            } catch (error) {
-
-                console.error(
-                    "Invalid JSON:",
-                    text
-                );
-
-                showError(
-                    "Backend returned an invalid response."
-                );
-
-                return;
-            }
-
-
-            // Already completed
-            if (data.completed) {
-
-                showCompleted();
-
-                return;
-            }
-
-
-            if (!data.success) {
-
-                showError(
-                    data.message ||
-                    "Quiz could not be loaded."
-                );
-
-                return;
-            }
-
-
-            quiz =
-                data.quiz;
-
-            questions =
-                Array.isArray(
-                    data.questions
+const questionNumber =
+    document.getElementById(
+        "questionNumber"
+    );
+
+const progressPercent =
+    document.getElementById(
+        "progressPercent"
+    );
+
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
+
+const questionText =
+    document.getElementById(
+        "questionText"
+    );
+
+const nextButton =
+    document.getElementById(
+        "nextButton"
+    );
+
+const answerStatus =
+    document.getElementById(
+        "answerStatus"
+    );
+
+const resultButton =
+    document.getElementById(
+        "resultButton"
+    );
+
+
+/* NEW */
+
+const deadlineBox =
+    document.getElementById(
+        "deadlineBox"
+    );
+
+const participationCountdown =
+    document.getElementById(
+        "participationCountdown"
+    );
+
+const deadlineProgress =
+    document.getElementById(
+        "deadlineProgress"
+    );
+
+const deadlineText =
+    document.getElementById(
+        "deadlineText"
+    );
+
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+document
+    .getElementById(
+        "mobileMenuBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            document
+                .getElementById(
+                    "mobileMenu"
                 )
-                    ? data.questions
-                    : [];
-
-
-            if (!quiz) {
-
-                showError(
-                    "Quiz information was not found."
+                .classList.toggle(
+                    "hidden"
                 );
 
-                return;
-            }
-
-
-            if (questions.length !== 10) {
-
-                showError(
-                    `This quiz contains ${questions.length} questions. It must contain exactly 10 questions.`
-                );
-
-                return;
-            }
-
-
-            currentQuestion =
-                Number.isInteger(
-                    data.currentQuestion
-                )
-                    ? data.currentQuestion
-                    : 0;
-
-
-            if (
-                currentQuestion < 0 ||
-                currentQuestion >= 10
-            ) {
-
-                currentQuestion = 0;
-            }
-
-
-            // Quiz information
-            subjectName.textContent =
-                quiz.subjectName ||
-                "Course";
-
-            quizTopic.textContent =
-                quiz.topic ||
-                "Quiz";
-
-            quizSchedule.textContent =
-                `${quiz.quizDate || ""} • ${quiz.quizTime || ""}`;
-
-
-            loadingState.classList.add(
-                "hidden"
-            );
-
-            errorState.classList.add(
-                "hidden"
-            );
-
-            quizArea.classList.remove(
-                "hidden"
-            );
-
-
-            showQuestion();
-
-
-        } catch (error) {
-
-            console.error(
-                "Quiz loading error:",
-                error
-            );
-
-            showError(
-                "Could not connect to the QuizRank server."
-            );
         }
+    );
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    clearInterval(timer);
+
+    clearInterval(
+        participationTimer
+    );
+
+    window.location.href =
+        "/QuizRank/logout";
+}
+
+
+document
+    .getElementById(
+        "logoutBtn"
+    )
+    .addEventListener(
+        "click",
+        logout
+    );
+
+
+document
+    .getElementById(
+        "mobileLogoutBtn"
+    )
+    .addEventListener(
+        "click",
+        logout
+    );
+
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(message) {
+
+    clearInterval(timer);
+
+    clearInterval(
+        participationTimer
+    );
+
+    loadingState
+        .classList
+        .add("hidden");
+
+    quizArea
+        .classList
+        .add("hidden");
+
+    completedState
+        .classList
+        .add("hidden");
+
+    errorMessage.textContent =
+        message ||
+        "Something went wrong.";
+
+    errorState
+        .classList
+        .remove("hidden");
+}
+
+
+
+/* =====================================================
+   NEW:
+   PARTICIPATION COUNTDOWN
+===================================================== */
+
+function startParticipationCountdown(
+    createdAt
+) {
+
+    if (!createdAt) {
+
+        console.warn(
+            "Quiz createdAt not found."
+        );
+
+        participationCountdown
+            .textContent =
+            "--:--";
+
+        deadlineText.textContent =
+            "Participation deadline is unavailable.";
+
+        return;
     }
 
 
-    // =====================================================
-    // SHOW QUESTION
-    // =====================================================
-
-    function showQuestion() {
-
-        clearInterval(timer);
-
-        submitting = false;
-
-        const question =
-            questions[currentQuestion];
+    const createdTime =
+        new Date(
+            createdAt
+        ).getTime();
 
 
-        if (!question) {
+    if (isNaN(createdTime)) {
 
-            showError(
-                "Question not found."
+        console.error(
+            "Invalid createdAt:",
+            createdAt
+        );
+
+        participationCountdown
+            .textContent =
+            "--:--";
+
+        deadlineText.textContent =
+            "Invalid quiz creation time.";
+
+        return;
+    }
+
+
+    participationDeadline =
+        createdTime +
+        PARTICIPATION_TIME;
+
+
+    updateParticipationCountdown();
+
+
+    clearInterval(
+        participationTimer
+    );
+
+
+    participationTimer =
+        setInterval(
+            updateParticipationCountdown,
+            1000
+        );
+}
+
+
+
+/* =====================================================
+   NEW:
+   UPDATE PARTICIPATION COUNTDOWN
+===================================================== */
+
+function updateParticipationCountdown() {
+
+    if (!participationDeadline) {
+        return;
+    }
+
+
+    const now =
+        Date.now();
+
+
+    const remaining =
+        participationDeadline -
+        now;
+
+
+    /*
+     * EXPIRED
+     */
+
+    if (remaining <= 0) {
+
+        clearInterval(
+            participationTimer
+        );
+
+        participationCountdown
+            .textContent =
+            "00:00";
+
+        deadlineText.textContent =
+            "Participation time has expired.";
+
+        deadlineBox
+            .classList
+            .remove(
+                "deadline-normal",
+                "deadline-warning"
             );
 
-            return;
-        }
-
-
-        const number =
-            currentQuestion + 1;
-
-        const total =
-            questions.length;
-
-
-        // Progress
-        const percent =
-            Math.round(
-                (number / total) * 100
+        deadlineBox
+            .classList
+            .add(
+                "deadline-danger"
             );
 
 
-        questionNumber.textContent =
-            `Question ${number} of ${total}`;
-
-        progressPercent.textContent =
-            `${percent}%`;
-
-        progressBar.style.width =
-            `${percent}%`;
+        deadlineProgress.style.width =
+            "0%";
 
 
-        // Question
-        questionText.textContent =
-            question.question || "";
+        /*
+         * Lock quiz
+         */
+
+        lockQuiz();
 
 
-        // Options
-        document.getElementById(
-            "optionA"
-        ).textContent =
-            question.optionA || "";
-
-        document.getElementById(
-            "optionB"
-        ).textContent =
-            question.optionB || "";
-
-        document.getElementById(
-            "optionC"
-        ).textContent =
-            question.optionC || "";
-
-        document.getElementById(
-            "optionD"
-        ).textContent =
-            question.optionD || "";
+        return;
+    }
 
 
-        // Clear answers
-        document
-            .querySelectorAll(
-                'input[name="answer"]'
+    /*
+     * Calculate time
+     */
+
+    const totalSeconds =
+        Math.floor(
+            remaining / 1000
+        );
+
+
+    const hours =
+        Math.floor(
+            totalSeconds / 3600
+        );
+
+
+    const minutes =
+        Math.floor(
+            (totalSeconds % 3600) / 60
+        );
+
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    /*
+     * Display
+     */
+
+    if (hours > 0) {
+
+        participationCountdown
+            .textContent =
+            String(hours)
+                .padStart(2, "0")
+            + ":"
+            +
+            String(minutes)
+                .padStart(2, "0")
+            + ":"
+            +
+            String(seconds)
+                .padStart(2, "0");
+
+    } else {
+
+        participationCountdown
+            .textContent =
+            String(minutes)
+                .padStart(2, "0")
+            + ":"
+            +
+            String(seconds)
+                .padStart(2, "0");
+    }
+
+
+    /*
+     * Progress
+     */
+
+    const progress =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                (
+                    remaining /
+                    PARTICIPATION_TIME
+                ) * 100
             )
-            .forEach(
-                input => {
-                    input.checked = false;
-                }
+        );
+
+
+    deadlineProgress.style.width =
+        progress + "%";
+
+
+    /*
+     * Normal
+     */
+
+    deadlineBox
+        .classList
+        .remove(
+            "deadline-warning",
+            "deadline-danger"
+        );
+
+    deadlineBox
+        .classList
+        .add(
+            "deadline-normal"
+        );
+
+
+    deadlineProgress
+        .classList
+        .remove(
+            "bg-orange-500",
+            "bg-red-500"
+        );
+
+    deadlineProgress
+        .classList
+        .add(
+            "bg-indigo-600"
+        );
+
+
+    /*
+     * Last 10 minutes
+     */
+
+    if (
+        remaining <=
+        10 * 60 * 1000
+    ) {
+
+        deadlineBox
+            .classList
+            .remove(
+                "deadline-normal",
+                "deadline-danger"
+            );
+
+        deadlineBox
+            .classList
+            .add(
+                "deadline-warning"
             );
 
 
-        // Clear selected design
-        document
-            .querySelectorAll(
-                ".option-card"
-            )
-            .forEach(
-                card => {
-                    card.classList.remove(
-                        "selected"
-                    );
-                }
+        deadlineProgress
+            .classList
+            .remove(
+                "bg-indigo-600",
+                "bg-red-500"
+            );
+
+        deadlineProgress
+            .classList
+            .add(
+                "bg-orange-500"
             );
 
 
-        answerStatus.textContent =
-            "Select an answer.";
-
-
-        nextButton.disabled =
-            false;
-
-
-        nextButton.textContent =
-            currentQuestion ===
-            total - 1
-                ? "Submit Quiz"
-                : "Next Question";
-
-
-        // Timer
-        timeLeft = 30;
-
-        updateTimer();
-
-        startTimer();
+        deadlineText.textContent =
+            "Hurry up! Only a few minutes left.";
     }
 
 
-    // =====================================================
-    // TIMER
-    // =====================================================
+    /*
+     * Last 1 minute
+     */
 
-    function startTimer() {
+    if (
+        remaining <=
+        60 * 1000
+    ) {
 
-        clearInterval(timer);
-
-        timer =
-            setInterval(
-                () => {
-
-                    timeLeft--;
-
-                    updateTimer();
-
-
-                    if (timeLeft <= 0) {
-
-                        clearInterval(timer);
-
-                        answerStatus.textContent =
-                            "Time is up. Submitting...";
-
-                        submitAnswer("");
-
-                    }
-
-                },
-                1000
+        deadlineBox
+            .classList
+            .remove(
+                "deadline-normal",
+                "deadline-warning"
             );
+
+        deadlineBox
+            .classList
+            .add(
+                "deadline-danger"
+            );
+
+
+        deadlineProgress
+            .classList
+            .remove(
+                "bg-indigo-600",
+                "bg-orange-500"
+            );
+
+        deadlineProgress
+            .classList
+            .add(
+                "bg-red-500"
+            );
+
+
+        deadlineText.textContent =
+            "Only 1 minute remaining!";
     }
 
-
-    function updateTimer() {
-
-        timerElement.textContent =
-            `${timeLeft}s`;
+}
 
 
-        if (timeLeft <= 10) {
 
-            timerBox.classList.add(
-                "timer-danger"
-            );
+/* =====================================================
+   NEW:
+   LOCK QUIZ AFTER 1 HOUR
+===================================================== */
 
-        } else {
+function lockQuiz() {
 
-            timerBox.classList.remove(
-                "timer-danger"
-            );
+    clearInterval(timer);
 
-        }
-    }
-
-
-    // =====================================================
-    // SELECT ANSWER
-    // =====================================================
+    /*
+     * Disable all answer inputs
+     */
 
     document
         .querySelectorAll(
@@ -1387,313 +1914,995 @@
         .forEach(
             input => {
 
-                input.addEventListener(
-                    "change",
-                    () => {
-
-                        document
-                            .querySelectorAll(
-                                ".option-card"
-                            )
-                            .forEach(
-                                card => {
-
-                                    card.classList.remove(
-                                        "selected"
-                                    );
-
-                                }
-                            );
-
-
-                        const selectedCard =
-                            document.querySelector(
-                                `.option-card[data-option="${input.value}"]`
-                            );
-
-
-                        if (selectedCard) {
-
-                            selectedCard.classList.add(
-                                "selected"
-                            );
-                        }
-
-
-                        answerStatus.textContent =
-                            "Answer selected.";
-                    }
-                );
-
+                input.disabled =
+                    true;
             }
         );
 
 
-    // =====================================================
-    // GET ANSWER
-    // =====================================================
+    /*
+     * Disable next button
+     */
 
-    function getSelectedAnswer() {
+    nextButton.disabled =
+        true;
 
-        const selected =
-            document.querySelector(
-                'input[name="answer"]:checked'
+
+    nextButton.textContent =
+        "Participation Closed";
+
+
+    /*
+     * Show status
+     */
+
+    answerStatus.textContent =
+        "The 1-hour participation period has expired.";
+
+
+    answerStatus.classList
+        .remove(
+            "text-slate-500"
+        );
+
+    answerStatus.classList
+        .add(
+            "font-semibold",
+            "text-red-600"
+        );
+
+
+    /*
+     * Add warning
+     */
+
+    const existing =
+        document.getElementById(
+            "expiredMessage"
+        );
+
+
+    if (!existing) {
+
+        const message =
+            document.createElement(
+                "div"
             );
 
-        return selected
-            ? selected.value
-            : "";
+
+        message.id =
+            "expiredMessage";
+
+
+        message.className =
+            "mt-5 rounded-xl " +
+            "border border-red-200 " +
+            "bg-red-50 p-4 " +
+            "text-center text-sm " +
+            "font-semibold text-red-600";
+
+
+        message.textContent =
+            "This quiz is no longer available for participation.";
+
+
+        quizArea.prepend(
+            message
+        );
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD QUIZ
+===================================================== */
+
+async function loadQuiz() {
+
+    if (!quizId) {
+
+        showError(
+            "Quiz ID is missing."
+        );
+
+        return;
     }
 
 
-    // =====================================================
-    // NEXT BUTTON
-    // =====================================================
+    try {
 
-    nextButton.addEventListener(
-        "click",
-        () => {
+        const response =
+            await fetch(
+                `/QuizRank/quiz?id=${encodeURIComponent(quizId)}`,
+                {
+                    method: "GET",
 
-            if (submitting) {
-                return;
-            }
+                    credentials:
+                        "same-origin",
 
-
-            const answer =
-                getSelectedAnswer();
-
-
-            if (!answer) {
-
-                const proceed =
-                    confirm(
-                        "You have not selected an answer. Do you want to continue?"
-                    );
-
-
-                if (!proceed) {
-                    return;
+                    cache: "no-store"
                 }
-            }
+            );
 
 
-            submitAnswer(answer);
-        }
-    );
+        const text =
+            await response.text();
 
 
-    // =====================================================
-    // SUBMIT ANSWER
-    // =====================================================
+        console.log(
+            "Quiz API Status:",
+            response.status
+        );
 
-    async function submitAnswer(answer) {
 
-        if (submitting) {
+        console.log(
+            "Quiz API Response:",
+            text
+        );
+
+
+        if (!response.ok) {
+
+            showError(
+                `Server error (${response.status}). Please check the backend.`
+            );
+
             return;
         }
 
-        submitting = true;
 
-        clearInterval(timer);
-
-        nextButton.disabled = true;
-
-        nextButton.textContent =
-            "Submitting...";
+        let data;
 
 
         try {
 
-            const formData =
-                new URLSearchParams();
-
-
-            formData.append(
-                "quizId",
-                quizId
-            );
-
-
-            formData.append(
-                "questionIndex",
-                currentQuestion
-            );
-
-
-            formData.append(
-                "answer",
-                answer || ""
-            );
-
-
-            const response =
-                await fetch(
-                    "/QuizRank/quiz-answer",
-                    {
-                        method: "POST",
-                        credentials: "same-origin",
-
-                        headers: {
-                            "Content-Type":
-                                "application/x-www-form-urlencoded;charset=UTF-8"
-                        },
-
-                        body:
-                            formData.toString()
-                    }
-                );
-
-
-            const text =
-                await response.text();
-
-
-            console.log(
-                "Submit Status:",
-                response.status
-            );
-
-            console.log(
-                "Submit Response:",
-                text
-            );
-
-
-            if (!response.ok) {
-
-                showError(
-                    `Server error (${response.status}) while submitting answer.`
-                );
-
-                return;
-            }
-
-
-            let data;
-
-            try {
-
-                data =
-                    JSON.parse(text);
-
-            } catch (error) {
-
-                console.error(
-                    "Invalid submit JSON:",
-                    text
-                );
-
-                showError(
-                    "Backend returned an invalid response while submitting."
-                );
-
-                return;
-            }
-
-
-            // Already completed
-            if (data.completed) {
-
-                showCompleted();
-
-                return;
-            }
-
-
-            if (!data.success) {
-
-                showError(
-                    data.message ||
-                    "Answer submission failed."
-                );
-
-                return;
-            }
-
-
-            // Final question
-            if (data.completed === true) {
-
-                showCompleted();
-
-                return;
-            }
-
-
-            // Next question
-            if (
-                Number.isInteger(
-                    data.nextQuestion
-                )
-            ) {
-
-                currentQuestion =
-                    data.nextQuestion;
-
-            } else {
-
-                currentQuestion++;
-            }
-
-
-            showQuestion();
-
+            data =
+                JSON.parse(text);
 
         } catch (error) {
 
             console.error(
-                "Submit error:",
-                error
+                "Invalid JSON:",
+                text
             );
 
             showError(
-                "Could not submit your answer."
+                "Backend returned an invalid response."
             );
 
-        } finally {
-
-            submitting = false;
+            return;
         }
+
+
+        /*
+         * Already completed
+         */
+
+        if (data.completed) {
+
+            showCompleted();
+
+            return;
+        }
+
+
+        if (!data.success) {
+
+            showError(
+                data.message ||
+                "Quiz could not be loaded."
+            );
+
+            return;
+        }
+
+
+        quiz =
+            data.quiz;
+
+
+        questions =
+            Array.isArray(
+                data.questions
+            )
+                ? data.questions
+                : [];
+
+
+        if (!quiz) {
+
+            showError(
+                "Quiz information was not found."
+            );
+
+            return;
+        }
+
+
+        /*
+         * Existing:
+         * exactly 10 questions
+         */
+
+        if (questions.length !== 10) {
+
+            showError(
+                `This quiz contains ${questions.length} questions. It must contain exactly 10 questions.`
+            );
+
+            return;
+        }
+
+
+        currentQuestion =
+            Number.isInteger(
+                data.currentQuestion
+            )
+                ? data.currentQuestion
+                : 0;
+
+
+        if (
+            currentQuestion < 0 ||
+            currentQuestion >= 10
+        ) {
+
+            currentQuestion = 0;
+        }
+
+
+        /*
+         * Quiz information
+         */
+
+        subjectName.textContent =
+            quiz.subjectName ||
+            "Course";
+
+
+        quizTopic.textContent =
+            quiz.topic ||
+            "Quiz";
+
+
+        quizSchedule.textContent =
+            `${quiz.quizDate || ""} • ${quiz.quizTime || ""}`;
+
+
+        /*
+         * =========================================
+         * NEW:
+         * START 1 HOUR PARTICIPATION TIMER
+         * =========================================
+         *
+         * Backend should return:
+         *
+         * quiz.createdAt
+         *
+         * Example:
+         *
+         * "2026-10-09T18:00:00"
+         *
+         */
+
+        startParticipationCountdown(
+            quiz.createdAt ||
+            quiz.created_at ||
+            data.createdAt
+        );
+
+
+        /*
+         * Show quiz
+         */
+
+        loadingState
+            .classList
+            .add("hidden");
+
+
+        errorState
+            .classList
+            .add("hidden");
+
+
+        quizArea
+            .classList
+            .remove("hidden");
+
+
+        showQuestion();
+
+
+    } catch (error) {
+
+        console.error(
+            "Quiz loading error:",
+            error
+        );
+
+        showError(
+            "Could not connect to the QuizRank server."
+        );
+    }
+}
+
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion() {
+
+    clearInterval(timer);
+
+    submitting = false;
+
+
+    /*
+     * If participation deadline already expired,
+     * don't start question timer.
+     */
+
+    if (
+        participationDeadline &&
+        Date.now() >=
+        participationDeadline
+    ) {
+
+        lockQuiz();
+
+        return;
     }
 
 
-    // =====================================================
-    // COMPLETED
-    // =====================================================
+    const question =
+        questions[currentQuestion];
 
-    function showCompleted() {
 
-        clearInterval(timer);
+    if (!question) {
 
-        loadingState.classList.add(
-            "hidden"
+        showError(
+            "Question not found."
         );
 
-        errorState.classList.add(
-            "hidden"
-        );
-
-        quizArea.classList.add(
-            "hidden"
-        );
-
-        completedState.classList.remove(
-            "hidden"
-        );
-
-
-        resultButton.href =
-            `result.html?quizId=${encodeURIComponent(quizId)}`;
+        return;
     }
 
 
-    // =====================================================
-    // START
-    // =====================================================
+    const number =
+        currentQuestion + 1;
 
-    loadQuiz();
+
+    const total =
+        questions.length;
+
+
+    /*
+     * Progress
+     */
+
+    const percent =
+        Math.round(
+            (number / total) * 100
+        );
+
+
+    questionNumber.textContent =
+        `Question ${number} of ${total}`;
+
+
+    progressPercent.textContent =
+        `${percent}%`;
+
+
+    progressBar.style.width =
+        `${percent}%`;
+
+
+    /*
+     * Question
+     */
+
+    questionText.textContent =
+        question.question || "";
+
+
+    /*
+     * Options
+     */
+
+    document.getElementById(
+        "optionA"
+    ).textContent =
+        question.optionA || "";
+
+
+    document.getElementById(
+        "optionB"
+    ).textContent =
+        question.optionB || "";
+
+
+    document.getElementById(
+        "optionC"
+    ).textContent =
+        question.optionC || "";
+
+
+    document.getElementById(
+        "optionD"
+    ).textContent =
+        question.optionD || "";
+
+
+    /*
+     * Clear answers
+     */
+
+    document
+        .querySelectorAll(
+            'input[name="answer"]'
+        )
+        .forEach(
+            input => {
+
+                input.checked =
+                    false;
+
+                input.disabled =
+                    false;
+            }
+        );
+
+
+    /*
+     * Clear selected design
+     */
+
+    document
+        .querySelectorAll(
+            ".option-card"
+        )
+        .forEach(
+            card => {
+
+                card.classList.remove(
+                    "selected"
+                );
+            }
+        );
+
+
+    answerStatus.textContent =
+        "Select an answer.";
+
+
+    answerStatus.classList
+        .remove(
+            "text-red-600",
+            "font-semibold"
+        );
+
+    answerStatus.classList
+        .add(
+            "text-slate-500"
+        );
+
+
+    nextButton.disabled =
+        false;
+
+
+    nextButton.textContent =
+        currentQuestion ===
+        total - 1
+            ? "Submit Quiz"
+            : "Next Question";
+
+
+    /*
+     * Existing:
+     * 30 second question timer
+     */
+
+    timeLeft = 30;
+
+    updateTimer();
+
+    startTimer();
+}
+
+
+
+/* =====================================================
+   QUESTION TIMER
+===================================================== */
+
+function startTimer() {
+
+    clearInterval(timer);
+
+
+    timer =
+        setInterval(
+            () => {
+
+                /*
+                 * Participation deadline
+                 * has priority
+                 */
+
+                if (
+                    participationDeadline &&
+                    Date.now() >=
+                    participationDeadline
+                ) {
+
+                    clearInterval(timer);
+
+                    lockQuiz();
+
+                    return;
+                }
+
+
+                timeLeft--;
+
+                updateTimer();
+
+
+                if (timeLeft <= 0) {
+
+                    clearInterval(timer);
+
+
+                    answerStatus.textContent =
+                        "Time is up. Submitting...";
+
+
+                    submitAnswer("");
+                }
+
+            },
+            1000
+        );
+}
+
+
+
+/* =====================================================
+   UPDATE QUESTION TIMER
+===================================================== */
+
+function updateTimer() {
+
+    timerElement.textContent =
+        `${timeLeft}s`;
+
+
+    if (timeLeft <= 10) {
+
+        timerBox.classList.add(
+            "timer-danger"
+        );
+
+    } else {
+
+        timerBox.classList.remove(
+            "timer-danger"
+        );
+    }
+}
+
+
+
+/* =====================================================
+   SELECT ANSWER
+===================================================== */
+
+document
+    .querySelectorAll(
+        'input[name="answer"]'
+    )
+    .forEach(
+        input => {
+
+            input.addEventListener(
+                "change",
+                () => {
+
+                    document
+                        .querySelectorAll(
+                            ".option-card"
+                        )
+                        .forEach(
+                            card => {
+
+                                card.classList
+                                    .remove(
+                                        "selected"
+                                    );
+                            }
+                        );
+
+
+                    const selectedCard =
+                        document.querySelector(
+                            `.option-card[data-option="${input.value}"]`
+                        );
+
+
+                    if (selectedCard) {
+
+                        selectedCard.classList
+                            .add(
+                                "selected"
+                            );
+                    }
+
+
+                    answerStatus.textContent =
+                        "Answer selected.";
+
+                }
+            );
+
+        }
+    );
+
+
+
+/* =====================================================
+   GET ANSWER
+===================================================== */
+
+function getSelectedAnswer() {
+
+    const selected =
+        document.querySelector(
+            'input[name="answer"]:checked'
+        );
+
+
+    return selected
+        ? selected.value
+        : "";
+}
+
+
+
+/* =====================================================
+   NEXT BUTTON
+===================================================== */
+
+nextButton.addEventListener(
+    "click",
+    () => {
+
+        /*
+         * Don't allow submit
+         * after deadline
+         */
+
+        if (
+            participationDeadline &&
+            Date.now() >=
+            participationDeadline
+        ) {
+
+            lockQuiz();
+
+            return;
+        }
+
+
+        if (submitting) {
+
+            return;
+        }
+
+
+        const answer =
+            getSelectedAnswer();
+
+
+        if (!answer) {
+
+            const proceed =
+                confirm(
+                    "You have not selected an answer. Do you want to continue?"
+                );
+
+
+            if (!proceed) {
+
+                return;
+            }
+        }
+
+
+        submitAnswer(
+            answer
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   SUBMIT ANSWER
+===================================================== */
+
+async function submitAnswer(
+    answer
+) {
+
+    /*
+     * Deadline check
+     */
+
+    if (
+        participationDeadline &&
+        Date.now() >=
+        participationDeadline
+    ) {
+
+        lockQuiz();
+
+        return;
+    }
+
+
+    if (submitting) {
+
+        return;
+    }
+
+
+    submitting = true;
+
+
+    clearInterval(timer);
+
+
+    nextButton.disabled =
+        true;
+
+
+    nextButton.textContent =
+        "Submitting...";
+
+
+    try {
+
+        const formData =
+            new URLSearchParams();
+
+
+        formData.append(
+            "quizId",
+            quizId
+        );
+
+
+        formData.append(
+            "questionIndex",
+            currentQuestion
+        );
+
+
+        formData.append(
+            "answer",
+            answer || ""
+        );
+
+
+        const response =
+            await fetch(
+                "/QuizRank/quiz-answer",
+                {
+                    method: "POST",
+
+                    credentials:
+                        "same-origin",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded;charset=UTF-8"
+                    },
+
+                    body:
+                        formData.toString()
+                }
+            );
+
+
+        const text =
+            await response.text();
+
+
+        console.log(
+            "Submit Status:",
+            response.status
+        );
+
+
+        console.log(
+            "Submit Response:",
+            text
+        );
+
+
+        if (!response.ok) {
+
+            showError(
+                `Server error (${response.status}) while submitting answer.`
+            );
+
+            return;
+        }
+
+
+        let data;
+
+
+        try {
+
+            data =
+                JSON.parse(text);
+
+        } catch (error) {
+
+            console.error(
+                "Invalid submit JSON:",
+                text
+            );
+
+            showError(
+                "Backend returned an invalid response while submitting."
+            );
+
+            return;
+        }
+
+
+        /*
+         * Already completed
+         */
+
+        if (data.completed) {
+
+            showCompleted();
+
+            return;
+        }
+
+
+        if (!data.success) {
+
+            showError(
+                data.message ||
+                "Answer submission failed."
+            );
+
+            return;
+        }
+
+
+        /*
+         * Final question
+         */
+
+        if (
+            data.completed === true
+        ) {
+
+            showCompleted();
+
+            return;
+        }
+
+
+        /*
+         * Next question
+         */
+
+        if (
+            Number.isInteger(
+                data.nextQuestion
+            )
+        ) {
+
+            currentQuestion =
+                data.nextQuestion;
+
+        } else {
+
+            currentQuestion++;
+        }
+
+
+        showQuestion();
+
+
+    } catch (error) {
+
+        console.error(
+            "Submit error:",
+            error
+        );
+
+
+        showError(
+            "Could not submit your answer."
+        );
+
+
+    } finally {
+
+        submitting = false;
+    }
+}
+
+
+
+/* =====================================================
+   COMPLETED
+===================================================== */
+
+function showCompleted() {
+
+    clearInterval(timer);
+
+    clearInterval(
+        participationTimer
+    );
+
+
+    loadingState
+        .classList
+        .add("hidden");
+
+
+    errorState
+        .classList
+        .add("hidden");
+
+
+    quizArea
+        .classList
+        .add("hidden");
+
+
+    completedState
+        .classList
+        .remove("hidden");
+
+
+    /*
+     * Result JSP
+     */
+
+    resultButton.href =
+        `result.jsp?quizId=${encodeURIComponent(quizId)}`;
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadQuiz();
 
 </script>
 
+
 </body>
+
 </html>
