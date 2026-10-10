@@ -1,0 +1,21 @@
+# Java compiled files
+*.class
+
+# Tomcat
+logs/
+temp/
+work/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local environment
+.env
+
+# XAMPP / local files
+xampp/
